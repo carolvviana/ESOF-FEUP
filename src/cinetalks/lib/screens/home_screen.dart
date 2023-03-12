@@ -272,12 +272,12 @@ class _HomeScreenState extends State<HomeScreen> {
       items: movies.map((movie) {
         return GestureDetector(
           onTap: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => MovieShowScreen(movie: movie),
-            //   ),
-            // );
+            Navigator.push(
+               context,
+               MaterialPageRoute(
+                 builder: (context) => MovieShowScreen(movie: movie),
+               ),
+             );
           },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(16.0),

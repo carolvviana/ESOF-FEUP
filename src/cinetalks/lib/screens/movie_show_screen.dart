@@ -180,6 +180,7 @@ class MovieShowScreen extends StatelessWidget {
     return DraggableScrollableSheet(
       initialChildSize: 0.59,
       maxChildSize: 1,
+      minChildSize: 0.59,
       snap: true,
       snapSizes: const [0.59, 1],
       builder: (context, scrollController) {
