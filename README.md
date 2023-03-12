@@ -2,9 +2,13 @@
 
 ## Members
 João Pedro Carvalho Correia	- 202005015
+
 Guilherme Brandão Monteiro - 202108668
+
 Carolina Teixeira Lopes Couto Viana -	202108802
+
 Sofia Resende Ferreira de Sá	- 202108676
+
 Sérgio André Correia Peixoto	- 202108681
 
 
