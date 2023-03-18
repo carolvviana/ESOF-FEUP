@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "554074569821",
+    "project_id": "cinetalks-85960",
+    "storage_bucket": "cinetalks-85960.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554074569821:android:bbec3fccf4f07f78f8a1b4",
+        "android_client_info": {
+          "package_name": "com.example.cinetalks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "554074569821-43bejshqetm0213oelonmrb06aolsp31.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsHbHmlLGeYHetDwDjDL7t8yYoY24qzls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "554074569821-43bejshqetm0213oelonmrb06aolsp31.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
