@@ -9,7 +9,7 @@
 ## Logical architecture
 
 <p align="center" justify="center">
-  <img src="images/Logical Architecture_WithBackground.png"
+  <img src="images/logicalArchitecture.drawio.png"
 </p>
 
 ## Physical architecture
