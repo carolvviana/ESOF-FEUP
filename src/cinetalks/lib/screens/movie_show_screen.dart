@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cinetalks/api/api_services.dart';
 import 'package:flutter/material.dart';
 
 import '../models/movie_model.dart';
@@ -9,26 +10,50 @@ import '../movie_app_icons_icons.dart';
 import 'package:readmore/readmore.dart';
 
 class MovieShowScreen extends StatelessWidget {
-  final Movie movie;
+  final String id;
 
-  const MovieShowScreen({Key? key, required this.movie}) : super(key: key);
+  const MovieShowScreen({Key? key, required this.id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xff2a2a2a),
-      body: Stack(
-        children: [
-          _buildBackground(context),
-          Padding(
-            padding: const EdgeInsets.only(top: 48.0),
-            child: _buildImageBox(context),
-          ),
-          _buildDraggableScrollableSheet(context),
-        ],
-      ),
-      bottomNavigationBar: _bottomCommentBar(),
-    );
+    return FutureBuilder(
+        future: fetchMovieTvShowDetails(id),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Scaffold(
+              backgroundColor: const Color(0xff2a2a2a),
+              body: Stack(
+                children: [
+                  _buildBackground(context, snapshot.data as Movie),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 48.0),
+                    child: _buildImageBox(context, snapshot.data as Movie),
+                  ),
+                  _buildDraggableScrollableSheet(
+                      context, snapshot.data as Movie),
+                ],
+              ),
+              bottomNavigationBar: _bottomCommentBar(),
+            );
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        }
+        // child: Scaffold(
+        //   backgroundColor: const Color(0xff2a2a2a),
+        //   body: Stack(
+        //     children: [
+        //       _buildBackground(context),
+        //       Padding(
+        //         padding: const EdgeInsets.only(top: 48.0),
+        //         child: _buildImageBox(context),
+        //       ),
+        //       _buildDraggableScrollableSheet(context),
+        //     ],
+        //   ),
+        //   bottomNavigationBar: _bottomCommentBar(),
+        // ),
+        );
   }
 
   Widget _bottomCommentBar() {
@@ -89,7 +114,7 @@ class MovieShowScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBackground(context) {
+  Widget _buildBackground(context, movie) {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -108,20 +133,20 @@ class MovieShowScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildImageBox(context) {
+  Widget _buildImageBox(context, movie) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         GestureDetector(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const VideoPlayerScreen(
-                  videoUrl: "https://www.youtube.com/watch?v=Jvurpf91omw",
-                ),
-              ),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => const VideoPlayerScreen(
+            //       videoUrl: "https://www.youtube.com/watch?v=Jvurpf91omw",
+            //     ),
+            //   ),
+            // );
           },
           child: Container(
             width: MediaQuery.of(context).size.width * 0.9,
@@ -147,27 +172,27 @@ class MovieShowScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(
-                        Icons.play_arrow_rounded,
-                        color: Colors.white,
-                        size: 100,
-                      ),
-                      /* play trailer */
-                      Text(
-                        "Play Trailer",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // Center(
+                //   child: Column(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: const [
+                //       Icon(
+                //         Icons.play_arrow_rounded,
+                //         color: Colors.white,
+                //         size: 100,
+                //       ),
+                //       /* play trailer */
+                //       Text(
+                //         "Play Trailer",
+                //         style: TextStyle(
+                //           color: Colors.white,
+                //           fontSize: 20,
+                //           fontWeight: FontWeight.w500,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -176,7 +201,7 @@ class MovieShowScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDraggableScrollableSheet(context) {
+  Widget _buildDraggableScrollableSheet(context, movie) {
     return DraggableScrollableSheet(
       initialChildSize: 0.59,
       maxChildSize: 1,
@@ -225,7 +250,7 @@ class MovieShowScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            movie.name,
+                            movie.title,
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 24,
@@ -322,8 +347,8 @@ class MovieShowScreen extends StatelessWidget {
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  const Text(
-                                    "8.5",
+                                  Text(
+                                    movie.imdbRating,
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
@@ -343,83 +368,83 @@ class MovieShowScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "Rotten Tomatoes",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  const Text(
-                                    "85",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    "%",
-                                    style: TextStyle(
-                                      color: Colors.grey.shade400,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "My rating",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              Row(
-                                children: [
-                                  const Text(
-                                    "4.5",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    "/5",
-                                    style: TextStyle(
-                                      color: Colors.grey.shade400,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        )
+                        // Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child: Column(
+                        //     mainAxisAlignment: MainAxisAlignment.center,
+                        //     children: [
+                        //       const Text(
+                        //         "Rotten Tomatoes",
+                        //         style: TextStyle(
+                        //             color: Colors.white,
+                        //             fontSize: 18,
+                        //             fontWeight: FontWeight.w500),
+                        //       ),
+                        //       const SizedBox(
+                        //         height: 4,
+                        //       ),
+                        //       Row(
+                        //         crossAxisAlignment: CrossAxisAlignment.end,
+                        //         children: [
+                        //           const Text(
+                        //             "85",
+                        //             style: TextStyle(
+                        //               color: Colors.white,
+                        //               fontSize: 16,
+                        //               fontWeight: FontWeight.w500,
+                        //             ),
+                        //           ),
+                        //           Text(
+                        //             "%",
+                        //             style: TextStyle(
+                        //               color: Colors.grey.shade400,
+                        //               fontSize: 14,
+                        //               fontWeight: FontWeight.w500,
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       )
+                        //     ],
+                        //   ),
+                        // ),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child: Column(
+                        //     mainAxisAlignment: MainAxisAlignment.center,
+                        //     children: [
+                        //       const Text(
+                        //         "My rating",
+                        //         style: TextStyle(
+                        //             color: Colors.white,
+                        //             fontSize: 18,
+                        //             fontWeight: FontWeight.w500),
+                        //       ),
+                        //       const SizedBox(
+                        //         height: 4,
+                        //       ),
+                        //       Row(
+                        //         children: [
+                        //           const Text(
+                        //             "4.5",
+                        //             style: TextStyle(
+                        //               color: Colors.white,
+                        //               fontSize: 16,
+                        //               fontWeight: FontWeight.w500,
+                        //             ),
+                        //           ),
+                        //           Text(
+                        //             "/5",
+                        //             style: TextStyle(
+                        //               color: Colors.grey.shade400,
+                        //               fontSize: 14,
+                        //               fontWeight: FontWeight.w500,
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ],
+                        //   ),
+                        // )
                       ],
                     ),
                   ),
@@ -429,7 +454,7 @@ class MovieShowScreen extends StatelessWidget {
                   padding:
                       const EdgeInsets.only(top: 14.0, left: 18, right: 18),
                   child: ReadMoreText(
-                    "La La Land is the story of an aspiring actress named Mia and a dedicated jazz musician named Sebastian who have a few chance meetings in the city of Los Angeles. While the pair pursues their own dreams in a town known for dashing them, the two begin a romance.",
+                    movie.plot,
                     trimLines: 3,
                     colorClickableText: Colors.white,
                     trimMode: TrimMode.Line,
