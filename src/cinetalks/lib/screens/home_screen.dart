@@ -7,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../models/movie_model.dart';
 import 'movie_show_screen.dart';
 import '../widgets/horizontal_scroll_list.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   List<Movie> movies = Movie.movies;
   late PageController _pageController;
+  final user = FirebaseAuth.instance.currentUser!;
 
   @override
   void initState() {
@@ -38,93 +40,100 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff2a2a2a),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        titleSpacing: 16.0,
-        toolbarHeight: 54.0,
-        title: _titleBar(),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0,
+      //   titleSpacing: 16.0,
+      //   toolbarHeight: 54.0,
+      //   title: _titleBar(),
+      // ),
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
           ..._buildBackground(),
-          Padding(
-            padding: const EdgeInsets.only(top: 100.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 18.0, bottom: 8.0),
-                  child: _carouselSlider(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: _titleBar(),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16.0, right: 8.0),
-                  child: SizedBox(
-                    height: 30.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Top 250 Movies",
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
+                child: _carouselSlider(),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 8.0),
+                child: SizedBox(
+                  height: 30.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Top 250 Movies",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          "See All",
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
+                            color: Color(0xff2594f7),
+                            fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            "See All",
-                            style: TextStyle(
-                              color: Color(0xff2594f7),
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-                const HorizontalScrollList(boxWidth: 110.0, boxHeight: 150),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16.0, right: 8.0),
-                  child: SizedBox(
-                    height: 30.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Top 250 TV Shows",
+              ),
+              HorizontalScrollList(
+                  boxWidth: MediaQuery.of(context).size.width * 0.28,
+                  boxHeight: MediaQuery.of(context).size.height * 0.19),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 8.0),
+                child: SizedBox(
+                  height: 30.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Top 250 TV Shows",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          "See All",
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
+                            color: Color(0xff2594f7),
+                            fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            "See All",
-                            style: TextStyle(
-                              color: Color(0xff2594f7),
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-                const HorizontalScrollList(boxWidth: 236.0, boxHeight: 150),
-              ],
-            ),
+              ),
+              HorizontalScrollList(
+                  boxWidth: MediaQuery.of(context).size.width * 0.596,
+                  boxHeight: MediaQuery.of(context).size.height * 0.19),
+            ],
           ),
         ],
       ),
@@ -175,54 +184,51 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Padding _titleBar() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Welcome back,",
-                style: TextStyle(
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey.shade400,
-                ),
-              ),
-              const Padding(padding: EdgeInsets.all(2.0)),
-              GestureDetector(
-                onTap: () {
-                  /* TODO go to profile page */
-                },
-                child: const Text(
-                  "Sergio Peixoto",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              )
-            ],
-          ),
-          GestureDetector(
-            onTap: () {
-              /* TODO go to profile page */
-            },
-            child: const CircleAvatar(
-              radius: 18.0,
-              backgroundColor: Colors.white,
-              child: CircleAvatar(
-                radius: 17.0,
-                backgroundImage: AssetImage("assets/images/profile_pic.jpg"),
+  Row _titleBar() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Welcome back,",
+              style: TextStyle(
+                fontSize: 14.0,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey.shade400,
               ),
             ),
+            const Padding(padding: EdgeInsets.all(2.0)),
+            GestureDetector(
+              onTap: () {
+                /* TODO go to profile page */
+              },
+              child: const Text(
+                "Sergio Peixoto",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            )
+          ],
+        ),
+        GestureDetector(
+          onTap: () =>
+              /*log out */
+              FirebaseAuth.instance.signOut(),
+          child: const CircleAvatar(
+            radius: 18.0,
+            backgroundColor: Colors.white,
+            child: CircleAvatar(
+              radius: 17.0,
+              backgroundImage: AssetImage("assets/images/profile_pic.jpg"),
+            ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -273,11 +279,11 @@ class _HomeScreenState extends State<HomeScreen> {
         return GestureDetector(
           onTap: () {
             Navigator.push(
-               context,
-               MaterialPageRoute(
-                 builder: (context) => MovieShowScreen(movie: movie),
-               ),
-             );
+              context,
+              MaterialPageRoute(
+                builder: (context) => MovieShowScreen(movie: movie),
+              ),
+            );
           },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(16.0),
