@@ -2,4 +2,4 @@
 CineTalks
 
 ## Vision Stament
-Never watch alone again. Search, comment, discuss - talk movies with the world.
+Talk movies with the world - Never watch alone again. Search, comment, discuss.
