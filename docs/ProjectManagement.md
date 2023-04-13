@@ -12,7 +12,7 @@ We learned to setup and take the first steps in Flutter. We also learned how to 
 Some user stories and acceptance tests still aren't precise enough
 
 ## Iteration 1 Sprint Planning
-![image]("images/Iteration1_Backlog.jpeg")
+![image](images/Iteration1_Backlog.jpg)
 
 ## Iteration 1 Retrospective
 ### What went well?
@@ -30,4 +30,4 @@ How to sucessfully use the IMDb API and the concept of 'Future Object' and 'Asyn
 ### What still puzzles us?
 How we are going to deal with the limit of 100 queries without it negatively impacting our work.
 
-![image]("images/Iteration1_Backlog.jpeg")
+
