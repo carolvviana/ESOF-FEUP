@@ -17,6 +17,9 @@ class _LoginWidgetState extends State<LoginWidget> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  String? _emailError = null;
+  String? _passwordError = null;
+
   @override
   void dispose() {
     emailController.dispose();
@@ -44,55 +47,105 @@ class _LoginWidgetState extends State<LoginWidget> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.15,
                 ),
-                TextField(
-                  controller: emailController,
-                  cursorColor: Colors.white.withOpacity(0.5),
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.5),
-                  ),
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    hintText: "Email",
-                    hintStyle: TextStyle(
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.09,
+                  child: TextField(
+                    expands: false,
+                    controller: emailController,
+                    cursorColor: Colors.white.withOpacity(0.5),
+                    style: TextStyle(
                       color: Colors.white.withOpacity(0.5),
                     ),
-                    filled: true,
-                    fillColor: Colors.white.withOpacity(0.1),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      errorText: _emailError,
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: Colors.red,
+                          width: 2,
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: Colors.red,
+                          width: 2,
+                        ),
+                      ),
+                      errorStyle: TextStyle(height: 0.8),
+                      hintText: "Email",
+                      hintStyle: TextStyle(
+                        color: Colors.white.withOpacity(0.5),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white.withOpacity(0.1),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
+                      ),
+                      isDense: true,
                     ),
-                    isDense: true,
+                    onChanged: (value) {
+                      setState(() {
+                        _emailError = null;
+                      });
+                    },
                   ),
                 ),
+                // SizedBox(
+                //   height: MediaQuery.of(context).size.height * 0.015,
+                // ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
-                ),
-                TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.5),
-                  ),
-                  cursorColor: Colors.white.withOpacity(0.5),
-                  textInputAction: TextInputAction.done,
-                  decoration: InputDecoration(
-                    hintText: "Password",
-                    hintStyle: TextStyle(
+                  height: MediaQuery.of(context).size.height * 0.09,
+                  child: TextField(
+                    expands: false,
+                    controller: passwordController,
+                    obscureText: true,
+                    style: TextStyle(
                       color: Colors.white.withOpacity(0.5),
                     ),
-                    filled: true,
-                    fillColor: Colors.white.withOpacity(0.1),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
+                    cursorColor: Colors.white.withOpacity(0.5),
+                    textInputAction: TextInputAction.done,
+                    decoration: InputDecoration(
+                      errorText: _passwordError,
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: Colors.red,
+                          width: 2,
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: Colors.red,
+                          width: 2,
+                        ),
+                      ),
+                      errorStyle: TextStyle(height: 0.8),
+                      hintText: "Password",
+                      hintStyle: TextStyle(
+                        color: Colors.white.withOpacity(0.5),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white.withOpacity(0.1),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
+                      ),
+                      isDense: true,
                     ),
-                    isDense: true,
+                    onChanged: (value) {
+                      setState(() {
+                        _passwordError = null;
+                      });
+                    },
                   ),
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.015,
-                ),
+                // SizedBox(
+                //   height: MediaQuery.of(context).size.height * 0.015,
+                // ),
                 /* Login button on the right side */
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -164,74 +217,32 @@ class _LoginWidgetState extends State<LoginWidget> {
       );
       navigatorKey.currentState!.popUntil((route) => route.isFirst);
     } on FirebaseAuthException catch (e) {
-      showDialog(
-        context: context,
-        builder: (context) => BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              AlertDialog(
-                insetPadding: EdgeInsets.all(8.0),
-                elevation: 0,
-                backgroundColor: Color(0xff5555555),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      getErrorTitle(e.code),
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.8),
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
-                content: Center(
-                  heightFactor: 0.5,
-                  child: Text(
-                    e.message ?? '',
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.8),
-                    ),
-                  ),
-                ),
-                actions: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        child: Text(
-                          'OK',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-  }
-
-  String getErrorTitle(String errorCode) {
-    switch (errorCode) {
-      case 'user-not-found':
-        return 'User not found';
-      case 'wrong-password':
-        return 'Incorrect password';
-      case 'invalid-email':
-        return 'Invalid email';
-      default:
-        return 'Unknown error';
+      if (e.code == 'user-not-found') {
+        //Display error message under email field
+        setState(() {
+          _emailError = "No user found for this email";
+        });
+      } else if (e.code == 'wrong-password') {
+        //Display error message under password field
+        setState(() {
+          _passwordError = "Wrong password provided for this user";
+        });
+      } else if (e.code == 'invalid-email') {
+        //Display error message under email field
+        setState(() {
+          _emailError = "Invalid email";
+        });
+      } else if (e.code == 'user-disabled') {
+        //Display error message under email field
+        setState(() {
+          _emailError = "This user is disabled";
+        });
+      } else {
+        //Display error message under email field
+        setState(() {
+          _emailError = "Please check your inputs";
+        });
+      }
     }
   }
 }
