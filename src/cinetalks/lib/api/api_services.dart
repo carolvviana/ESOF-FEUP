@@ -6,7 +6,7 @@ import '/models/movie_model.dart';
 
 Future<List<Movie>> fetchTop250Movies() async {
   final response = await http.get(
-    Uri.parse('https://imdb-api.com/en/API/Top250Movies/k_ehiwsy71'),
+    Uri.parse('https://imdb-api.com/en/API/Top250Movies/k_1c995682'),
   );
 
   if (response.statusCode == 200) {

@@ -23,6 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
   late PageController _pageController;
   final user = FirebaseAuth.instance.currentUser!;
 
+  // final databaseReference = FirebaseDatabase.instance.ref();
+  String _name = '';
+
   @override
   void initState() {
     _pageController = PageController(

@@ -9,6 +9,8 @@ import '../widgets/video_player.dart';
 import '../movie_app_icons_icons.dart';
 import 'package:readmore/readmore.dart';
 
+import 'package:firebase_database/firebase_database.dart';
+
 class MovieShowScreen extends StatelessWidget {
   final String id;
 
@@ -57,6 +59,8 @@ class MovieShowScreen extends StatelessWidget {
   }
 
   Widget _bottomCommentBar() {
+    DatabaseReference ref = FirebaseDatabase.instance.ref("comments/${id}");
+
     return Container(
       height: 60.0,
       decoration: const BoxDecoration(
@@ -82,6 +86,10 @@ class MovieShowScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TextField(
+                onSubmitted: (value) {
+                  //send comment to realtime database
+                  writeComment(ref, value);
+                },
                 decoration: InputDecoration(
                   constraints: const BoxConstraints(
                     maxWidth: 300,
@@ -493,4 +501,8 @@ class CustomScrollBehavior extends ScrollBehavior {
       BuildContext context, Widget child, ScrollableDetails details) {
     return child;
   }
+}
+
+writeComment(DatabaseReference ref, String value) async {
+  await ref.set({"author": "John", "content": value});
 }
