@@ -10,6 +10,8 @@ import 'movie_show_screen.dart';
 import '../widgets/horizontal_scroll_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../database_service/app_database.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -22,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // List<Movie> movies = Movie.movies;
   late PageController _pageController;
   final user = FirebaseAuth.instance.currentUser!;
+  final AppDatabase _databaseService = AppDatabase();
 
   // final databaseReference = FirebaseDatabase.instance.ref();
   String _name = '';
@@ -100,20 +103,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              FutureBuilder(
-                future: fetchTop250Movies(),
-                builder: (context, AsyncSnapshot<List<Movie>> snapshot) {
-                  if (snapshot.hasData) {
-                    return HorizontalScrollList(
-                      boxWidth: MediaQuery.of(context).size.width * 0.28,
-                      boxHeight: MediaQuery.of(context).size.height * 0.19,
-                      items: snapshot.data!,
-                    );
-                  } else {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                },
-              ),
+              // FutureBuilder(
+              //   future: fetchTop250Movies(),
+              //   builder: (context, AsyncSnapshot<List<Movie>> snapshot) {
+              //     if (snapshot.hasData) {
+              //       return HorizontalScrollList(
+              //         boxWidth: MediaQuery.of(context).size.width * 0.28,
+              //         boxHeight: MediaQuery.of(context).size.height * 0.19,
+              //         items: snapshot.data!,
+              //       );
+              //     } else {
+              //       return const Center(child: CircularProgressIndicator());
+              //     }
+              //   },
+              // ),
               // HorizontalScrollList(
               //     boxWidth: MediaQuery.of(context).size.width * 0.28,
               //     boxHeight: MediaQuery.of(context).size.height * 0.19),
@@ -222,13 +225,22 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 /* TODO go to profile page */
               },
-              child: const Text(
-                "Sergio Peixoto",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+              child: FutureBuilder(
+                future: _databaseService.getUsername(user.uid),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(
+                      snapshot.data,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    );
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                },
               ),
             )
           ],

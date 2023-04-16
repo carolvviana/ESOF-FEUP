@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../main.dart';
 
+import '../database_service/app_database.dart';
+
 class SignUpWidget extends StatefulWidget {
   const SignUpWidget({super.key});
 
@@ -16,6 +18,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final usernameController = TextEditingController();
+
+  final AppDatabase _databaseService = AppDatabase();
 
   @override
   void dispose() {
@@ -245,6 +249,12 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         ),
       );
     }
+
+    //if account created successfully
+    await _databaseService.addUser(
+      FirebaseAuth.instance.currentUser!.uid,
+      usernameController.text,
+    );
   }
 
   String getErrorTitle(String errorCode) {
