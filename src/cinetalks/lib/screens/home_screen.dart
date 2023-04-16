@@ -111,43 +111,51 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                 },
               ),
-              // HorizontalScrollList(
-              //     boxWidth: MediaQuery.of(context).size.width * 0.28,
-              //     boxHeight: MediaQuery.of(context).size.height * 0.19),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 16.0, right: 8.0),
-              //   child: SizedBox(
-              //     height: 30.0,
-              //     child: Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //       crossAxisAlignment: CrossAxisAlignment.center,
-              //       children: [
-              //         const Text(
-              //           "Top 250 TV Shows",
-              //           style: TextStyle(
-              //             color: Colors.white,
-              //             fontSize: 16,
-              //             fontWeight: FontWeight.bold,
-              //           ),
-              //         ),
-              //         TextButton(
-              //           onPressed: () {},
-              //           child: const Text(
-              //             "See All",
-              //             style: TextStyle(
-              //               color: Color(0xff2594f7),
-              //               fontSize: 14,
-              //               fontWeight: FontWeight.bold,
-              //             ),
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              // HorizontalScrollList(
-              //     boxWidth: MediaQuery.of(context).size.width * 0.596,
-              //     boxHeight: MediaQuery.of(context).size.height * 0.19),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 8.0),
+                child: SizedBox(
+                  height: 30.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Top 250 TV Shows",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          "See All",
+                          style: TextStyle(
+                            color: Color(0xff2594f7),
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              FutureBuilder(
+                future: fetchTop250TvShows(),
+                builder: (context, AsyncSnapshot<List<Movie>> snapshot) {
+                  if (snapshot.hasData) {
+                    return HorizontalScrollList(
+                      boxWidth: MediaQuery.of(context).size.width * 0.596,
+                      boxHeight: MediaQuery.of(context).size.height * 0.19,
+                      items: snapshot.data!,
+                    );
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                },
+              ),
             ],
           ),
         ],
