@@ -53,7 +53,8 @@ class HorizontalScrollList extends StatelessWidget {
                   SizedBox(
                     width: boxWidth,
                     child: Text(
-                      overflow: TextOverflow.fade,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       textWidthBasis: TextWidthBasis.parent,
                       items[index].title,
                       style: TextStyle(

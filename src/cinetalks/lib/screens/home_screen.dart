@@ -70,8 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
-                child:               
-                FutureBuilder(
+                child: FutureBuilder(
                   future: fetchInTheaters(),
                   builder: (context, AsyncSnapshot<List<Movie>> snapshot) {
                     if (snapshot.hasData) {
@@ -179,8 +178,6 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: _bottomNavigationBar(),
     );
   }
-
-  
 
   Widget _bottomNavigationBar() {
     return Container(
@@ -420,7 +417,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  '${movie.year} • ${movie.duration.inHours}h ${movie.duration.inMinutes.remainder(60)}m • ${movie.category}' ,
+                                  '${movie.year} • ${movie.duration.inHours}h ${movie.duration.inMinutes.remainder(60)}m • ${movie.category}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     color: Colors.grey.shade400,
@@ -433,7 +430,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 const SizedBox(height: 10),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: const [
+                                  children: [
                                     Text(
                                       'IMDb',
                                       style: TextStyle(
@@ -444,7 +441,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     SizedBox(width: 4),
                                     Text(
-                                      '8.0',
+                                      movie.imdbRating.toString(),
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: Colors.white,
@@ -464,27 +461,27 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             ),
                             /* Watch Trailer Button */
-                            GestureDetector(
-                              child: Container(
-                                width: 150,
-                                height: 36,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xff2594f7),
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    "Watch Trailer",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w900,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              onTap: () {/* Play Trailer */},
-                            ),
+                            // GestureDetector(
+                            //   child: Container(
+                            //     width: 150,
+                            //     height: 36,
+                            //     decoration: BoxDecoration(
+                            //       color: const Color(0xff2594f7),
+                            //       borderRadius: BorderRadius.circular(18),
+                            //     ),
+                            //     child: const Center(
+                            //       child: Text(
+                            //         "Watch Trailer",
+                            //         style: TextStyle(
+                            //           color: Colors.white,
+                            //           fontSize: 14,
+                            //           fontWeight: FontWeight.w900,
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            //   onTap: () {/* Play Trailer */},
+                            // ),
                           ],
                         ),
                       ),
