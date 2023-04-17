@@ -5,9 +5,9 @@ import '../database_service/database_service.dart';
 class AppDatabase extends DatabaseService {
   AppDatabase() : super();
 
-  Future<void> writeComment(
+  Future<void> writeNewComment(
       String author_id, String movieId, String comment) async {
-    await setData('comments/$movieId', {
+    await pushData('comments/$movieId', {
       'author_id': author_id,
       'comment': comment,
     });

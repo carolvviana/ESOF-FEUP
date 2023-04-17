@@ -85,7 +85,7 @@ class MovieShowScreen extends StatelessWidget {
                 ),
                 controller: _commentController,
                 onSubmitted: (_) {
-                  _databaseService.writeComment(
+                  _databaseService.writeNewComment(
                       FirebaseAuth.instance.currentUser!.uid,
                       id,
                       _commentController.text);
@@ -109,7 +109,7 @@ class MovieShowScreen extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  _databaseService.writeComment(
+                  _databaseService.writeNewComment(
                       FirebaseAuth.instance.currentUser!.uid,
                       id,
                       _commentController.text);
