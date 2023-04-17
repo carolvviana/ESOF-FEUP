@@ -274,32 +274,32 @@ class MovieShowScreen extends StatelessWidget {
                             ),
                           ),
                           /* TODO: buttons are placeholder for now */
-                          SizedBox(
-                            child: Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    /* add to favorite */
-                                  },
-                                  child: const Icon(
-                                    Icons.favorite_border,
-                                    color: Colors.white,
-                                    size: 28,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    /* add to watchlist */
-                                  },
-                                  child: const Icon(
-                                    Icons.bookmark_border,
-                                    color: Colors.white,
-                                    size: 30,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          // SizedBox(
+                          //   child: Row(
+                          //     children: [
+                          //       GestureDetector(
+                          //         onTap: () {
+                          //           /* add to favorite */
+                          //         },
+                          //         child: const Icon(
+                          //           Icons.favorite_border,
+                          //           color: Colors.white,
+                          //           size: 28,
+                          //         ),
+                          //       ),
+                          //       GestureDetector(
+                          //         onTap: () {
+                          //           /* add to watchlist */
+                          //         },
+                          //         child: const Icon(
+                          //           Icons.bookmark_border,
+                          //           color: Colors.white,
+                          //           size: 30,
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
