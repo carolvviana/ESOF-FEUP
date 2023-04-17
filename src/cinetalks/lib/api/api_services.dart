@@ -102,7 +102,9 @@ Future<Movie> fetchMovieTvShowDetails(String id) async {
       year: int.parse(data['year']),
       imagePath: data['image'],
       category: data['genres'],
-      duration: Duration(minutes: int.parse(data['runtimeMins'])),
+      duration: data['runtimeMins'] == null
+          ? Duration(minutes: 0)
+          : Duration(minutes: int.parse(data['runtimeMins'])),
       //duration: data['runtimeMins'],
       plot: data['plot'],
       imdbRating: data['imDbRating'],

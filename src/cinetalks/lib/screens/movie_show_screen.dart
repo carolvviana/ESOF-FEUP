@@ -311,7 +311,9 @@ class MovieShowScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '${movie.duration.inHours}h ${movie.duration.inMinutes.remainder(60)} • ${movie.category} • ${movie.year}',
+                            movie.duration == Duration(minutes: 0)
+                                ? '${movie.category} • ${movie.year}'
+                                : '${movie.duration.inHours}h ${movie.duration.inMinutes.remainder(60)} • ${movie.category} • ${movie.year}',
                             style: TextStyle(
                               color: Colors.grey.shade400,
                               fontSize: 16,
