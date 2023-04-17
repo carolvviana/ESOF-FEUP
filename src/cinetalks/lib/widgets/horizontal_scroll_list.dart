@@ -69,52 +69,6 @@ class HorizontalScrollList extends StatelessWidget {
           );
         },
       ),
-
-      // (
-      //     scrollDirection: Axis.horizontal,
-      //     children: movies.map((movie) {
-      //       return Padding(
-      //         padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0),
-      //         child: GestureDetector(
-      //           onTap: () {
-      //             Navigator.push(
-      //               context,
-      //               MaterialPageRoute(
-      //                 builder: (_) => MovieShowScreen(movie: movie),
-      //               ),
-      //             );
-      //           },
-      //           child: Column(
-      //             crossAxisAlignment: CrossAxisAlignment.start,
-      //             children: <Widget>[
-      //               ClipRRect(
-      //                 borderRadius: const BorderRadius.all(Radius.circular(10)),
-      //                 child: Image(
-      //                   image: CachedNetworkImageProvider(movie.imagePath),
-      //                   fit: BoxFit.cover,
-      //                   width: boxWidth,
-      //                   height: boxHeight,
-      //                 ),
-      //               ),
-      //               const SizedBox(height: 8),
-      //               SizedBox(
-      //                 width: boxWidth,
-      //                 child: Text(
-      //                   overflow: TextOverflow.fade,
-      //                   textWidthBasis: TextWidthBasis.parent,
-      //                   movie.name,
-      //                   style: TextStyle(
-      //                     color: Colors.grey.shade200,
-      //                     fontSize: 13,
-      //                     fontWeight: FontWeight.w500,
-      //                   ),
-      //                 ),
-      //               ),
-      //             ],
-      //           ),
-      //         ),
-      //       );
-      //     }).toList()),
     );
   }
 }

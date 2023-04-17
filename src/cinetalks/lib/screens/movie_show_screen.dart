@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinetalks/api/api_services.dart';
+import 'package:cinetalks/database_service/app_database.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import '../models/movie_model.dart';
@@ -9,55 +11,50 @@ import '../widgets/video_player.dart';
 import '../movie_app_icons_icons.dart';
 import 'package:readmore/readmore.dart';
 
+import '../database_service/app_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 class MovieShowScreen extends StatelessWidget {
   final String id;
+  final AppDatabase _databaseService = AppDatabase();
 
-  const MovieShowScreen({Key? key, required this.id}) : super(key: key);
+  MovieShowScreen({Key? key, required this.id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: fetchMovieTvShowDetails(id),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Scaffold(
-              backgroundColor: const Color(0xff2a2a2a),
-              body: Stack(
-                children: [
-                  _buildBackground(context, snapshot.data as Movie),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 48.0),
-                    child: _buildImageBox(context, snapshot.data as Movie),
-                  ),
-                  _buildDraggableScrollableSheet(
-                      context, snapshot.data as Movie),
-                ],
-              ),
-              bottomNavigationBar: _bottomCommentBar(),
-            );
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
+      future: fetchMovieTvShowDetails(id),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Scaffold(
+            backgroundColor: const Color(0xff2a2a2a),
+            body: Stack(
+              children: [
+                _buildBackground(context, snapshot.data as Movie),
+                Padding(
+                  padding: const EdgeInsets.only(top: 48.0),
+                  child: _buildImageBox(context, snapshot.data as Movie),
+                ),
+                _buildDraggableScrollableSheet(context, snapshot.data as Movie),
+                Positioned(
+                  bottom: 0,
+                  child: _bottomCommentBar(context),
+                ),
+              ],
+            ),
+          );
+        } else {
+          return const Center(child: CircularProgressIndicator());
         }
-        // child: Scaffold(
-        //   backgroundColor: const Color(0xff2a2a2a),
-        //   body: Stack(
-        //     children: [
-        //       _buildBackground(context),
-        //       Padding(
-        //         padding: const EdgeInsets.only(top: 48.0),
-        //         child: _buildImageBox(context),
-        //       ),
-        //       _buildDraggableScrollableSheet(context),
-        //     ],
-        //   ),
-        //   bottomNavigationBar: _bottomCommentBar(),
-        // ),
-        );
+      },
+    );
   }
 
-  Widget _bottomCommentBar() {
+  Widget _bottomCommentBar(BuildContext context) {
+    TextEditingController _commentController = TextEditingController();
+
     return Container(
+      width: MediaQuery.of(context).size.width,
       height: 60.0,
       decoration: const BoxDecoration(
         border: Border(
@@ -82,6 +79,17 @@ class MovieShowScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TextField(
+                style: TextStyle(
+                  color: Colors.white.withOpacity(0.5),
+                  fontSize: 16,
+                ),
+                controller: _commentController,
+                onSubmitted: (_) {
+                  _databaseService.writeNewComment(
+                      FirebaseAuth.instance.currentUser!.uid,
+                      id,
+                      _commentController.text);
+                },
                 decoration: InputDecoration(
                   constraints: const BoxConstraints(
                     maxWidth: 300,
@@ -100,7 +108,15 @@ class MovieShowScreen extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  _databaseService.writeNewComment(
+                      FirebaseAuth.instance.currentUser!.uid,
+                      id,
+                      _commentController.text);
+
+                  FocusScope.of(context).unfocus();
+                  _commentController.clear();
+                },
                 icon: const Icon(
                   Icons.send,
                   color: Colors.white,
@@ -203,11 +219,11 @@ class MovieShowScreen extends StatelessWidget {
 
   Widget _buildDraggableScrollableSheet(context, movie) {
     return DraggableScrollableSheet(
-      initialChildSize: 0.59,
+      initialChildSize: 0.62,
       maxChildSize: 1,
-      minChildSize: 0.59,
+      minChildSize: 0.62,
       snap: true,
-      snapSizes: const [0.59, 1],
+      snapSizes: const [0.62, 1],
       builder: (context, scrollController) {
         return Container(
           width: MediaQuery.of(context).size.width,
@@ -258,32 +274,32 @@ class MovieShowScreen extends StatelessWidget {
                             ),
                           ),
                           /* TODO: buttons are placeholder for now */
-                          SizedBox(
-                            child: Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    /* add to favorite */
-                                  },
-                                  child: const Icon(
-                                    Icons.favorite_border,
-                                    color: Colors.white,
-                                    size: 28,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    /* add to watchlist */
-                                  },
-                                  child: const Icon(
-                                    Icons.bookmark_border,
-                                    color: Colors.white,
-                                    size: 30,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          // SizedBox(
+                          //   child: Row(
+                          //     children: [
+                          //       GestureDetector(
+                          //         onTap: () {
+                          //           /* add to favorite */
+                          //         },
+                          //         child: const Icon(
+                          //           Icons.favorite_border,
+                          //           color: Colors.white,
+                          //           size: 28,
+                          //         ),
+                          //       ),
+                          //       GestureDetector(
+                          //         onTap: () {
+                          //           /* add to watchlist */
+                          //         },
+                          //         child: const Icon(
+                          //           Icons.bookmark_border,
+                          //           color: Colors.white,
+                          //           size: 30,
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
@@ -295,7 +311,9 @@ class MovieShowScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '${movie.duration.inHours}h ${movie.duration.inMinutes.remainder(60)} • ${movie.category} • ${movie.year}',
+                            movie.duration == Duration(minutes: 0)
+                                ? '${movie.category} • ${movie.year}'
+                                : '${movie.duration.inHours}h ${movie.duration.inMinutes.remainder(60)} • ${movie.category} • ${movie.year}',
                             style: TextStyle(
                               color: Colors.grey.shade400,
                               fontSize: 16,
@@ -481,8 +499,11 @@ class MovieShowScreen extends StatelessWidget {
   }
 
   Widget _buildCommentSection() {
-    return const Placeholder(
-      fallbackHeight: 1500,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 60.0),
+      child: const Placeholder(
+        fallbackHeight: 1500,
+      ),
     );
   }
 }
