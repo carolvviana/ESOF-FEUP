@@ -4,9 +4,40 @@ import 'search_parameters.dart';
 
 import '/models/movie_model.dart';
 
+Future<List<Movie>> fetchInTheaters() async {
+  final response = await http.get(
+    Uri.parse('https://imdb-api.com/en/API/InTheaters/k_ehiwsy71'),
+  );
+
+  if (response.statusCode == 200) {
+    /* map to the List<Movie> */
+
+    final data = json.decode(response.body);
+    // print(data);
+    final List<dynamic> moviesJson = data['items'];
+
+    List<Movie> movies = moviesJson.map((movieJson) {
+      return Movie(
+        id: movieJson['id'],
+        title: movieJson['title'],
+        year: int.parse(movieJson['year']),
+        imagePath: movieJson['image'],
+        category: movieJson['genres'],
+        duration: Duration(minutes: int.parse(movieJson['runtimeMins'])),
+        plot: "",
+        imdbRating: movieJson['imDbRating'],
+      );
+    }).toList();
+
+    return movies;
+  } else {
+    throw Exception('Failed to load In Theaters');
+  }
+}
+
 Future<List<Movie>> fetchTop250Movies() async {
   final response = await http.get(
-    Uri.parse('https://imdb-api.com/en/API/Top250Movies/k_1c995682'),
+    Uri.parse('https://imdb-api.com/en/API/Top250Movies/k_ehiwsy71'),
   );
 
   if (response.statusCode == 200) {
@@ -64,18 +95,6 @@ Future<List<Movie>> fetchTop250TvShows() async {
   }
 }
 
-Future<List<Movie>> fetchInTheaters() async {
-  final response = await http.get(
-    Uri.parse('https://imdb-api.com/en/API/InTheaters/k_1c995682'),
-  );
-
-  if (response.statusCode == 200) {
-    return jsonDecode(response.body);
-  } else {
-    throw Exception('Failed to load In Theaters');
-  }
-}
-
 Future<List<Movie>> fetchYoutubeTrailer(String id) async {
   final response = await http.get(
     Uri.parse('https://imdb-api.com/en/API/YoutubeTrailer/k_q8cbumjq/$id'),
@@ -90,7 +109,7 @@ Future<List<Movie>> fetchYoutubeTrailer(String id) async {
 
 Future<Movie> fetchMovieTvShowDetails(String id) async {
   final response = await http.get(
-    Uri.parse('https://imdb-api.com/en/API/Title/k_1c995682/$id'),
+    Uri.parse('https://imdb-api.com/en/API/Title/k_ehiwsy71/$id'),
   );
 
   if (response.statusCode == 200) {
