@@ -1,6 +1,16 @@
+import 'dart:convert';
+
 import 'package:firebase_database/firebase_database.dart';
 
 import '../database_service/database_service.dart';
+
+class Comment {
+  String author_id;
+  String comment;
+  String? reply;
+
+  Comment(this.author_id, this.comment, this.reply);
+}
 
 class AppDatabase extends DatabaseService {
   AppDatabase() : super();
@@ -30,5 +40,27 @@ class AppDatabase extends DatabaseService {
   Future<String> getUsername(String uid) async {
     DataSnapshot snapshot = await getData('users/$uid/username');
     return snapshot.value.toString();
+  }
+
+  Stream<List<Map<dynamic, dynamic>>> getComments(String movieId) async* {
+    DataSnapshot snapshot = await getData('comments/$movieId');
+    List<Map<dynamic, dynamic>> comments = [];
+
+    if (snapshot.value != null) {
+      Map<dynamic, dynamic> values = snapshot.value as Map<dynamic, dynamic>;
+
+      for (var entry in values.entries) {
+        String username = await getUsername(entry.value['author_id']);
+        Map<dynamic, dynamic> comment = {
+          'user': username,
+          'comment': entry.value['comment'],
+          'reply': entry.value['reply'] ?? '',
+        };
+        comments.add(comment);
+        yield comments.toList();
+      }
+      ;
+    }
+    // return comments;
   }
 }
