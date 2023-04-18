@@ -42,7 +42,7 @@ class AppDatabase extends DatabaseService {
     return snapshot.value.toString();
   }
 
-  Stream<List<Map<dynamic, dynamic>>> getComments(String movieId) async* {
+  Future<List<Map<dynamic, dynamic>>> getComments(String movieId) async {
     DataSnapshot snapshot = await getData('comments/$movieId');
     List<Map<dynamic, dynamic>> comments = [];
 
@@ -57,10 +57,10 @@ class AppDatabase extends DatabaseService {
           'reply': entry.value['reply'] ?? '',
         };
         comments.add(comment);
-        yield comments.toList();
+        // yield comments.toList();
       }
       ;
     }
-    // return comments;
+    return comments;
   }
 }

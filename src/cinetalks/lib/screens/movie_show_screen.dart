@@ -26,6 +26,7 @@ class MovieShowScreen extends StatefulWidget {
 
 class _MovieShowScreenState extends State<MovieShowScreen> {
   final AppDatabase _databaseService = AppDatabase();
+  TextEditingController _commentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +60,6 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
   }
 
   Widget _bottomCommentBar(BuildContext context) {
-    TextEditingController _commentController = TextEditingController();
-
     return Container(
       width: MediaQuery.of(context).size.width,
       decoration: const BoxDecoration(
@@ -547,8 +546,9 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
       padding: const EdgeInsets.only(bottom: 60.0),
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,
-        child: StreamBuilder(
-          stream: _databaseService.getComments(widget.id),
+        child: FutureBuilder<List<Map<dynamic, dynamic>>>(
+          key: Key(widget.id),
+          future: _databaseService.getComments(widget.id),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(
