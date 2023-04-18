@@ -6,9 +6,8 @@ I want to create an account
 So that I can use the features of the app
 
 Scenario: Changing to register page
-  Given I am on the "LoginPage" page
-  And want to create an account
-  When I click in "Register" tab
+  Given I am in the "LoginPage" page
+  When I click in "" tab
   Then a page shows up with "emailField", "usernameField", "passwordRegisterField" and "confirmPasswordField" field to fill
 
 Scenario Outline: Register with invalid data

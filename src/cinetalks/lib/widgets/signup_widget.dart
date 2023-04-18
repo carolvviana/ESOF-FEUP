@@ -31,6 +31,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        key: const Key("CreateAccountPage"),
         backgroundColor: const Color(0xff2a2a2a),
         body: SingleChildScrollView(
           padding: EdgeInsets.all(16),
@@ -52,6 +53,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     height: MediaQuery.of(context).size.height * 0.15,
                   ),
                   TextField(
+                    key: const Key("usernameField"),
                     controller: usernameController,
                     cursorColor: Colors.white.withOpacity(0.5),
                     style: TextStyle(
@@ -76,6 +78,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
                   TextField(
+                    key: const Key("emailField"),
                     controller: emailController,
                     cursorColor: Colors.white.withOpacity(0.5),
                     style: TextStyle(
@@ -100,6 +103,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
                   TextField(
+                    key: const Key("passwordRegisterField"),
                     controller: passwordController,
                     obscureText: true,
                     style: TextStyle(
