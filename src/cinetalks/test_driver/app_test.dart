@@ -12,8 +12,8 @@ Future<void> main() {
       TestRunSummaryReporter(),
       JsonReporter(path: './test_report.json')
     ]
-    ..stepDefinitions = []
-    ..customStepParameterDefinitions = [] // colocar aqui os custom steps
+    ..stepDefinitions = [GivenPage(),ThenPage(), thenTapButton()]
+    ..customStepParameterDefinitions = []
     ..restartAppBetweenScenarios = true
     ..targetAppPath = 'test_driver/app.dart';
   return GherkinRunner().execute(config);
