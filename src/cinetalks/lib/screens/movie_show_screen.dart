@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinetalks/api/api_services.dart';
-import 'package:cinetalks/database_service/app_database.dart';
+// import 'package:cinetalks/database_service/app_database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 

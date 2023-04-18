@@ -134,7 +134,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                     ),
                     ElevatedButton(
                       key: const Key("SignUp"),
-                      onPressed: () => navigatorKey.currentState!.push(
+                      // onPressed: () => navigatorKey.currentState!.push(
+                      //   MaterialPageRoute(
+                      //     builder: (context) => SignUpWidget(),
+                      //   ),
+                      // ),
+                      onPressed: () => Navigator.push(
+                        context,
                         MaterialPageRoute(
                           builder: (context) => SignUpWidget(),
                         ),
