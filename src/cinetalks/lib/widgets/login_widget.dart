@@ -26,6 +26,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
+        key: const Key("LoginPage"),
         padding: EdgeInsets.all(16),
         child: Center(
           child: SizedBox(
@@ -45,6 +46,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   height: MediaQuery.of(context).size.height * 0.15,
                 ),
                 TextField(
+                  key: const Key("emailField"),
                   controller: emailController,
                   cursorColor: Colors.white.withOpacity(0.5),
                   style: TextStyle(
@@ -69,6 +71,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   height: MediaQuery.of(context).size.height * 0.02,
                 ),
                 TextField(
+                  key: const Key("passwordRegisterField"),
                   controller: passwordController,
                   obscureText: true,
                   style: TextStyle(
@@ -98,6 +101,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ElevatedButton(
+                      key: const Key("Login"),
                       onPressed: signIn,
                       child: Text(
                         "Login",
@@ -129,6 +133,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       ),
                     ),
                     ElevatedButton(
+                      key: const Key("SignUp"),
                       onPressed: () => navigatorKey.currentState!.push(
                         MaterialPageRoute(
                           builder: (context) => SignUpWidget(),
