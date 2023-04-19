@@ -29,6 +29,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
+        key: const Key("LoginPage"),
         padding: EdgeInsets.all(16),
         child: Center(
           child: SizedBox(
@@ -151,6 +152,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ElevatedButton(
+                      key: const Key("Login"),
                       onPressed: signIn,
                       child: Text(
                         "Login",
@@ -182,7 +184,14 @@ class _LoginWidgetState extends State<LoginWidget> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () => navigatorKey.currentState!.push(
+                      key: const Key("SignUp"),
+                      // onPressed: () => navigatorKey.currentState!.push(
+                      //   MaterialPageRoute(
+                      //     builder: (context) => SignUpWidget(),
+                      //   ),
+                      // ),
+                      onPressed: () => Navigator.push(
+                        context,
                         MaterialPageRoute(
                           builder: (context) => SignUpWidget(),
                         ),

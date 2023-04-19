@@ -5,60 +5,63 @@ import 'package:cinetalks/api/api_services.dart';
 import 'package:flutter/material.dart';
 
 import '../models/movie_model.dart';
-import '../widgets/video_player.dart';
-import '../movie_app_icons_icons.dart';
+// import '../widgets/video_player.dart';
+// import '../movie_app_icons_icons.dart';
+
+import '../database_service/app_database.dart';
 import 'package:readmore/readmore.dart';
 
-class MovieShowScreen extends StatelessWidget {
+import 'package:firebase_auth/firebase_auth.dart';
+
+class MovieShowScreen extends StatefulWidget {
   final String id;
 
-  const MovieShowScreen({Key? key, required this.id}) : super(key: key);
+  String? _commentError = null;
+
+  MovieShowScreen({Key? key, required this.id}) : super(key: key);
+
+  @override
+  State<MovieShowScreen> createState() => _MovieShowScreenState();
+}
+
+class _MovieShowScreenState extends State<MovieShowScreen> {
+  final AppDatabase _databaseService = AppDatabase();
+  TextEditingController _commentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: fetchMovieTvShowDetails(id),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Scaffold(
-              backgroundColor: const Color(0xff2a2a2a),
-              body: Stack(
-                children: [
-                  _buildBackground(context, snapshot.data as Movie),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 48.0),
-                    child: _buildImageBox(context, snapshot.data as Movie),
-                  ),
-                  _buildDraggableScrollableSheet(
-                      context, snapshot.data as Movie),
-                ],
-              ),
-              bottomNavigationBar: _bottomCommentBar(),
-            );
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
+      key: Key(widget.id),
+      future: fetchMovieTvShowDetails(widget.id),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Scaffold(
+            backgroundColor: const Color(0xff2a2a2a),
+            body: Stack(
+              children: [
+                _buildBackground(context, snapshot.data as Movie),
+                Padding(
+                  padding: const EdgeInsets.only(top: 48.0),
+                  child: _buildImageBox(context, snapshot.data as Movie),
+                ),
+                _buildDraggableScrollableSheet(context, snapshot.data as Movie),
+                Positioned(
+                  bottom: 0,
+                  child: _bottomCommentBar(context),
+                ),
+              ],
+            ),
+          );
+        } else {
+          return const Center(child: CircularProgressIndicator());
         }
-        // child: Scaffold(
-        //   backgroundColor: const Color(0xff2a2a2a),
-        //   body: Stack(
-        //     children: [
-        //       _buildBackground(context),
-        //       Padding(
-        //         padding: const EdgeInsets.only(top: 48.0),
-        //         child: _buildImageBox(context),
-        //       ),
-        //       _buildDraggableScrollableSheet(context),
-        //     ],
-        //   ),
-        //   bottomNavigationBar: _bottomCommentBar(),
-        // ),
-        );
+      },
+    );
   }
 
-  Widget _bottomCommentBar() {
+  Widget _bottomCommentBar(BuildContext context) {
     return Container(
-      height: 60.0,
+      width: MediaQuery.of(context).size.width,
       decoration: const BoxDecoration(
         border: Border(
           top: BorderSide(
@@ -70,45 +73,101 @@ class MovieShowScreen extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(10),
+        child: TextField(
+          style: TextStyle(
+            color: Colors.white.withOpacity(0.5),
+            fontSize: 16,
+          ),
+          controller: _commentController,
+          onSubmitted: (_) {
+            if (_commentController.text.isNotEmpty) {
+              _databaseService.writeNewComment(
+                  FirebaseAuth.instance.currentUser!.uid,
+                  widget.id,
+                  _commentController.text);
+            } else {
+              setState(() {
+                widget._commentError = 'Comment cannot be empty';
+              });
+              Future.delayed(Duration(seconds: 3), () {
+                setState(() {
+                  widget._commentError = null;
+                });
+              });
+            }
+          },
+          decoration: InputDecoration(
+            suffixIcon: IconButton(
+              onPressed: () {
+                if (_commentController.text.isNotEmpty) {
+                  _databaseService.writeNewComment(
+                      FirebaseAuth.instance.currentUser!.uid,
+                      widget.id,
+                      _commentController.text);
+                } else {
+                  setState(() {
+                    widget._commentError = 'Comment cannot be empty';
+                  });
+                  Future.delayed(Duration(seconds: 3), () {
+                    setState(() {
+                      widget._commentError = null;
+                    });
+                  });
+                }
+
+                FocusScope.of(context).unfocus();
+                _commentController.clear();
+              },
+              icon: const Icon(
+                Icons.send,
+                color: Colors.white,
+                size: 24,
+              ),
             ),
-            color: Colors.white.withOpacity(0.2),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              TextField(
-                decoration: InputDecoration(
-                  constraints: const BoxConstraints(
-                    maxWidth: 300,
-                  ),
-                  border: InputBorder.none,
-                  hintText: 'Add a comment...',
-                  hintStyle: TextStyle(
-                    color: Colors.white.withOpacity(0.5),
-                    fontSize: 16,
-                  ),
-                  contentPadding: const EdgeInsets.only(
-                    left: 16,
-                    top: 14,
-                    bottom: 14,
-                  ),
-                ),
+            fillColor: Colors.white.withOpacity(0.2),
+            filled: true,
+            constraints: const BoxConstraints(
+              maxWidth: 300,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide.none,
+            ),
+            hintText: 'Add a comment...',
+            hintStyle: TextStyle(
+              color: Colors.white.withOpacity(0.5),
+              fontSize: 16,
+            ),
+            contentPadding: const EdgeInsets.only(
+              left: 16,
+              top: 14,
+              bottom: 14,
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(
+                color: Colors.red,
+                width: 2,
               ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.send,
-                  color: Colors.white,
-                  size: 24,
-                ),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(
+                color: Colors.red,
+                width: 2,
               ),
-            ],
+            ),
+            errorText: widget._commentError,
+            errorStyle: const TextStyle(
+              color: Colors.red,
+              fontSize: 12,
+            ),
           ),
+          onChanged: (value) {
+            setState(() {
+              widget._commentError = null;
+            });
+          },
         ),
       ),
     );
@@ -203,11 +262,11 @@ class MovieShowScreen extends StatelessWidget {
 
   Widget _buildDraggableScrollableSheet(context, movie) {
     return DraggableScrollableSheet(
-      initialChildSize: 0.59,
+      initialChildSize: 0.62,
       maxChildSize: 1,
-      minChildSize: 0.59,
+      minChildSize: 0.62,
       snap: true,
-      snapSizes: const [0.59, 1],
+      snapSizes: const [0.62, 1],
       builder: (context, scrollController) {
         return Container(
           width: MediaQuery.of(context).size.width,
@@ -258,32 +317,32 @@ class MovieShowScreen extends StatelessWidget {
                             ),
                           ),
                           /* TODO: buttons are placeholder for now */
-                          SizedBox(
-                            child: Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    /* add to favorite */
-                                  },
-                                  child: const Icon(
-                                    Icons.favorite_border,
-                                    color: Colors.white,
-                                    size: 28,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    /* add to watchlist */
-                                  },
-                                  child: const Icon(
-                                    Icons.bookmark_border,
-                                    color: Colors.white,
-                                    size: 30,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          // SizedBox(
+                          //   child: Row(
+                          //     children: [
+                          //       GestureDetector(
+                          //         onTap: () {
+                          //           /* add to favorite */
+                          //         },
+                          //         child: const Icon(
+                          //           Icons.favorite_border,
+                          //           color: Colors.white,
+                          //           size: 28,
+                          //         ),
+                          //       ),
+                          //       GestureDetector(
+                          //         onTap: () {
+                          //           /* add to watchlist */
+                          //         },
+                          //         child: const Icon(
+                          //           Icons.bookmark_border,
+                          //           color: Colors.white,
+                          //           size: 30,
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
@@ -295,7 +354,9 @@ class MovieShowScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '${movie.duration.inHours}h ${movie.duration.inMinutes.remainder(60)} • ${movie.category} • ${movie.year}',
+                            movie.duration == Duration(minutes: 0)
+                                ? '${movie.category} • ${movie.year}'
+                                : '${movie.duration.inHours}h ${movie.duration.inMinutes.remainder(60)} • ${movie.category} • ${movie.year}',
                             style: TextStyle(
                               color: Colors.grey.shade400,
                               fontSize: 16,
@@ -470,7 +531,7 @@ class MovieShowScreen extends StatelessWidget {
                 Padding(
                   padding:
                       const EdgeInsets.only(top: 14.0, left: 18, right: 18),
-                  child: _buildCommentSection(),
+                  child: _buildCommentSection(context),
                 )
               ],
             ),
@@ -480,9 +541,89 @@ class MovieShowScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCommentSection() {
-    return const Placeholder(
-      fallbackHeight: 1500,
+  Widget _buildCommentSection(context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 60.0),
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.9,
+        child: FutureBuilder<List<Map<dynamic, dynamic>>>(
+          key: Key(widget.id),
+          future: _databaseService.getComments(widget.id),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            final comments = snapshot.data!;
+
+            return Container(
+              child: Column(
+                children: [
+                  for (var comment in comments)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 12.0,
+                                  right: 12.0,
+                                  top: 4.0,
+                                  bottom: 4.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        comment['user'],
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      Text(
+                                        comment['comment'],
+                                        style: TextStyle(
+                                            color: Colors.grey.shade400,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ],
+                                  ),
+                                  //reply button
+                                  // IconButton(
+                                  //   onPressed: () {},
+                                  //   icon: Icon(
+                                  //     Icons.reply,
+                                  //     color: Colors.white,
+                                  //     size: 20,
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                ],
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }

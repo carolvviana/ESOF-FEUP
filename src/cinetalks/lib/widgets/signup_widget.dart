@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../main.dart';
 
+import '../database_service/app_database.dart';
+
 class SignUpWidget extends StatefulWidget {
   const SignUpWidget({super.key});
 
@@ -16,6 +18,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final usernameController = TextEditingController();
+
+  final AppDatabase _databaseService = AppDatabase();
 
   String? _emailError = null;
   String? _passwordError = null;
@@ -30,6 +34,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        key: const Key("CreateAccountPage"),
         backgroundColor: const Color(0xff2a2a2a),
         body: SingleChildScrollView(
           padding: EdgeInsets.all(16),
@@ -173,6 +178,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       ElevatedButton(
+                        key: const Key("SignUpButton"),
                         onPressed: signUp,
                         child: Text(
                           "Sign up",
@@ -191,7 +197,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     ],
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.15,
+                    height: MediaQuery.of(context).size.height * 0.10,
                   ),
                   /* Sign up button on the right side */
                   Row(
@@ -204,8 +210,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () => navigatorKey.currentState!
-                            .popUntil((route) => route.isFirst),
+                        // onPressed: () => navigatorKey.currentState!
+                        //     .popUntil((route) => route.isFirst),
+                        onPressed: () => Navigator.pop(context),
                         child: Text(
                           "Log in",
                           style: TextStyle(
