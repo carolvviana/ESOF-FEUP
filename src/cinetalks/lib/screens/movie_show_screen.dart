@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import '../models/movie_model.dart';
 // import '../widgets/video_player.dart';
 // import '../movie_app_icons_icons.dart';
+
+import '../database_service/app_database.dart';
 import 'package:readmore/readmore.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -553,8 +555,6 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
                 child: CircularProgressIndicator(),
               );
             }
-
-            print(snapshot.data);
 
             final comments = snapshot.data!;
 
