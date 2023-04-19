@@ -2,13 +2,13 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinetalks/api/api_services.dart';
-import 'package:cinetalks/database_service/app_database.dart';
-// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import '../models/movie_model.dart';
 // import '../widgets/video_player.dart';
 // import '../movie_app_icons_icons.dart';
+
+import '../database_service/app_database.dart';
 import 'package:readmore/readmore.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -555,8 +555,6 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
                 child: CircularProgressIndicator(),
               );
             }
-
-            print(snapshot.data);
 
             final comments = snapshot.data!;
 

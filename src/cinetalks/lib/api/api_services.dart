@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'search_parameters.dart';
 
-import '/models/movie_model.dart';
+import '../models/movie_model.dart';
 
 Future<List<Movie>> fetchInTheaters() async {
   final response = await http.get(
