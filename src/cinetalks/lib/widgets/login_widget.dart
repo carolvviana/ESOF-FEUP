@@ -51,6 +51,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.09,
                   child: TextField(
+                    key: const Key("emailField"),
                     expands: false,
                     controller: emailController,
                     cursorColor: Colors.white.withOpacity(0.5),
@@ -100,6 +101,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.09,
                   child: TextField(
+                    key: const Key("passwordRegisterField"),
                     expands: false,
                     controller: passwordController,
                     obscureText: true,
