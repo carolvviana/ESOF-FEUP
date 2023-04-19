@@ -88,7 +88,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       ),
                       isDense: true,
                     ),
-                    onChanged: (value) {
+                    onChanged: (_) {
                       setState(() {
                         _emailError = null;
                       });
@@ -139,7 +139,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       ),
                       isDense: true,
                     ),
-                    onChanged: (value) {
+                    onChanged: (_) {
                       setState(() {
                         _passwordError = null;
                       });
@@ -221,6 +221,18 @@ class _LoginWidgetState extends State<LoginWidget> {
       );
 
   Future<void> signIn() async {
+    if (emailController.text.isEmpty) {
+      setState(() {
+        _emailError = "Email cannot be empty";
+      });
+      return;
+    } else if (passwordController.text.isEmpty) {
+      setState(() {
+        _passwordError = "Password cannot be empty";
+      });
+      return;
+    }
+
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),

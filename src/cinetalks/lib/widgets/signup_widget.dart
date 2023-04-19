@@ -23,6 +23,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
   String? _emailError = null;
   String? _passwordError = null;
+  String? _usernameError = null;
 
   @override
   void dispose() {
@@ -66,6 +67,22 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       ),
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
+                        errorText: _usernameError,
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: Colors.red,
+                            width: 2,
+                          ),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: Colors.red,
+                            width: 2,
+                          ),
+                        ),
+                        errorStyle: TextStyle(height: 0.8),
                         hintText: "Username",
                         hintStyle: TextStyle(
                           color: Colors.white.withOpacity(0.5),
@@ -78,6 +95,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         ),
                         isDense: true,
                       ),
+                      onChanged: (_) {
+                        setState(() {
+                          _usernameError = null;
+                        });
+                      },
                     ),
                   ),
                   SizedBox(
@@ -120,7 +142,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         ),
                         isDense: true,
                       ),
-                      onChanged: (value) {
+                      onChanged: (_) {
                         setState(() {
                           _emailError = null;
                         });
@@ -168,7 +190,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         ),
                         isDense: true,
                       ),
-                      onChanged: (value) {
+                      onChanged: (_) {
                         setState(() {
                           _passwordError = null;
                         });
@@ -240,6 +262,23 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       );
 
   Future signUp() async {
+    if (usernameController.text.isEmpty) {
+      setState(() {
+        _usernameError = 'Please enter a username.';
+      });
+      return;
+    } else if (emailController.text.isEmpty) {
+      setState(() {
+        _emailError = 'Please enter an email.';
+      });
+      return;
+    } else if (passwordController.text.isEmpty) {
+      setState(() {
+        _passwordError = 'Please enter a password.';
+      });
+      return;
+    }
+
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
