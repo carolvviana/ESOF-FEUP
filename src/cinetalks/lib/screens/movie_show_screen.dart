@@ -2,28 +2,35 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinetalks/api/api_services.dart';
-// import 'package:cinetalks/database_service/app_database.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import '../models/movie_model.dart';
-import '../widgets/video_player.dart';
-import '../movie_app_icons_icons.dart';
+// import '../widgets/video_player.dart';
+// import '../movie_app_icons_icons.dart';
 import 'package:readmore/readmore.dart';
 
-import '../database_service/app_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class MovieShowScreen extends StatelessWidget {
+class MovieShowScreen extends StatefulWidget {
   final String id;
-  final AppDatabase _databaseService = AppDatabase();
+
+  String? _commentError = null;
 
   MovieShowScreen({Key? key, required this.id}) : super(key: key);
 
   @override
+  State<MovieShowScreen> createState() => _MovieShowScreenState();
+}
+
+class _MovieShowScreenState extends State<MovieShowScreen> {
+  final AppDatabase _databaseService = AppDatabase();
+  TextEditingController _commentController = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: fetchMovieTvShowDetails(id),
+      key: Key(widget.id),
+      future: fetchMovieTvShowDetails(widget.id),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Scaffold(
@@ -51,11 +58,8 @@ class MovieShowScreen extends StatelessWidget {
   }
 
   Widget _bottomCommentBar(BuildContext context) {
-    TextEditingController _commentController = TextEditingController();
-
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 60.0,
       decoration: const BoxDecoration(
         border: Border(
           top: BorderSide(
@@ -67,64 +71,101 @@ class MovieShowScreen extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(10),
-            ),
-            color: Colors.white.withOpacity(0.2),
+        child: TextField(
+          style: TextStyle(
+            color: Colors.white.withOpacity(0.5),
+            fontSize: 16,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              TextField(
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.5),
-                  fontSize: 16,
-                ),
-                controller: _commentController,
-                onSubmitted: (_) {
+          controller: _commentController,
+          onSubmitted: (_) {
+            if (_commentController.text.isNotEmpty) {
+              _databaseService.writeNewComment(
+                  FirebaseAuth.instance.currentUser!.uid,
+                  widget.id,
+                  _commentController.text);
+            } else {
+              setState(() {
+                widget._commentError = 'Comment cannot be empty';
+              });
+              Future.delayed(Duration(seconds: 3), () {
+                setState(() {
+                  widget._commentError = null;
+                });
+              });
+            }
+          },
+          decoration: InputDecoration(
+            suffixIcon: IconButton(
+              onPressed: () {
+                if (_commentController.text.isNotEmpty) {
                   _databaseService.writeNewComment(
                       FirebaseAuth.instance.currentUser!.uid,
-                      id,
+                      widget.id,
                       _commentController.text);
-                },
-                decoration: InputDecoration(
-                  constraints: const BoxConstraints(
-                    maxWidth: 300,
-                  ),
-                  border: InputBorder.none,
-                  hintText: 'Add a comment...',
-                  hintStyle: TextStyle(
-                    color: Colors.white.withOpacity(0.5),
-                    fontSize: 16,
-                  ),
-                  contentPadding: const EdgeInsets.only(
-                    left: 16,
-                    top: 14,
-                    bottom: 14,
-                  ),
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  _databaseService.writeNewComment(
-                      FirebaseAuth.instance.currentUser!.uid,
-                      id,
-                      _commentController.text);
+                } else {
+                  setState(() {
+                    widget._commentError = 'Comment cannot be empty';
+                  });
+                  Future.delayed(Duration(seconds: 3), () {
+                    setState(() {
+                      widget._commentError = null;
+                    });
+                  });
+                }
 
-                  FocusScope.of(context).unfocus();
-                  _commentController.clear();
-                },
-                icon: const Icon(
-                  Icons.send,
-                  color: Colors.white,
-                  size: 24,
-                ),
+                FocusScope.of(context).unfocus();
+                _commentController.clear();
+              },
+              icon: const Icon(
+                Icons.send,
+                color: Colors.white,
+                size: 24,
               ),
-            ],
+            ),
+            fillColor: Colors.white.withOpacity(0.2),
+            filled: true,
+            constraints: const BoxConstraints(
+              maxWidth: 300,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide.none,
+            ),
+            hintText: 'Add a comment...',
+            hintStyle: TextStyle(
+              color: Colors.white.withOpacity(0.5),
+              fontSize: 16,
+            ),
+            contentPadding: const EdgeInsets.only(
+              left: 16,
+              top: 14,
+              bottom: 14,
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(
+                color: Colors.red,
+                width: 2,
+              ),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(
+                color: Colors.red,
+                width: 2,
+              ),
+            ),
+            errorText: widget._commentError,
+            errorStyle: const TextStyle(
+              color: Colors.red,
+              fontSize: 12,
+            ),
           ),
+          onChanged: (value) {
+            setState(() {
+              widget._commentError = null;
+            });
+          },
         ),
       ),
     );
@@ -488,7 +529,7 @@ class MovieShowScreen extends StatelessWidget {
                 Padding(
                   padding:
                       const EdgeInsets.only(top: 14.0, left: 18, right: 18),
-                  child: _buildCommentSection(),
+                  child: _buildCommentSection(context),
                 )
               ],
             ),
@@ -498,11 +539,90 @@ class MovieShowScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCommentSection() {
+  Widget _buildCommentSection(context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 60.0),
-      child: const Placeholder(
-        fallbackHeight: 1500,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.9,
+        child: FutureBuilder<List<Map<dynamic, dynamic>>>(
+          key: Key(widget.id),
+          future: _databaseService.getComments(widget.id),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            print(snapshot.data);
+
+            final comments = snapshot.data!;
+
+            return Container(
+              child: Column(
+                children: [
+                  for (var comment in comments)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 12.0,
+                                  right: 12.0,
+                                  top: 4.0,
+                                  bottom: 4.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        comment['user'],
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      Text(
+                                        comment['comment'],
+                                        style: TextStyle(
+                                            color: Colors.grey.shade400,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ],
+                                  ),
+                                  //reply button
+                                  // IconButton(
+                                  //   onPressed: () {},
+                                  //   icon: Icon(
+                                  //     Icons.reply,
+                                  //     color: Colors.white,
+                                  //     size: 20,
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
