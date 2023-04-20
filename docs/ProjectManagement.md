@@ -30,4 +30,23 @@ How to sucessfully use the IMDb API and the concept of 'Future Object' and 'Asyn
 ### What still puzzles us?
 How we are going to deal with the limit of 100 queries without it negatively impacting our work.
 
+## Iteration 2 Sprint Planning
+![image](images/Iteration2_Backlog.jpeg)
 
+
+## Iteration 2 Retrospective
+### What went well?
+The firebase database setup wasn't as hard as we thought initially.
+
+### What didn't go so well?
+The API was constantly running out of requests, which made us create several accounts. We also had dificulties understanding how to use Gherkin to test our project.
+
+### What have we learned?
+We learned how to get and set data on the firebase database and a little bit of testing.
+
+
+### What still puzzles us?
+Testing with Gherkin is still a bit confusing.
+
+## Iteration 3 Sprint Planning
+![image](images/Iteration3_Backlog.jpg)
