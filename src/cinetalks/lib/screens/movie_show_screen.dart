@@ -28,6 +28,14 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
   final AppDatabase _databaseService = AppDatabase();
   TextEditingController _commentController = TextEditingController();
 
+  final ValueNotifier<Future> _futureNotifier;
+
+  @override
+  void initState() {
+    _futureNotifier = ValueNotifier(fetchMovieTvShowDetails(widget.id));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -558,69 +566,147 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
 
             final comments = snapshot.data!;
 
-            return Container(
-              child: Column(
-                children: [
-                  for (var comment in comments)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 12.0,
-                                  right: 12.0,
-                                  top: 4.0,
-                                  bottom: 4.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+            return Column(
+              children: [
+                for (var comment in comments)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8.0, vertical: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        comment['user'],
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      Text(
-                                        comment['comment'],
-                                        style: TextStyle(
-                                            color: Colors.grey.shade400,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ],
+                                  Text(
+                                    comment['user'],
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
                                   ),
-                                  //reply button
-                                  // IconButton(
-                                  //   onPressed: () {},
-                                  //   icon: Icon(
-                                  //     Icons.reply,
-                                  //     color: Colors.white,
-                                  //     size: 20,
-                                  //   ),
-                                  // ),
+                                  Text(
+                                    comment['comment'],
+                                    style: TextStyle(
+                                        color: Colors.grey.shade400,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                  ),
                                 ],
                               ),
                             ),
-                          )
-                        ],
+                            // reply button
+                            IconButton(
+                              onPressed: () {
+                                //show a snackbar
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                  content: Text(
+                                      "Reply button is not implemented yet"),
+                                ));
+                              },
+                              icon: Icon(
+                                Icons.chat_bubble_outline,
+                                color: Colors.white,
+                                size: 26,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    )
-                ],
-              ),
+                    ),
+                  ),
+              ],
             );
+
+            // return Container(
+            //   child: Column(
+            //     children: [
+            //       for (var comment in comments)
+            //         Padding(
+            //           padding: const EdgeInsets.only(bottom: 8.0),
+            //           child: Row(
+            //             children: [
+            //               Expanded(
+            //                 child: Row(
+            //                   children: [
+            //                     Flexible(
+            //                       child: Container(
+            //                         // width: MediaQuery.of(context).size.width * 0.9,
+            //                         decoration: BoxDecoration(
+            //                           color: Colors.white.withOpacity(0.2),
+            //                           borderRadius: BorderRadius.circular(12),
+            //                         ),
+            //                         child: Padding(
+            //                           padding: const EdgeInsets.only(
+            //                               left: 12.0,
+            //                               right: 4.0,
+            //                               top: 4.0,
+            //                               bottom: 4.0),
+            //                           child: Row(
+            //                             mainAxisAlignment:
+            //                                 MainAxisAlignment.spaceBetween,
+            //                             children: [
+            //                               Column(
+            //                                 crossAxisAlignment:
+            //                                     CrossAxisAlignment.start,
+            //                                 children: [
+            //                                   Text(
+            //                                     comment['user'],
+            //                                     style: TextStyle(
+            //                                         color: Colors.white,
+            //                                         fontSize: 16,
+            //                                         fontWeight:
+            //                                             FontWeight.w500),
+            //                                   ),
+            //                                   Text(
+            //                                     comment['comment'],
+            //                                     style: TextStyle(
+            //                                         color: Colors.grey.shade400,
+            //                                         fontSize: 16,
+            //                                         fontWeight:
+            //                                             FontWeight.w500),
+            //                                   ),
+            //                                 ],
+            //                               ),
+            //                               // reply button
+            //                               IconButton(
+            //                                 onPressed: () {
+            //                                   //show a snackbar
+            //                                   ScaffoldMessenger.of(context)
+            //                                       .showSnackBar(SnackBar(
+            //                                     content: Text(
+            //                                         "Reply button is not implemented yet"),
+            //                                   ));
+            //                                 },
+            //                                 icon: Icon(
+            //                                   Icons.chat_bubble_outline,
+            //                                   color: Colors.white,
+            //                                   size: 26,
+            //                                 ),
+            //                               ),
+            //                             ],
+            //                           ),
+            //                         ),
+            //                       ),
+            //                     ),
+            //                   ],
+            //                 ),
+            //               )
+            //             ],
+            //           ),
+            //         )
+            //     ],
+            //   ),
+            // );
           },
         ),
       ),

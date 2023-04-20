@@ -20,7 +20,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
+  late String _backgroundImagePath = "";
   // List<Movie> movies = Movie.movies;
   late PageController _pageController;
   final user = FirebaseAuth.instance.currentUser!;
@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
-          // ..._buildBackground(),
+          ..._buildBackground(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -74,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   future: fetchInTheaters(),
                   builder: (context, AsyncSnapshot<List<Movie>> snapshot) {
                     if (snapshot.hasData) {
+                      _backgroundImagePath = snapshot.data![0].imagePath;
                       return _carouselSlider(snapshot.data!);
                     } else {
                       return const Center(child: CircularProgressIndicator());
@@ -234,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(
                 fontSize: 14.0,
                 fontWeight: FontWeight.w500,
-                color: Colors.grey.shade400,
+                color: Colors.white.withOpacity(0.7),
               ),
             ),
             const Padding(padding: EdgeInsets.all(2.0)),
@@ -279,46 +280,45 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // /* Animates when _currentIndex changes */
-  // List<Widget> _buildBackground() {
-  //   return <Widget>[
-  //     AnimatedSwitcher(
-  //       duration: const Duration(milliseconds: 300),
-  //       child: Container(
-  //         key: ValueKey<int>(_currentIndex),
-  //         width: MediaQuery.of(context).size.width,
-  //         height: MediaQuery.of(context).size.height * 0.65,
-  //         decoration: BoxDecoration(
-  //           image: DecorationImage(
-  //             image:
-  //                 CachedNetworkImageProvider(movies[_currentIndex].imagePath),
-  //             fit: BoxFit.cover,
-  //           ),
-  //         ),
-  //         child: BackdropFilter(
-  //           filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
-  //           child: Container(
-  //             color: const Color(0xff2a2a2a).withOpacity(0.2),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //     const Positioned.fill(
-  //       child: DecoratedBox(
-  //         decoration: BoxDecoration(
-  //           gradient: LinearGradient(
-  //               colors: [
-  //                 Colors.transparent,
-  //                 Color(0xff2a2a2a),
-  //               ],
-  //               begin: Alignment.topCenter,
-  //               end: Alignment.bottomCenter,
-  //               stops: [0.2, 0.65]),
-  //         ),
-  //       ),
-  //     ),
-  //   ];
-  // }
+  /* Animates when _currentIndex changes */
+  List<Widget> _buildBackground() {
+    return <Widget>[
+      AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        child: Container(
+          key: ValueKey<String>(_backgroundImagePath),
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.65,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: CachedNetworkImageProvider(_backgroundImagePath),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+            child: Container(
+              color: const Color(0xff2a2a2a).withOpacity(0.2),
+            ),
+          ),
+        ),
+      ),
+      const Positioned.fill(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [
+                  Colors.transparent,
+                  Color(0xff2a2a2a),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: [0.2, 0.65]),
+          ),
+        ),
+      ),
+    ];
+  }
 
   Widget _carouselSlider(List<Movie> data) {
     return CarouselSlider.builder(
@@ -331,7 +331,7 @@ class _HomeScreenState extends State<HomeScreen> {
         enlargeFactor: 0.18,
         onPageChanged: (index, reason) {
           setState(() {
-            _currentIndex = index;
+            _backgroundImagePath = data[index].imagePath;
           });
         },
       ),
@@ -433,7 +433,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 '${data[index].year} • ${data[index].duration.inHours}h ${data[index].duration.inMinutes.remainder(60)}m • ${data[index].category}',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  color: Colors.grey.shade400,
+                                  color: Colors.white.withOpacity(0.7),
                                   fontSize: 14,
                                 ),
                                 overflow: TextOverflow.ellipsis,
@@ -465,7 +465,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     '/10',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
-                                      color: Colors.grey,
+                                      color: Colors.white.withOpacity(0.7),
                                       fontSize: 12,
                                     ),
                                   ),
