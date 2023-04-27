@@ -9,7 +9,7 @@ import '../screens/movie_show_screen.dart';
 class HorizontalScrollList extends StatelessWidget {
   final double boxWidth;
   final double boxHeight;
-  final List<Movie> items;
+  final List<Map<String, dynamic>> items;
 
   const HorizontalScrollList(
       {Key? key,
@@ -33,7 +33,7 @@ class HorizontalScrollList extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => MovieShowScreen(id: items[index].id),
+                    builder: (_) => MovieShowScreen(id: items[index]['id']),
                   ),
                 );
               },
@@ -43,7 +43,8 @@ class HorizontalScrollList extends StatelessWidget {
                   ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
                     child: Image(
-                      image: CachedNetworkImageProvider(items[index].imagePath),
+                      image:
+                          CachedNetworkImageProvider(items[index]['imagePath']),
                       fit: BoxFit.cover,
                       width: boxWidth,
                       height: boxHeight,
@@ -53,10 +54,10 @@ class HorizontalScrollList extends StatelessWidget {
                   SizedBox(
                     width: boxWidth,
                     child: Text(
+                      items[index]['title'],
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       textWidthBasis: TextWidthBasis.parent,
-                      items[index].title,
                       style: TextStyle(
                         color: Colors.grey.shade200,
                         fontSize: 13,
