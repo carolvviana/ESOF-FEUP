@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
-          ..._buildBackground(),
+          // ..._buildBackground(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -114,8 +114,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               FutureBuilder(
-                future: fetchTop250Movies(),
-                builder: (context, AsyncSnapshot<List<Movie>> snapshot) {
+                future: fetchTopMovies(),
+                builder: (context,
+                    AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
                   if (snapshot.hasData) {
                     return HorizontalScrollList(
                       boxWidth: MediaQuery.of(context).size.width * 0.28,
@@ -159,8 +160,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               FutureBuilder(
-                future: fetchTop250TvShows(),
-                builder: (context, AsyncSnapshot<List<Movie>> snapshot) {
+                future: fetchTopTVShows(),
+                builder: (context,
+                    AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
                   if (snapshot.hasData) {
                     return HorizontalScrollList(
                       boxWidth: MediaQuery.of(context).size.width * 0.596,
@@ -281,44 +283,45 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   /* Animates when _currentIndex changes */
-  List<Widget> _buildBackground() {
-    return <Widget>[
-      AnimatedSwitcher(
-        duration: const Duration(milliseconds: 300),
-        child: Container(
-          key: ValueKey<String>(_backgroundImagePath),
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 0.65,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: CachedNetworkImageProvider(_backgroundImagePath),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
-            child: Container(
-              color: const Color(0xff2a2a2a).withOpacity(0.2),
-            ),
-          ),
-        ),
-      ),
-      const Positioned.fill(
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [
-                  Colors.transparent,
-                  Color(0xff2a2a2a),
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: [0.2, 0.65]),
-          ),
-        ),
-      ),
-    ];
-  }
+  // List<Widget> _buildBackground() {
+  //   return <Widget>[
+  //     AnimatedSwitcher(
+  //       duration: const Duration(milliseconds: 300),
+  //       child: Container(
+  //         key: ValueKey<int>(_currentIndex),
+  //         width: MediaQuery.of(context).size.width,
+  //         height: MediaQuery.of(context).size.height * 0.65,
+  //         decoration: BoxDecoration(
+  //           image: DecorationImage(
+  //             image:
+  //                 CachedNetworkImageProvider(movies[_currentIndex].imagePath),
+  //             fit: BoxFit.cover,
+  //           ),
+  //         ),
+  //         child: BackdropFilter(
+  //           filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+  //           child: Container(
+  //             color: const Color(0xff2a2a2a).withOpacity(0.2),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //     const Positioned.fill(
+  //       child: DecoratedBox(
+  //         decoration: BoxDecoration(
+  //           gradient: LinearGradient(
+  //               colors: [
+  //                 Colors.transparent,
+  //                 Color(0xff2a2a2a),
+  //               ],
+  //               begin: Alignment.topCenter,
+  //               end: Alignment.bottomCenter,
+  //               stops: [0.2, 0.65]),
+  //         ),
+  //       ),
+  //     ),
+  //   ];
+  // }
 
   Widget _carouselSlider(List<Movie> data) {
     return CarouselSlider.builder(
@@ -470,7 +473,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                 ],
-                              )
+                              ),
                             ],
                           ),
                           /* Watch Trailer Button */
