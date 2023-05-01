@@ -1,3 +1,5 @@
+import 'package:cinetalks/api/api_services.dart';
+import 'package:cinetalks/models/movie_model.dart';
 import 'package:flutter/material.dart';
 
 class MySearchBar extends StatefulWidget {
@@ -8,6 +10,7 @@ class MySearchBar extends StatefulWidget {
 }
 
 class _MySearchBarState extends State<MySearchBar> {
+  List<Movie> results = [];
   final TextEditingController _searchController = TextEditingController();
 
   void _submitSearch(String query) {
@@ -22,6 +25,11 @@ class _MySearchBarState extends State<MySearchBar> {
       child: TextField(
         controller: _searchController,
         onSubmitted: _submitSearch,
+        onChanged: (value) {
+              if (value.length > 2) {
+                setState(()async {results = await searchMedia(value);});
+                }
+            },
         decoration: InputDecoration(
           hintText: 'Search',
           prefixIcon: const Icon(Icons.search),

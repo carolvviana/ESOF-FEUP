@@ -18,4 +18,6 @@ class Movie {
     required this.plot,
     required this.imdbRating,
   });
+
+  String get movieCategory => category;
 }

@@ -26,15 +26,15 @@ class VerticalScrollList extends StatelessWidget {
       child: GridView.builder(
         itemCount: items.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          mainAxisSpacing: 8,
+          crossAxisCount: 2,
+          mainAxisSpacing: 0,
           crossAxisSpacing: 8,
-          childAspectRatio: aspectRatio,
+          childAspectRatio: 0.7,
         ),
         itemBuilder: (context, index) {
           // print(items[index].title);
           return Padding(
-            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0),
+            padding: const EdgeInsets.only(top: 8.0, bottom: 16, left: 8.0),
             child: GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -56,7 +56,7 @@ class VerticalScrollList extends StatelessWidget {
                       height: boxHeight,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
                   SizedBox(
                     width: boxWidth,
                     child: Text(
