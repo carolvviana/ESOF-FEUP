@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../main.dart';
-import 'signup_widget.dart';
+import 'signup_screen.dart';
 
-class LoginWidget extends StatefulWidget {
-  const LoginWidget({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<LoginWidget> createState() => _LoginWidgetState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginWidgetState extends State<LoginWidget> {
+class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -187,15 +187,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                     ),
                     ElevatedButton(
                       key: const Key("SignUp"),
-                      // onPressed: () => navigatorKey.currentState!.push(
-                      //   MaterialPageRoute(
-                      //     builder: (context) => SignUpWidget(),
-                      //   ),
-                      // ),
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SignUpWidget(),
+                          builder: (context) => SignUpScreen(),
                         ),
                       ),
                       child: Text(

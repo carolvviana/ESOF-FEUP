@@ -7,14 +7,14 @@ import '../main.dart';
 
 import '../database_service/app_database.dart';
 
-class SignUpWidget extends StatefulWidget {
-  const SignUpWidget({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<SignUpWidget> createState() => _SignUpWidgetState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignUpWidgetState extends State<SignUpWidget> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final usernameController = TextEditingController();
@@ -304,5 +304,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         });
       }
     }
+
+    _databaseService.addUser(
+      FirebaseAuth.instance.currentUser!.uid,
+      usernameController.text,
+    );
   }
 }

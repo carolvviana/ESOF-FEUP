@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_database/firebase_database.dart';
 
 import '../database_service/database_service.dart';
+import '../models/movie_model.dart';
 
 class Reply {
   String username;
@@ -99,5 +100,132 @@ class AppDatabase extends DatabaseService {
   Future<String> getUsername(String uid) async {
     DataSnapshot snapshot = await getData('users/$uid/username');
     return snapshot.value.toString();
+  }
+
+  Future<void> addToFavorites(
+      String uid, String movieId, String movieTitle, String imagePath) async {
+    await pushData('users/$uid/favorites', {
+      'movieId': movieId,
+      'title': movieTitle,
+      'imagePath': imagePath,
+    });
+  }
+
+  Future<void> removeFromFavorites(String uid, String movieId) async {
+    DataSnapshot snapshot = await getData('users/$uid/favorites');
+    Map<dynamic, dynamic> values = snapshot.value as Map<dynamic, dynamic>;
+
+    for (var entry in values.entries) {
+      if (entry.value['movieId'] == movieId) {
+        await deleteData('users/$uid/favorites/${entry.key}');
+      }
+    }
+  }
+
+  Future<bool> isFavorite(String uid, String movieId) async {
+    DataSnapshot snapshot = await getData('users/$uid/favorites');
+    if (snapshot.value == null) return false;
+
+    Map<dynamic, dynamic> values = snapshot.value as Map<dynamic, dynamic>;
+
+    for (var entry in values.entries) {
+      if (entry.value['movieId'] == movieId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  Future<List<Movie>> getFavorites(String uid) async {
+    DataSnapshot snapshot = await getData('users/$uid/favorites');
+    List<Movie> favorites = [];
+
+    if (snapshot.value != null) {
+      Map<dynamic, dynamic> values = snapshot.value as Map<dynamic, dynamic>;
+
+      for (var entry in values.entries) {
+        Movie movie = Movie(
+          id: entry.value['movieId'],
+          title: entry.value['title'],
+          imagePath: entry.value['imagePath'],
+          category: '',
+          ranking: '',
+          year: 0,
+          imdbRating: '',
+          duration: Duration(),
+          plot: '',
+        );
+
+        favorites.add(movie);
+      }
+      ;
+    } else {
+      return [];
+    }
+
+    return favorites;
+  }
+
+  Future<void> addToWatchlist(
+      String uid, String movieId, String movieTitle, String imagePath) async {
+    await pushData('users/$uid/watchlist', {
+      'movieId': movieId,
+      'title': movieTitle,
+      'imagePath': imagePath,
+    });
+  }
+
+  Future<void> removeFromWatchlist(String uid, String movieId) async {
+    DataSnapshot snapshot = await getData('users/$uid/watchlist');
+    Map<dynamic, dynamic> values = snapshot.value as Map<dynamic, dynamic>;
+
+    for (var entry in values.entries) {
+      if (entry.value['movieId'] == movieId) {
+        await deleteData('users/$uid/watchlist/${entry.key}');
+      }
+    }
+  }
+
+  Future<bool> isInWatchlist(String uid, String movieId) async {
+    DataSnapshot snapshot = await getData('users/$uid/watchlist');
+    if (snapshot.value == null) return false;
+    Map<dynamic, dynamic> values = snapshot.value as Map<dynamic, dynamic>;
+
+    for (var entry in values.entries) {
+      if (entry.value['movieId'] == movieId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  Future<List<Movie>> getWatchlist(String uid) async {
+    DataSnapshot snapshot = await getData('users/$uid/watchlist');
+    List<Movie> watchlist = [];
+
+    if (snapshot.value != null) {
+      Map<dynamic, dynamic> values = snapshot.value as Map<dynamic, dynamic>;
+
+      for (var entry in values.entries) {
+        Movie movie = Movie(
+          id: entry.value['movieId'],
+          title: entry.value['title'],
+          imagePath: entry.value['imagePath'],
+          category: '',
+          ranking: '',
+          year: 0,
+          imdbRating: '',
+          duration: Duration(),
+          plot: '',
+        );
+
+        watchlist.add(movie);
+      }
+      ;
+    } else {
+      return [];
+    }
+
+    return watchlist;
   }
 }
