@@ -43,7 +43,8 @@ class _SearchPageState extends State<SearchPage> {
           children: [
             SafeArea(
               child: Padding(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
+                padding:
+                    const EdgeInsets.only(left: 8.0, right: 8.0, top: 16.0),
                 child: TextField(
                   style: TextStyle(color: Colors.white),
                   controller: _searchController,
@@ -88,11 +89,36 @@ class _SearchPageState extends State<SearchPage> {
             //         }
             //       },
             //     ),
-            VerticalScrollList(
-              boxWidth: MediaQuery.of(context).size.width * 0.45,
-              boxHeight: MediaQuery.of(context).size.height * 0.26,
-              items: results,
-            )
+            results.length == 0
+                ? Expanded(
+                    child: Column(
+                      // mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Looks like its empty here",
+                          style: TextStyle(
+                              color: Colors.white.withOpacity(0.5),
+                              fontSize: 16),
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          "Start your search by typing in the box above!",
+                          style: TextStyle(
+                              color: Colors.white.withOpacity(0.5),
+                              fontSize: 16),
+                        )
+                      ],
+                    ),
+                  )
+                : VerticalScrollList(
+                    boxWidth: MediaQuery.of(context).size.width * 0.45,
+                    boxHeight: MediaQuery.of(context).size.height * 0.26,
+                    items: results,
+                  )
           ],
         ),
         bottomNavigationBar: MyBottomNavigationBar());
