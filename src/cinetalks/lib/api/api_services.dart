@@ -176,7 +176,7 @@ Future<List<Movie>> searchMedia(String query) async {
     final title = result['l'] as String;
     final year = 2020; //result['y'] as int;
     final imagePath = result['i'] != null ? result['i']['imageUrl'] as String : "";
-    final category = "Drama"; //result['q'] as String;
+    // final category = "Drama"; //result['q'] as String;
     // final duration = result['s'] as String;
     // final plot = result['s'] as String;
     // final imdbRating = result['rank'] as String;

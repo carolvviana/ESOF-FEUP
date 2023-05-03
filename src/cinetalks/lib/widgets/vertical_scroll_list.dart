@@ -20,21 +20,22 @@ class VerticalScrollList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final aspectRatio = boxWidth / boxHeight;
+     final aspectRatio = boxWidth / boxHeight;
 
     return Expanded(
       child: GridView.builder(
         itemCount: items.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          mainAxisSpacing: 0,
+          mainAxisSpacing: 2,
           crossAxisSpacing: 8,
-          childAspectRatio: 0.7,
+          mainAxisExtent: boxHeight + 40,
+          // childAspectRatio: 0.8,
         ),
         itemBuilder: (context, index) {
           // print(items[index].title);
           return Padding(
-            padding: const EdgeInsets.only(top: 8.0, bottom: 16, left: 8.0),
+            padding: const EdgeInsets.only(left: 8),
             child: GestureDetector(
               onTap: () {
                 Navigator.push(

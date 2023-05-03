@@ -81,7 +81,7 @@ class _SearchPageState extends State<SearchPage> {
             //     ),
             VerticalScrollList(
               boxWidth: MediaQuery.of(context).size.width*0.45,
-              boxHeight: MediaQuery.of(context).size.height*0.25,
+              boxHeight: MediaQuery.of(context).size.height*0.26,
               items: results,
             )
           ],
