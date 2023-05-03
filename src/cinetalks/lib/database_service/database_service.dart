@@ -7,8 +7,11 @@ class DatabaseService {
     await databaseReference.child(path).set(data);
   }
 
-  Future<void> pushData(String path, Map<String, dynamic> data) async {
-    await databaseReference.child(path).push().set(data);
+  Future<DatabaseReference> pushData(
+      String path, Map<String, dynamic> data) async {
+    final ref = databaseReference.child(path).push();
+    await ref.set(data);
+    return ref;
   }
 
   Future<DataSnapshot> getData(String path) async {

@@ -6,6 +6,7 @@ class Movie {
   final String id;
   final String plot;
   final String imdbRating;
+  final String ranking;
   final String title;
 
   const Movie({
@@ -17,6 +18,7 @@ class Movie {
     required this.duration,
     required this.plot,
     required this.imdbRating,
+    required this.ranking,
   });
 
   String get movieCategory => category;

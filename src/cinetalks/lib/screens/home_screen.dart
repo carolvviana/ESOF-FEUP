@@ -22,7 +22,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
+  late String _backgroundImagePath = "";
   // List<Movie> movies = Movie.movies;
   late PageController _pageController;
   final user = FirebaseAuth.instance.currentUser!;
@@ -76,6 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   future: fetchInTheaters(),
                   builder: (context, AsyncSnapshot<List<Movie>> snapshot) {
                     if (snapshot.hasData) {
+                      _backgroundImagePath = snapshot.data![0].imagePath;
                       return _carouselSlider(snapshot.data!);
                     } else {
                       return const Center(child: CircularProgressIndicator());
@@ -115,8 +116,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               FutureBuilder(
-                future: fetchTop250Movies(),
-                builder: (context, AsyncSnapshot<List<Movie>> snapshot) {
+                future: fetchTopMovies(),
+                builder: (context,
+                    AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
                   if (snapshot.hasData) {
                     return HorizontalScrollList(
                       boxWidth: MediaQuery.of(context).size.width * 0.28,
@@ -160,8 +162,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               FutureBuilder(
-                future: fetchTop250TvShows(),
-                builder: (context, AsyncSnapshot<List<Movie>> snapshot) {
+                future: fetchTopTVShows(),
+                builder: (context,
+                    AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
                   if (snapshot.hasData) {
                     return HorizontalScrollList(
                       boxWidth: MediaQuery.of(context).size.width * 0.596,
@@ -193,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(
                 fontSize: 14.0,
                 fontWeight: FontWeight.w500,
-                color: Colors.grey.shade400,
+                color: Colors.white.withOpacity(0.7),
               ),
             ),
             const Padding(padding: EdgeInsets.all(2.0)),
@@ -290,7 +293,7 @@ class _HomeScreenState extends State<HomeScreen> {
         enlargeFactor: 0.18,
         onPageChanged: (index, reason) {
           setState(() {
-            _currentIndex = index;
+            _backgroundImagePath = data[index].imagePath;
           });
         },
       ),
@@ -392,7 +395,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 '${data[index].year} • ${data[index].duration.inHours}h ${data[index].duration.inMinutes.remainder(60)}m • ${data[index].category}',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  color: Colors.grey.shade400,
+                                  color: Colors.white.withOpacity(0.7),
                                   fontSize: 14,
                                 ),
                                 overflow: TextOverflow.ellipsis,
@@ -424,12 +427,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                     '/10',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
-                                      color: Colors.grey,
+                                      color: Colors.white.withOpacity(0.7),
                                       fontSize: 12,
                                     ),
                                   ),
                                 ],
-                              )
+                              ),
                             ],
                           ),
                           /* Watch Trailer Button */
