@@ -65,7 +65,7 @@ Future<List<Map<String, dynamic>>> fetchTopTVShows() async {
 
 Future<List<Movie>> fetchInTheaters() async {
   final response = await http.get(
-    Uri.parse('https://imdb-api.com/en/API/InTheaters/k_sl0727cr'),
+    Uri.parse('https://imdb-api.com/en/API/InTheaters/k_ehiwsy71'),
   );
 
   if (response.statusCode == 200) {
@@ -177,8 +177,22 @@ Future<Movie> fetchDetails(String id) async {
     final movieJson = json.decode(movieData.innerHtml);
 
     final jsonData = movieJson['props']['pageProps']['aboveTheFoldData'];
+    print("HERE");
+    print(jsonData['id'].toString());
+    print(jsonData['originalTitleText']['text'].toString());
+    print(jsonData['releaseYear']['year'].toInt());
+    print(jsonData['primaryImage']['url'].toString());
+    print(jsonData['genres']['genres']
+        .map((json) => json['text'])
+        .toList()
+        .join(', ')
+        .toString());
+    print(Duration(seconds: jsonData['runtime']['seconds']));
+    print(jsonData['plot']['plotText']['plainText'].toString());
+    print(jsonData['ratingsSummary']['aggregateRating'].toString());
+    print(jsonData['meterRanking']['currentRank'].toString());
 
-    return new Movie(
+    Movie movie = Movie(
       id: jsonData['id'].toString(),
       title: jsonData['originalTitleText']['text'].toString(),
       year: jsonData['releaseYear']['year'].toInt(),
@@ -193,6 +207,19 @@ Future<Movie> fetchDetails(String id) async {
       imdbRating: jsonData['ratingsSummary']['aggregateRating'].toString(),
       ranking: jsonData['meterRanking']['currentRank'].toString(),
     );
+
+    print("movie");
+    print(movie.id);
+    print(movie.title);
+    print(movie.year);
+    print(movie.imagePath);
+    print(movie.category);
+    print(movie.duration);
+    print(movie.plot);
+    print(movie.imdbRating);
+    print(movie.ranking);
+
+    return movie;
   } else {
     throw Exception('Failed to load Movie Details');
   }

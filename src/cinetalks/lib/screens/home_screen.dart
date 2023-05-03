@@ -1,8 +1,9 @@
 import 'dart:ui';
 
+import 'package:cinetalks/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import '../api/api_services.dart';
-import '../movie_app_icons_icons.dart';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../models/movie_model.dart';
@@ -11,6 +12,7 @@ import '../widgets/horizontal_scroll_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../database_service/app_database.dart';
+import 'package:cinetalks/widgets/bottom_navbar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -178,50 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: _bottomNavigationBar(),
-    );
-  }
-
-  Widget _bottomNavigationBar() {
-    return Container(
-      height: 55.0,
-      decoration: const BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            color: Color.fromARGB(60, 255, 255, 255),
-            width: 0.5,
-          ),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              MovieAppIcons.home,
-              color: Colors.white,
-              size: 24,
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              MovieAppIcons.search,
-              color: Colors.white,
-              size: 24,
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              MovieAppIcons.user,
-              color: Colors.white,
-              size: 24,
-            ),
-          ),
-        ],
-      ),
+      bottomNavigationBar: bottomNavigationBar(),
     );
   }
 
@@ -243,7 +202,12 @@ class _HomeScreenState extends State<HomeScreen> {
             const Padding(padding: EdgeInsets.all(2.0)),
             GestureDetector(
               onTap: () {
-                /* TODO go to profile page */
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ProfileScreen(),
+                  ),
+                );
               },
               child: FutureBuilder(
                 future: _databaseService.getUsername(user.uid),
@@ -266,15 +230,21 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         GestureDetector(
-          onTap: () =>
-              /*log out */
-              FirebaseAuth.instance.signOut(),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ProfileScreen(),
+              ),
+            );
+          },
           child: const CircleAvatar(
             radius: 18.0,
             backgroundColor: Colors.white,
             child: CircleAvatar(
+              backgroundColor: Color.fromARGB(255, 66, 66, 66),
               radius: 17.0,
-              backgroundImage: AssetImage("assets/images/profile_pic.jpg"),
+              backgroundImage: AssetImage("assets/images/629576-200.png"),
             ),
           ),
         ),

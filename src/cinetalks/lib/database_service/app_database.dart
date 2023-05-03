@@ -136,25 +136,19 @@ class AppDatabase extends DatabaseService {
     return false;
   }
 
-  Future<List<Movie>> getFavorites(String uid) async {
+  Future<List<Map<String, dynamic>>> getFavorites(String uid) async {
     DataSnapshot snapshot = await getData('users/$uid/favorites');
-    List<Movie> favorites = [];
+    List<Map<String, dynamic>> favorites = [];
 
     if (snapshot.value != null) {
       Map<dynamic, dynamic> values = snapshot.value as Map<dynamic, dynamic>;
 
       for (var entry in values.entries) {
-        Movie movie = Movie(
-          id: entry.value['movieId'],
-          title: entry.value['title'],
-          imagePath: entry.value['imagePath'],
-          category: '',
-          ranking: '',
-          year: 0,
-          imdbRating: '',
-          duration: Duration(),
-          plot: '',
-        );
+        Map<String, dynamic> movie = {
+          'movieId': entry.value['movieId'],
+          'title': entry.value['title'],
+          'imagePath': entry.value['imagePath'],
+        };
 
         favorites.add(movie);
       }
@@ -199,25 +193,19 @@ class AppDatabase extends DatabaseService {
     return false;
   }
 
-  Future<List<Movie>> getWatchlist(String uid) async {
+  Future<List<Map<String, dynamic>>> getWatchlist(String uid) async {
     DataSnapshot snapshot = await getData('users/$uid/watchlist');
-    List<Movie> watchlist = [];
+    List<Map<String, dynamic>> watchlist = [];
 
     if (snapshot.value != null) {
       Map<dynamic, dynamic> values = snapshot.value as Map<dynamic, dynamic>;
 
       for (var entry in values.entries) {
-        Movie movie = Movie(
-          id: entry.value['movieId'],
-          title: entry.value['title'],
-          imagePath: entry.value['imagePath'],
-          category: '',
-          ranking: '',
-          year: 0,
-          imdbRating: '',
-          duration: Duration(),
-          plot: '',
-        );
+        Map<String, dynamic> movie = {
+          'movieId': entry.value['movieId'],
+          'title': entry.value['title'],
+          'imagePath': entry.value['imagePath'],
+        };
 
         watchlist.add(movie);
       }
