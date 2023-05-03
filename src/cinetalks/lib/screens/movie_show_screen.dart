@@ -1,16 +1,9 @@
-import 'dart:ui';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinetalks/api/api_services.dart';
+import 'package:cinetalks/widgets/movie_aspect_widgets.dart';
 import 'package:flutter/material.dart';
-
 import '../models/movie_model.dart';
-// import '../widgets/video_player.dart';
-// import '../movie_app_icons_icons.dart';
-
 import '../database_service/app_database.dart';
 import 'package:readmore/readmore.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
 
 FocusNode commentFocusNode = FocusNode();
@@ -19,8 +12,6 @@ late Comment currentComment;
 
 class MovieShowScreen extends StatefulWidget {
   final String id;
-
-  String? _commentError = null;
 
   MovieShowScreen({Key? key, required this.id}) : super(key: key);
 
@@ -31,6 +22,7 @@ class MovieShowScreen extends StatefulWidget {
 class _MovieShowScreenState extends State<MovieShowScreen> {
   final AppDatabase _databaseService = AppDatabase();
   TextEditingController _commentController = TextEditingController();
+  String? _commentError = null;
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +35,10 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
             backgroundColor: const Color(0xff2a2a2a),
             body: Stack(
               children: [
-                _buildBackground(context, snapshot.data),
+                BuildMovieImageBackground(movie: snapshot.data as Movie),
                 Padding(
                   padding: const EdgeInsets.only(top: 48.0),
-                  child: _buildImageBox(context, snapshot.data),
+                  child: BuildMovieImage(movie: snapshot.data as Movie),
                 ),
                 _DraggableScrollableSheet(movie: snapshot.data as Movie),
                 Positioned(
@@ -109,13 +101,13 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
               }
             } else {
               setState(() {
-                widget._commentError = isReply
+                _commentError = isReply
                     ? 'Reply cannot be empty'
                     : 'Comment cannot be empty';
               });
               Future.delayed(Duration(seconds: 3), () {
                 setState(() {
-                  widget._commentError = null;
+                  _commentError = null;
                   isReply = false;
                 });
               });
@@ -148,13 +140,13 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
                   }
                 } else {
                   setState(() {
-                    widget._commentError = isReply
+                    _commentError = isReply
                         ? 'Reply cannot be empty'
                         : 'Comment cannot be empty';
                   });
                   Future.delayed(Duration(seconds: 3), () {
                     setState(() {
-                      widget._commentError = null;
+                      _commentError = null;
                       isReply = false;
                     });
                   });
@@ -202,7 +194,7 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
                 width: 2,
               ),
             ),
-            errorText: widget._commentError,
+            errorText: _commentError,
             errorStyle: const TextStyle(
               color: Colors.red,
               fontSize: 12,
@@ -210,98 +202,11 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
           ),
           onChanged: (_) {
             setState(() {
-              widget._commentError = null;
+              _commentError = null;
             });
           },
         ),
       ),
-    );
-  }
-
-  Widget _buildBackground(context, movie) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: CachedNetworkImageProvider(movie.imagePath),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
-        child: Container(
-          color: const Color(0xff2a2a2a).withOpacity(0.0),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildImageBox(context, movie) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        GestureDetector(
-          onTap: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => const VideoPlayerScreen(
-            //       videoUrl: "https://www.youtube.com/watch?v=Jvurpf91omw",
-            //     ),
-            //   ),
-            // );
-          },
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height * 0.3,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              image: DecorationImage(
-                image: CachedNetworkImageProvider(movie.imagePath),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                      size: 28,
-                    ),
-                  ),
-                ),
-                // Center(
-                //   child: Column(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     children: const [
-                //       Icon(
-                //         Icons.play_arrow_rounded,
-                //         color: Colors.white,
-                //         size: 100,
-                //       ),
-                //       /* play trailer */
-                //       Text(
-                //         "Play Trailer",
-                //         style: TextStyle(
-                //           color: Colors.white,
-                //           fontSize: 20,
-                //           fontWeight: FontWeight.w500,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

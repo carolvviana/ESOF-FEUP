@@ -1,11 +1,9 @@
 import 'package:cinetalks/database_service/app_database.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../models/movie_model.dart';
 import '../widgets/bottom_navbar.dart';
 import '../widgets/horizontal_scroll_list.dart';
 

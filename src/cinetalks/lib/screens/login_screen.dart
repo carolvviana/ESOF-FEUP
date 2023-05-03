@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:cinetalks/database_service/authentication_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../main.dart';
@@ -14,16 +15,16 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   String? _emailError = null;
   String? _passwordError = null;
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -53,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: TextField(
                     key: const Key("emailField"),
                     expands: false,
-                    controller: emailController,
+                    controller: _emailController,
                     cursorColor: Colors.white.withOpacity(0.5),
                     style: TextStyle(
                       color: Colors.white.withOpacity(0.5),
@@ -95,15 +96,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                 ),
-                // SizedBox(
-                //   height: MediaQuery.of(context).size.height * 0.015,
-                // ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.09,
                   child: TextField(
                     key: const Key("passwordRegisterField"),
                     expands: false,
-                    controller: passwordController,
+                    controller: _passwordController,
                     obscureText: true,
                     style: TextStyle(
                       color: Colors.white.withOpacity(0.5),
@@ -146,9 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                 ),
-                // SizedBox(
-                //   height: MediaQuery.of(context).size.height * 0.015,
-                // ),
+
                 /* Login button on the right side */
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -216,12 +212,12 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
   Future<void> signIn() async {
-    if (emailController.text.isEmpty) {
+    if (_emailController.text.isEmpty) {
       setState(() {
         _emailError = "Email cannot be empty";
       });
       return;
-    } else if (passwordController.text.isEmpty) {
+    } else if (_passwordController.text.isEmpty) {
       setState(() {
         _passwordError = "Password cannot be empty";
       });
@@ -230,8 +226,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
       );
       navigatorKey.currentState!.popUntil((route) => route.isFirst);
     } on FirebaseAuthException catch (e) {
