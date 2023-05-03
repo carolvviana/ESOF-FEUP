@@ -42,7 +42,6 @@ Future<List<Map<String, dynamic>>> fetchTopTVShows() async {
       Uri.parse('https://www.imdb.com/chart/toptv/?ref_=nv_tvv_250'),
       headers: {'Accept-Language': 'en'});
 
-
   if (response.statusCode == 200) {
     final htmlString = response.body;
     final document = dom.Document.html(htmlString);
@@ -167,7 +166,6 @@ Future<List<Movie>> fetchYoutubeTrailer(String id) async {
   }
 }
 
-
 Future<Movie> fetchDetails(String id) async {
   final response = await http.get(Uri.parse('https://www.imdb.com/title/$id'),
       headers: {'Accept-Language': 'en'});
@@ -253,37 +251,38 @@ Future<List<Movie>> fetchSearchResults(
 }
 
 Future<List<Movie>> searchMedia(String query) async {
-    query = Uri.encodeComponent(query);
-    final String url = "https://v3.sg.media-imdb.com/suggestion/x/$query.json";
+  query = Uri.encodeComponent(query);
+  final String url = "https://v3.sg.media-imdb.com/suggestion/x/$query.json";
 
-    final response = await http.get(Uri.parse(url));
-    final data = jsonDecode(response.body);
-    // final results = data['results'] as List<dynamic>;
-    final results = data['d'] as List<dynamic>;
-    final List<Movie> aux = [];
-    final List<Movie> ret = [];
+  final response = await http.get(Uri.parse(url));
+  final data = jsonDecode(response.body);
+  // final results = data['results'] as List<dynamic>;
+  final results = data['d'] as List<dynamic>;
+  final List<Movie> aux = [];
+  final List<Movie> ret = [];
 
-    return results
-    .where((result) => (result["qid"])!= null)
-    .map((result) {
+  return results.where((result) => (result["qid"]) != null).map((result) {
     final title = result['l'] as String;
     final year = 2020; //result['y'] as int;
-    final imagePath = result['i'] != null ? result['i']['imageUrl'] as String : "";
+    final imagePath =
+        result['i'] != null ? result['i']['imageUrl'] as String : "";
     // final category = "Drama"; //result['q'] as String;
     // final duration = result['s'] as String;
     // final plot = result['s'] as String;
     // final imdbRating = result['rank'] as String;
 
-    {return Movie(
-      id: result['id'] as String,
-      title: title,
-      year: year,
-      imagePath: imagePath,
-      category: "",
-      duration: Duration(minutes: 0),
-      plot: "",
-      imdbRating: "",
-    );}
+    {
+      return Movie(
+        id: result['id'].toString(),
+        title: title,
+        year: year,
+        imagePath: imagePath,
+        category: "",
+        duration: Duration(minutes: 0),
+        plot: "",
+        imdbRating: "",
+        ranking: '',
+      );
+    }
   }).toList();
-
 }

@@ -42,30 +42,33 @@ class _SearchPageState extends State<SearchPage> {
         body: Column(
           children: [
             SafeArea(
-              child: TextField(
-                style: TextStyle(color: Colors.white),
-                controller: _searchController,
-                // onSubmitted: _submitSearch,
-                onChanged: (value) async {
-                  if (value.length > 2) {
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
+                child: TextField(
+                  style: TextStyle(color: Colors.white),
+                  controller: _searchController,
+                  // onSubmitted: _submitSearch,
+                  onChanged: (value) async {
+                    if (value.length > 2) {
                       List<Movie> aux = await searchMedia(value);
-                    setState((){
-                      results = aux;
-                    });
-                  }
-                },
-                decoration: InputDecoration(
-                  // labelStyle: TextStyle(color: Colors.white),
-                  hintStyle: TextStyle(color: Colors.white),
-                  prefixIconColor: Colors.white,
-                  fillColor: Colors.white.withOpacity(0.2),
-                  hintText: 'Search',
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide.none,
+                      setState(() {
+                        results = aux;
+                      });
+                    }
+                  },
+                  decoration: InputDecoration(
+                    // labelStyle: TextStyle(color: Colors.white),
+                    hintStyle: TextStyle(color: Colors.white),
+                    prefixIconColor: Colors.white,
+                    fillColor: Colors.white.withOpacity(0.2),
+                    hintText: 'Search',
+                    prefixIcon: const Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: BorderSide.none,
+                    ),
+                    filled: true,
                   ),
-                  filled: true,
                 ),
               ),
             ),
@@ -86,8 +89,8 @@ class _SearchPageState extends State<SearchPage> {
             //       },
             //     ),
             VerticalScrollList(
-              boxWidth: MediaQuery.of(context).size.width*0.45,
-              boxHeight: MediaQuery.of(context).size.height*0.26,
+              boxWidth: MediaQuery.of(context).size.width * 0.45,
+              boxHeight: MediaQuery.of(context).size.height * 0.26,
               items: results,
             )
           ],
