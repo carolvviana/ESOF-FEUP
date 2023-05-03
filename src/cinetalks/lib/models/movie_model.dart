@@ -20,4 +20,6 @@ class Movie {
     required this.imdbRating,
     required this.ranking,
   });
+
+  String get movieCategory => category;
 }

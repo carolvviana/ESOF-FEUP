@@ -226,7 +226,7 @@ Future<Movie> fetchDetails(String id) async {
 
 Future<List<Movie>> fetchRatings(String id) async {
   final response = await http.get(
-    Uri.parse('https://imdb-api.com/en/API/UserRatings/k_q8cbumjq/$id'),
+    Uri.parse('https://imdb-api.com/en/API/UserRatings/k_1c995682/$id'),
   );
 
   if (response.statusCode == 200) {
@@ -248,4 +248,41 @@ Future<List<Movie>> fetchSearchResults(
   } else {
     throw Exception('Failed to load Search Results');
   }
+}
+
+Future<List<Movie>> searchMedia(String query) async {
+  query = Uri.encodeComponent(query);
+  final String url = "https://v3.sg.media-imdb.com/suggestion/x/$query.json";
+
+  final response = await http.get(Uri.parse(url));
+  final data = jsonDecode(response.body);
+  // final results = data['results'] as List<dynamic>;
+  final results = data['d'] as List<dynamic>;
+  final List<Movie> aux = [];
+  final List<Movie> ret = [];
+
+  return results.where((result) => (result["qid"]) != null).map((result) {
+    final title = result['l'] as String;
+    final year = 2020; //result['y'] as int;
+    final imagePath =
+        result['i'] != null ? result['i']['imageUrl'] as String : "";
+    // final category = "Drama"; //result['q'] as String;
+    // final duration = result['s'] as String;
+    // final plot = result['s'] as String;
+    // final imdbRating = result['rank'] as String;
+
+    {
+      return Movie(
+        id: result['id'].toString(),
+        title: title,
+        year: year,
+        imagePath: imagePath,
+        category: "",
+        duration: Duration(minutes: 0),
+        plot: "",
+        imdbRating: "",
+        ranking: '',
+      );
+    }
+  }).toList();
 }

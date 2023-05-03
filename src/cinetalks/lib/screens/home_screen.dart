@@ -9,6 +9,8 @@ import '../models/movie_model.dart';
 import 'movie_show_screen.dart';
 import '../widgets/horizontal_scroll_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../screens/search_screen.dart';
+import '../widgets/nav_bar_widget.dart';
 
 import '../database_service/app_database.dart';
 
@@ -178,50 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: _bottomNavigationBar(),
-    );
-  }
-
-  Widget _bottomNavigationBar() {
-    return Container(
-      height: 55.0,
-      decoration: const BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            color: Color.fromARGB(60, 255, 255, 255),
-            width: 0.5,
-          ),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              MovieAppIcons.home,
-              color: Colors.white,
-              size: 24,
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              MovieAppIcons.search,
-              color: Colors.white,
-              size: 24,
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              MovieAppIcons.user,
-              color: Colors.white,
-              size: 24,
-            ),
-          ),
-        ],
-      ),
+      bottomNavigationBar: MyBottomNavigationBar()
     );
   }
 
