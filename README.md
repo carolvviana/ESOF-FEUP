@@ -16,7 +16,7 @@ Sérgio André Correia Peixoto	- 202108681
 CineTalks
 
 ## Vision Stament
-Never watch alone again. Search, comment, discuss - talk movies with the world.
+Talk movies with the world - Search, discuss and keep track. Movie details at the distance of a click.
 
 ## Main Features
 - Forum to discuss opinions between users of the App about different movies and TV shows;
