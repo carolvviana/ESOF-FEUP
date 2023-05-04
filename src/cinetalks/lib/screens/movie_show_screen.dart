@@ -1,22 +1,17 @@
-import 'dart:ui';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinetalks/api/api_services.dart';
+import 'package:cinetalks/widgets/movie_aspect_widgets.dart';
 import 'package:flutter/material.dart';
-
 import '../models/movie_model.dart';
-// import '../widgets/video_player.dart';
-// import '../movie_app_icons_icons.dart';
-
 import '../database_service/app_database.dart';
 import 'package:readmore/readmore.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
+
+FocusNode commentFocusNode = FocusNode();
+bool isReply = false;
+late Comment currentComment;
 
 class MovieShowScreen extends StatefulWidget {
   final String id;
-
-  String? _commentError = null;
 
   MovieShowScreen({Key? key, required this.id}) : super(key: key);
 
@@ -27,10 +22,7 @@ class MovieShowScreen extends StatefulWidget {
 class _MovieShowScreenState extends State<MovieShowScreen> {
   final AppDatabase _databaseService = AppDatabase();
   TextEditingController _commentController = TextEditingController();
-
-  FocusNode commentFocusNode = FocusNode();
-  bool isReply = false;
-  late Comment currentComment;
+  String? _commentError = null;
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +35,12 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
             backgroundColor: const Color(0xff2a2a2a),
             body: Stack(
               children: [
-                _buildBackground(context, snapshot.data),
+                BuildMovieImageBackground(movie: snapshot.data as Movie),
                 Padding(
                   padding: const EdgeInsets.only(top: 48.0),
-                  child: _buildImageBox(context, snapshot.data),
+                  child: BuildMovieImage(movie: snapshot.data as Movie),
                 ),
-                _buildDraggableScrollableSheet(context, snapshot.data),
+                _DraggableScrollableSheet(movie: snapshot.data as Movie),
                 Positioned(
                   bottom: 0,
                   child: _bottomCommentBar(context),
@@ -109,13 +101,13 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
               }
             } else {
               setState(() {
-                widget._commentError = isReply
+                _commentError = isReply
                     ? 'Reply cannot be empty'
                     : 'Comment cannot be empty';
               });
               Future.delayed(Duration(seconds: 3), () {
                 setState(() {
-                  widget._commentError = null;
+                  _commentError = null;
                   isReply = false;
                 });
               });
@@ -148,13 +140,13 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
                   }
                 } else {
                   setState(() {
-                    widget._commentError = isReply
+                    _commentError = isReply
                         ? 'Reply cannot be empty'
                         : 'Comment cannot be empty';
                   });
                   Future.delayed(Duration(seconds: 3), () {
                     setState(() {
-                      widget._commentError = null;
+                      _commentError = null;
                       isReply = false;
                     });
                   });
@@ -202,7 +194,7 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
                 width: 2,
               ),
             ),
-            errorText: widget._commentError,
+            errorText: _commentError,
             errorStyle: const TextStyle(
               color: Colors.red,
               fontSize: 12,
@@ -210,102 +202,51 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
           ),
           onChanged: (_) {
             setState(() {
-              widget._commentError = null;
+              _commentError = null;
             });
           },
         ),
       ),
     );
   }
+}
 
-  Widget _buildBackground(context, movie) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: CachedNetworkImageProvider(movie.imagePath),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
-        child: Container(
-          color: const Color(0xff2a2a2a).withOpacity(0.0),
-        ),
-      ),
+class _DraggableScrollableSheet extends StatefulWidget {
+  final Movie movie;
+
+  const _DraggableScrollableSheet({Key? key, required this.movie})
+      : super(key: key);
+
+  @override
+  State<_DraggableScrollableSheet> createState() =>
+      __DraggableScrollableSheetState();
+}
+
+class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
+  final AppDatabase _databaseService = AppDatabase();
+  late Future<bool> _isFavoriteFuture;
+  late Future<bool> _isInWatchListFuture;
+  bool _isFavorite = false;
+  bool _isInWatchList = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _isFavoriteFuture = _databaseService.isFavorite(
+      FirebaseAuth.instance.currentUser!.uid,
+      widget.movie.id,
     );
+    _isInWatchListFuture = _databaseService.isInWatchlist(
+      FirebaseAuth.instance.currentUser!.uid,
+      widget.movie.id,
+    );
+    _isFavoriteFuture.then((value) => setState(() => _isFavorite = value));
+    _isInWatchListFuture
+        .then((value) => setState(() => _isInWatchList = value));
   }
 
-  Widget _buildImageBox(context, movie) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        GestureDetector(
-          onTap: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => const VideoPlayerScreen(
-            //       videoUrl: "https://www.youtube.com/watch?v=Jvurpf91omw",
-            //     ),
-            //   ),
-            // );
-          },
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height * 0.3,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              image: DecorationImage(
-                image: CachedNetworkImageProvider(movie.imagePath),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                      size: 28,
-                    ),
-                  ),
-                ),
-                // Center(
-                //   child: Column(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     children: const [
-                //       Icon(
-                //         Icons.play_arrow_rounded,
-                //         color: Colors.white,
-                //         size: 100,
-                //       ),
-                //       /* play trailer */
-                //       Text(
-                //         "Play Trailer",
-                //         style: TextStyle(
-                //           color: Colors.white,
-                //           fontSize: 20,
-                //           fontWeight: FontWeight.w500,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDraggableScrollableSheet(context, movie) {
+  @override
+  Widget build(BuildContext context) {
     return DraggableScrollableSheet(
       initialChildSize: 0.62,
       maxChildSize: 1,
@@ -354,9 +295,9 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.9,
+                            width: MediaQuery.of(context).size.width * 0.7,
                             child: Text(
-                              movie.title,
+                              widget.movie.title,
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 24,
@@ -365,32 +306,70 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
                             ),
                           ),
                           /* TODO: buttons are placeholder for now */
-                          // SizedBox(
-                          //   child: Row(
-                          //     children: [
-                          //       GestureDetector(
-                          //         onTap: () {
-                          //           /* add to favorite */
-                          //         },
-                          //         child: const Icon(
-                          //           Icons.favorite_border,
-                          //           color: Colors.white,
-                          //           size: 28,
-                          //         ),
-                          //       ),
-                          //       GestureDetector(
-                          //         onTap: () {
-                          //           /* add to watchlist */
-                          //         },
-                          //         child: const Icon(
-                          //           Icons.bookmark_border,
-                          //           color: Colors.white,
-                          //           size: 30,
-                          //         ),
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
+                          SizedBox(
+                            child: Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    _isFavorite
+                                        ? _databaseService.removeFromFavorites(
+                                            FirebaseAuth
+                                                .instance.currentUser!.uid,
+                                            widget.movie.id)
+                                        : _databaseService.addToFavorites(
+                                            FirebaseAuth
+                                                .instance.currentUser!.uid,
+                                            widget.movie.id,
+                                            widget.movie.title,
+                                            widget.movie.imagePath);
+                                    setState(() {
+                                      _isFavorite = !_isFavorite;
+                                    });
+                                  },
+                                  child: _isFavorite
+                                      ? const Icon(
+                                          Icons.favorite,
+                                          color: Colors.red,
+                                          size: 28,
+                                        )
+                                      : const Icon(
+                                          Icons.favorite_border,
+                                          color: Colors.white,
+                                          size: 28,
+                                        ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    _isInWatchList
+                                        ? _databaseService.removeFromWatchlist(
+                                            FirebaseAuth
+                                                .instance.currentUser!.uid,
+                                            widget.movie.id)
+                                        : _databaseService.addToWatchlist(
+                                            FirebaseAuth
+                                                .instance.currentUser!.uid,
+                                            widget.movie.id,
+                                            widget.movie.title,
+                                            widget.movie.imagePath);
+                                    setState(() {
+                                      _isInWatchList = !_isInWatchList;
+                                    });
+                                  },
+                                  child: _isInWatchList
+                                      ? const Icon(
+                                          Icons.bookmark,
+                                          color: Colors.white,
+                                          size: 30,
+                                        )
+                                      : const Icon(
+                                          Icons.bookmark_border,
+                                          color: Colors.white,
+                                          size: 30,
+                                        ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -404,9 +383,9 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.9,
                             child: Text(
-                              movie.duration == Duration(minutes: 0)
-                                  ? '${movie.category} • ${movie.year}'
-                                  : '${movie.duration.inHours}h ${movie.duration.inMinutes.remainder(60)} • ${movie.category} • ${movie.year}',
+                              widget.movie.duration == Duration(minutes: 0)
+                                  ? '${widget.movie.category} • ${widget.movie.year}'
+                                  : '${widget.movie.duration.inHours}h ${widget.movie.duration.inMinutes.remainder(60)} • ${widget.movie.category} • ${widget.movie.year}',
                               style: TextStyle(
                                 color: Colors.grey.shade400,
                                 fontSize: 16,
@@ -460,7 +439,7 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    movie.imdbRating,
+                                    widget.movie.imdbRating,
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
@@ -499,7 +478,7 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    movie.ranking,
+                                    widget.movie.ranking,
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
@@ -558,7 +537,7 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
                   padding:
                       const EdgeInsets.only(top: 14.0, left: 18, right: 18),
                   child: ReadMoreText(
-                    movie.plot,
+                    widget.movie.plot,
                     trimLines: 3,
                     colorClickableText: Colors.white,
                     trimMode: TrimMode.Line,
@@ -588,8 +567,8 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 72.0),
       child: FutureBuilder<List<Comment>>(
-        key: Key(widget.id),
-        future: _databaseService.getComments(widget.id),
+        key: Key(widget.movie.id),
+        future: _databaseService.getComments(widget.movie.id),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(

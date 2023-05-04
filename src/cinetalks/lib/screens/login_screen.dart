@@ -1,29 +1,30 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:cinetalks/database_service/authentication_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../main.dart';
-import 'signup_widget.dart';
+import 'signup_screen.dart';
 
-class LoginWidget extends StatefulWidget {
-  const LoginWidget({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<LoginWidget> createState() => _LoginWidgetState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginWidgetState extends State<LoginWidget> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+class _LoginScreenState extends State<LoginScreen> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   String? _emailError = null;
   String? _passwordError = null;
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -53,7 +54,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   child: TextField(
                     key: const Key("emailField"),
                     expands: false,
-                    controller: emailController,
+                    controller: _emailController,
                     cursorColor: Colors.white.withOpacity(0.5),
                     style: TextStyle(
                       color: Colors.white.withOpacity(0.5),
@@ -95,15 +96,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                     },
                   ),
                 ),
-                // SizedBox(
-                //   height: MediaQuery.of(context).size.height * 0.015,
-                // ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.09,
                   child: TextField(
                     key: const Key("passwordRegisterField"),
                     expands: false,
-                    controller: passwordController,
+                    controller: _passwordController,
                     obscureText: true,
                     style: TextStyle(
                       color: Colors.white.withOpacity(0.5),
@@ -146,9 +144,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                     },
                   ),
                 ),
-                // SizedBox(
-                //   height: MediaQuery.of(context).size.height * 0.015,
-                // ),
+
                 /* Login button on the right side */
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -187,15 +183,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                     ),
                     ElevatedButton(
                       key: const Key("SignUp"),
-                      // onPressed: () => navigatorKey.currentState!.push(
-                      //   MaterialPageRoute(
-                      //     builder: (context) => SignUpWidget(),
-                      //   ),
-                      // ),
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SignUpWidget(),
+                          builder: (context) => SignUpScreen(),
                         ),
                       ),
                       child: Text(
@@ -221,12 +212,12 @@ class _LoginWidgetState extends State<LoginWidget> {
       );
 
   Future<void> signIn() async {
-    if (emailController.text.isEmpty) {
+    if (_emailController.text.isEmpty) {
       setState(() {
         _emailError = "Email cannot be empty";
       });
       return;
-    } else if (passwordController.text.isEmpty) {
+    } else if (_passwordController.text.isEmpty) {
       setState(() {
         _passwordError = "Password cannot be empty";
       });
@@ -235,8 +226,8 @@ class _LoginWidgetState extends State<LoginWidget> {
 
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
       );
       navigatorKey.currentState!.popUntil((route) => route.isFirst);
     } on FirebaseAuthException catch (e) {
