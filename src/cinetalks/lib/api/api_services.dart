@@ -6,7 +6,7 @@ import '../models/movie_model.dart';
 
 Future<List<Movie>> fetchInTheaters() async {
   final response = await http.get(
-    Uri.parse('https://imdb-api.com/en/API/InTheaters/k_mgeyovhl'),
+    Uri.parse('https://imdb-api.com/en/API/InTheaters/k_sl0727cr'),
   );
 
   if (response.statusCode == 200) {
@@ -37,7 +37,7 @@ Future<List<Movie>> fetchInTheaters() async {
 
 Future<List<Movie>> fetchTop250Movies() async {
   final response = await http.get(
-    Uri.parse('https://imdb-api.com/en/API/Top250Movies/k_mgeyovhl'),
+    Uri.parse('https://imdb-api.com/en/API/Top250Movies/k_sl0727cr'),
   );
 
   if (response.statusCode == 200) {
@@ -68,7 +68,7 @@ Future<List<Movie>> fetchTop250Movies() async {
 
 Future<List<Movie>> fetchTop250TvShows() async {
   final response = await http.get(
-    Uri.parse('https://imdb-api.com/en/API/Top250TVs/k_mgeyovhl'),
+    Uri.parse('https://imdb-api.com/en/API/Top250TVs/k_sl0727cr'),
   );
 
   if (response.statusCode == 200) {
@@ -109,7 +109,7 @@ Future<List<Movie>> fetchYoutubeTrailer(String id) async {
 
 Future<Movie> fetchMovieTvShowDetails(String id) async {
   final response = await http.get(
-    Uri.parse('https://imdb-api.com/en/API/Title/k_mgeyovhl/$id'),
+    Uri.parse('https://imdb-api.com/en/API/Title/k_sl0727crc/$id'),
   );
 
   if (response.statusCode == 200) {

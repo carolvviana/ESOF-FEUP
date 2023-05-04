@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cinetalks/screens/all_movies_page.dart';
 import 'package:flutter/material.dart';
 import '../api/api_services.dart';
 import '../movie_app_icons_icons.dart';
@@ -57,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
-          ..._buildBackground(),
+          //..._buildBackground(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -97,29 +98,48 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      // TextButton(
-                      //   onPressed: () {},
-                      //   child: const Text(
-                      //     "See All",
-                      //     style: TextStyle(
-                      //       color: Color(0xff2594f7),
-                      //       fontSize: 14,
-                      //       fontWeight: FontWeight.bold,
-                      //     ),
-                      //   ),
-                      // ),
+                      TextButton(
+                        onPressed: () async {
+                          List<Movie>? movies = await fetchTop250Movies();
+                          if (movies != null) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AllMoviesPage(movies: movies),
+                              ),
+                            );
+                          } else {
+                            // handle error or show a message to the user
+                          }
+                        },
+                        child: const Text(
+                          "See All",
+                          style: TextStyle(
+                            color: Color(0xff2594f7),
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
-              FutureBuilder(
+              FutureBuilder<List<Movie>>(
                 future: fetchTop250Movies(),
-                builder: (context, AsyncSnapshot<List<Movie>> snapshot) {
+                builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return HorizontalScrollList(
                       boxWidth: MediaQuery.of(context).size.width * 0.28,
                       boxHeight: MediaQuery.of(context).size.height * 0.19,
                       items: snapshot.data!,
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        "An error occurred: ${snapshot.error}",
+                        style: TextStyle(color: Colors.red),
+                      ),
                     );
                   } else {
                     return const Center(child: CircularProgressIndicator());
@@ -278,7 +298,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ],
     );
   }
-
+/*
   /* Animates when _currentIndex changes */
   List<Widget> _buildBackground() {
     return <Widget>[
@@ -319,6 +339,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     ];
   }
+
+ */
 
   Widget _carouselSlider(List<Movie> data) {
     return CarouselSlider.builder(
