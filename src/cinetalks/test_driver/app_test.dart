@@ -3,6 +3,8 @@ import 'package:gherkin/gherkin.dart';
 import 'package:glob/glob.dart';
 import 'steps/then_tap_button.dart';
 import 'steps/on_page_step.dart';
+import 'steps/is_displayed_step.dart';
+import 'steps/scroll_step.dart';
 
 Future<void> main() {
   final config = FlutterTestConfiguration()
@@ -12,9 +14,10 @@ Future<void> main() {
       TestRunSummaryReporter(),
       JsonReporter(path: './test_report.json')
     ]
-    ..stepDefinitions = [GivenPage(),ThenPage(), thenTapButton()]
+    ..stepDefinitions = [GivenPage(),ThenPage(), thenTapButton(), displayed(), whenScroll()]
     ..customStepParameterDefinitions = []
     ..restartAppBetweenScenarios = true
     ..targetAppPath = 'test_driver/app.dart';
-  return GherkinRunner().execute(config);
-}
+    
+    return GherkinRunner().execute(config);
+  }
