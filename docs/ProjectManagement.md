@@ -50,3 +50,16 @@ Testing with Gherkin is still a bit confusing.
 
 ## Iteration 3 Sprint Planning
 ![image](https://user-images.githubusercontent.com/92639425/236264398-2be89824-f4a9-4a2b-b4e4-dba6c0a86c39.png)
+
+## Iteration 3 Retrospective
+### What went well?
+Reply to comments feature was easier to implement than expected. We also changed the API...
+
+### What didn't go so well?
+...
+
+### What have we learned?
+...
+
+### What still puzzles us?
+...
