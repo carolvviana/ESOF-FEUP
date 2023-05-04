@@ -1,5 +1,13 @@
 TO-DO:
+- adicionar wishlist e watchedlist
+- pesquisar filmes
+- replies a comentários
 
+done (escrito):
+- logout
+
+done traduzido:
+- go back to previous page - cenario 1
 
 Feature: Go back to previous page
 
@@ -7,6 +15,7 @@ Feature: Go back to previous page
     I want to go back to previous page
     so that I continue what I was doing
 
+#DONE
 Scenario: Go back from Movie Page to Home Page
 Given I am on the "MoviePage" page
 When I tap the back button

@@ -1,3 +1,4 @@
+#DONE
 Feature: Creating Account
 
   User story:

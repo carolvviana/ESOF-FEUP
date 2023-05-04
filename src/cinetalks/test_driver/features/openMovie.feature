@@ -1,3 +1,4 @@
+#DONE
 Feature: Open movie/TV show page
 
   As a user,
