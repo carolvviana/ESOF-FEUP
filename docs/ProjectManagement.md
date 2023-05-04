@@ -49,4 +49,4 @@ We learned how to get and set data on the firebase database and a little bit of 
 Testing with Gherkin is still a bit confusing.
 
 ## Iteration 3 Sprint Planning
-![image](images/Iteration3_Backlog.jpg)
+![image](https://user-images.githubusercontent.com/92639425/236264398-2be89824-f4a9-4a2b-b4e4-dba6c0a86c39.png)
