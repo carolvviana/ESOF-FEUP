@@ -1,22 +1,17 @@
-import 'dart:ui';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinetalks/api/api_services.dart';
+import 'package:cinetalks/widgets/movie_aspect_widgets.dart';
 import 'package:flutter/material.dart';
-
 import '../models/movie_model.dart';
-// import '../widgets/video_player.dart';
-// import '../movie_app_icons_icons.dart';
-
 import '../database_service/app_database.dart';
 import 'package:readmore/readmore.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
+
+FocusNode commentFocusNode = FocusNode();
+bool isReply = false;
+late Comment currentComment;
 
 class MovieShowScreen extends StatefulWidget {
   final String id;
-
-  String? _commentError = null;
 
   MovieShowScreen({Key? key, required this.id}) : super(key: key);
 
@@ -27,24 +22,25 @@ class MovieShowScreen extends StatefulWidget {
 class _MovieShowScreenState extends State<MovieShowScreen> {
   final AppDatabase _databaseService = AppDatabase();
   TextEditingController _commentController = TextEditingController();
+  String? _commentError = null;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       key: Key(widget.id),
-      future: fetchMovieTvShowDetails(widget.id),
-      builder: (context, snapshot) {
+      future: fetchDetails(widget.id),
+      builder: (context, AsyncSnapshot<Movie> snapshot) {
         if (snapshot.hasData) {
           return Scaffold(
             backgroundColor: const Color(0xff2a2a2a),
             body: Stack(
               children: [
-                _buildBackground(context, snapshot.data as Movie),
+                BuildMovieImageBackground(movie: snapshot.data as Movie),
                 Padding(
                   padding: const EdgeInsets.only(top: 48.0),
-                  child: _buildImageBox(context, snapshot.data as Movie),
+                  child: BuildMovieImage(movie: snapshot.data as Movie),
                 ),
-                _buildDraggableScrollableSheet(context, snapshot.data as Movie),
+                _DraggableScrollableSheet(movie: snapshot.data as Movie),
                 Positioned(
                   bottom: 0,
                   child: _bottomCommentBar(context),
@@ -53,7 +49,10 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
             ),
           );
         } else {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+              child: CircularProgressIndicator(
+            color: const Color(0xff2a2a2a),
+          ));
         }
       },
     );
@@ -74,43 +73,81 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          focusNode: commentFocusNode,
           style: TextStyle(
-            color: Colors.white.withOpacity(0.5),
+            color: Colors.white,
             fontSize: 16,
           ),
           controller: _commentController,
-          onSubmitted: (_) {
+          onSubmitted: (_) async {
             if (_commentController.text.isNotEmpty) {
-              _databaseService.writeNewComment(
-                  FirebaseAuth.instance.currentUser!.uid,
-                  widget.id,
-                  _commentController.text);
+              if (!isReply) {
+                String username = await _databaseService
+                    .getUsername(FirebaseAuth.instance.currentUser!.uid);
+                _databaseService.writeNewComment(
+                    widget.id,
+                    Comment(username, _commentController.text),
+                    FirebaseAuth.instance.currentUser!.uid);
+              } else {
+                _databaseService.replyToComment(
+                    widget.id,
+                    currentComment,
+                    Reply(FirebaseAuth.instance.currentUser!.uid,
+                        _commentController.text));
+
+                setState(() {
+                  isReply = false;
+                });
+              }
             } else {
               setState(() {
-                widget._commentError = 'Comment cannot be empty';
+                _commentError = isReply
+                    ? 'Reply cannot be empty'
+                    : 'Comment cannot be empty';
               });
               Future.delayed(Duration(seconds: 3), () {
                 setState(() {
-                  widget._commentError = null;
+                  _commentError = null;
+                  isReply = false;
                 });
               });
             }
+
+            FocusScope.of(context).unfocus();
+            _commentController.clear();
           },
           decoration: InputDecoration(
             suffixIcon: IconButton(
-              onPressed: () {
+              onPressed: () async {
                 if (_commentController.text.isNotEmpty) {
-                  _databaseService.writeNewComment(
-                      FirebaseAuth.instance.currentUser!.uid,
-                      widget.id,
-                      _commentController.text);
+                  if (!isReply) {
+                    String username = await _databaseService
+                        .getUsername(FirebaseAuth.instance.currentUser!.uid);
+                    _databaseService.writeNewComment(
+                        widget.id,
+                        Comment(username, _commentController.text),
+                        FirebaseAuth.instance.currentUser!.uid);
+                  } else {
+                    _databaseService.replyToComment(
+                        widget.id,
+                        currentComment,
+                        Reply(FirebaseAuth.instance.currentUser!.uid,
+                            _commentController.text));
+
+                    setState(() {
+                      isReply = false;
+                    });
+                  }
                 } else {
                   setState(() {
-                    widget._commentError = 'Comment cannot be empty';
+                    _commentError = isReply
+                        ? 'Reply cannot be empty'
+                        : 'Comment cannot be empty';
                   });
                   Future.delayed(Duration(seconds: 3), () {
                     setState(() {
-                      widget._commentError = null;
+                      _commentError = null;
+                      isReply = false;
                     });
                   });
                 }
@@ -133,9 +170,9 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide.none,
             ),
-            hintText: 'Add a comment...',
+            hintText: isReply ? 'Add a reply...' : 'Add a comment...',
             hintStyle: TextStyle(
-              color: Colors.white.withOpacity(0.5),
+              color: Colors.white.withOpacity(0.6),
               fontSize: 16,
             ),
             contentPadding: const EdgeInsets.only(
@@ -157,110 +194,59 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
                 width: 2,
               ),
             ),
-            errorText: widget._commentError,
+            errorText: _commentError,
             errorStyle: const TextStyle(
               color: Colors.red,
               fontSize: 12,
             ),
           ),
-          onChanged: (value) {
+          onChanged: (_) {
             setState(() {
-              widget._commentError = null;
+              _commentError = null;
             });
           },
         ),
       ),
     );
   }
+}
 
-  Widget _buildBackground(context, movie) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: CachedNetworkImageProvider(movie.imagePath),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
-        child: Container(
-          color: const Color(0xff2a2a2a).withOpacity(0.0),
-        ),
-      ),
+class _DraggableScrollableSheet extends StatefulWidget {
+  final Movie movie;
+
+  const _DraggableScrollableSheet({Key? key, required this.movie})
+      : super(key: key);
+
+  @override
+  State<_DraggableScrollableSheet> createState() =>
+      __DraggableScrollableSheetState();
+}
+
+class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
+  final AppDatabase _databaseService = AppDatabase();
+  late Future<bool> _isFavoriteFuture;
+  late Future<bool> _isInWatchListFuture;
+  bool _isFavorite = false;
+  bool _isInWatchList = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _isFavoriteFuture = _databaseService.isFavorite(
+      FirebaseAuth.instance.currentUser!.uid,
+      widget.movie.id,
     );
+    _isInWatchListFuture = _databaseService.isInWatchlist(
+      FirebaseAuth.instance.currentUser!.uid,
+      widget.movie.id,
+    );
+    _isFavoriteFuture.then((value) => setState(() => _isFavorite = value));
+    _isInWatchListFuture
+        .then((value) => setState(() => _isInWatchList = value));
   }
 
-  Widget _buildImageBox(context, movie) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        GestureDetector(
-          onTap: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => const VideoPlayerScreen(
-            //       videoUrl: "https://www.youtube.com/watch?v=Jvurpf91omw",
-            //     ),
-            //   ),
-            // );
-          },
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height * 0.3,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              image: DecorationImage(
-                image: CachedNetworkImageProvider(movie.imagePath),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                      size: 28,
-                    ),
-                  ),
-                ),
-                // Center(
-                //   child: Column(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     children: const [
-                //       Icon(
-                //         Icons.play_arrow_rounded,
-                //         color: Colors.white,
-                //         size: 100,
-                //       ),
-                //       /* play trailer */
-                //       Text(
-                //         "Play Trailer",
-                //         style: TextStyle(
-                //           color: Colors.white,
-                //           fontSize: 20,
-                //           fontWeight: FontWeight.w500,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDraggableScrollableSheet(context, movie) {
+  @override
+  Widget build(BuildContext context) {
     return DraggableScrollableSheet(
       initialChildSize: 0.62,
       maxChildSize: 1,
@@ -308,41 +294,82 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            movie.title,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w500,
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            child: Text(
+                              widget.movie.title,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                           /* TODO: buttons are placeholder for now */
-                          // SizedBox(
-                          //   child: Row(
-                          //     children: [
-                          //       GestureDetector(
-                          //         onTap: () {
-                          //           /* add to favorite */
-                          //         },
-                          //         child: const Icon(
-                          //           Icons.favorite_border,
-                          //           color: Colors.white,
-                          //           size: 28,
-                          //         ),
-                          //       ),
-                          //       GestureDetector(
-                          //         onTap: () {
-                          //           /* add to watchlist */
-                          //         },
-                          //         child: const Icon(
-                          //           Icons.bookmark_border,
-                          //           color: Colors.white,
-                          //           size: 30,
-                          //         ),
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
+                          SizedBox(
+                            child: Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    _isFavorite
+                                        ? _databaseService.removeFromFavorites(
+                                            FirebaseAuth
+                                                .instance.currentUser!.uid,
+                                            widget.movie.id)
+                                        : _databaseService.addToFavorites(
+                                            FirebaseAuth
+                                                .instance.currentUser!.uid,
+                                            widget.movie.id,
+                                            widget.movie.title,
+                                            widget.movie.imagePath);
+                                    setState(() {
+                                      _isFavorite = !_isFavorite;
+                                    });
+                                  },
+                                  child: _isFavorite
+                                      ? const Icon(
+                                          Icons.favorite,
+                                          color: Colors.red,
+                                          size: 28,
+                                        )
+                                      : const Icon(
+                                          Icons.favorite_border,
+                                          color: Colors.white,
+                                          size: 28,
+                                        ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    _isInWatchList
+                                        ? _databaseService.removeFromWatchlist(
+                                            FirebaseAuth
+                                                .instance.currentUser!.uid,
+                                            widget.movie.id)
+                                        : _databaseService.addToWatchlist(
+                                            FirebaseAuth
+                                                .instance.currentUser!.uid,
+                                            widget.movie.id,
+                                            widget.movie.title,
+                                            widget.movie.imagePath);
+                                    setState(() {
+                                      _isInWatchList = !_isInWatchList;
+                                    });
+                                  },
+                                  child: _isInWatchList
+                                      ? const Icon(
+                                          Icons.bookmark,
+                                          color: Colors.white,
+                                          size: 30,
+                                        )
+                                      : const Icon(
+                                          Icons.bookmark_border,
+                                          color: Colors.white,
+                                          size: 30,
+                                        ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -353,14 +380,17 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            movie.duration == Duration(minutes: 0)
-                                ? '${movie.category} • ${movie.year}'
-                                : '${movie.duration.inHours}h ${movie.duration.inMinutes.remainder(60)} • ${movie.category} • ${movie.year}',
-                            style: TextStyle(
-                              color: Colors.grey.shade400,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            child: Text(
+                              widget.movie.duration == Duration(minutes: 0)
+                                  ? '${widget.movie.category} • ${widget.movie.year}'
+                                  : '${widget.movie.duration.inHours}h ${widget.movie.duration.inMinutes.remainder(60)} • ${widget.movie.category} • ${widget.movie.year}',
+                              style: TextStyle(
+                                color: Colors.grey.shade400,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ],
@@ -409,7 +439,7 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    movie.imdbRating,
+                                    widget.movie.imdbRating,
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
@@ -429,45 +459,37 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
                             ],
                           ),
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.all(8.0),
-                        //   child: Column(
-                        //     mainAxisAlignment: MainAxisAlignment.center,
-                        //     children: [
-                        //       const Text(
-                        //         "Rotten Tomatoes",
-                        //         style: TextStyle(
-                        //             color: Colors.white,
-                        //             fontSize: 18,
-                        //             fontWeight: FontWeight.w500),
-                        //       ),
-                        //       const SizedBox(
-                        //         height: 4,
-                        //       ),
-                        //       Row(
-                        //         crossAxisAlignment: CrossAxisAlignment.end,
-                        //         children: [
-                        //           const Text(
-                        //             "85",
-                        //             style: TextStyle(
-                        //               color: Colors.white,
-                        //               fontSize: 16,
-                        //               fontWeight: FontWeight.w500,
-                        //             ),
-                        //           ),
-                        //           Text(
-                        //             "%",
-                        //             style: TextStyle(
-                        //               color: Colors.grey.shade400,
-                        //               fontSize: 14,
-                        //               fontWeight: FontWeight.w500,
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       )
-                        //     ],
-                        //   ),
-                        // ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "Popularity",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    widget.movie.ranking,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
                         // Padding(
                         //   padding: const EdgeInsets.all(8.0),
                         //   child: Column(
@@ -515,7 +537,7 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
                   padding:
                       const EdgeInsets.only(top: 14.0, left: 18, right: 18),
                   child: ReadMoreText(
-                    movie.plot,
+                    widget.movie.plot,
                     trimLines: 3,
                     colorClickableText: Colors.white,
                     trimMode: TrimMode.Line,
@@ -543,86 +565,142 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
 
   Widget _buildCommentSection(context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 60.0),
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.9,
-        child: FutureBuilder<List<Map<dynamic, dynamic>>>(
-          key: Key(widget.id),
-          future: _databaseService.getComments(widget.id),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+      padding: const EdgeInsets.only(bottom: 72.0),
+      child: FutureBuilder<List<Comment>>(
+        key: Key(widget.movie.id),
+        future: _databaseService.getComments(widget.movie.id),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
-            final comments = snapshot.data!;
+          List<Comment> comments = snapshot.data!;
 
-            return Container(
-              child: Column(
-                children: [
-                  for (var comment in comments)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 12.0,
-                                  right: 12.0,
-                                  top: 4.0,
-                                  bottom: 4.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+          if (comments.length > 0) {
+            return Column(
+              children: [
+                for (Comment comment in comments)
+                  Container(
+                    margin: EdgeInsets.only(top: 8.0),
+                    padding: EdgeInsets.only(left: 12.0, top: 8.0, bottom: 8.0),
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.95,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.75,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Column(
+                                  Text(
+                                    comment.username,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  Text(
+                                    comment.text,
+                                    style: TextStyle(
+                                        color: Colors.grey.shade400,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                              child: IconButton(
+                                onPressed: () {
+                                  //open the keyboard to start typing on the comment box
+                                  FocusScope.of(context)
+                                      .requestFocus(commentFocusNode);
+                                  setState(() {
+                                    isReply = true;
+                                    currentComment = comment;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.reply,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        for (Reply reply in comment.replies)
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 8.0,
+                              top: 8.0,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.chat_bubble_outline_rounded,
+                                  color: Colors.white.withOpacity(0.5),
+                                  size: 20,
+                                ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.765,
+                                  child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        comment['user'],
+                                        reply.username,
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 16,
+                                            fontSize: 15,
                                             fontWeight: FontWeight.w500),
                                       ),
                                       Text(
-                                        comment['comment'],
+                                        reply.text,
                                         style: TextStyle(
                                             color: Colors.grey.shade400,
-                                            fontSize: 16,
+                                            fontSize: 15,
                                             fontWeight: FontWeight.w500),
                                       ),
                                     ],
                                   ),
-                                  //reply button
-                                  // IconButton(
-                                  //   onPressed: () {},
-                                  //   icon: Icon(
-                                  //     Icons.reply,
-                                  //     color: Colors.white,
-                                  //     size: 20,
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          )
-                        ],
-                      ),
-                    )
-                ],
+                          ),
+                      ],
+                    ),
+                  ),
+              ],
+            );
+          } else {
+            return Center(
+              child: Text(
+                "No comments yet",
+                style: TextStyle(
+                  color: Colors.grey.shade400,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             );
-          },
-        ),
+          }
+        },
       ),
     );
   }

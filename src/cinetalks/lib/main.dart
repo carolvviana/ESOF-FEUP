@@ -1,5 +1,6 @@
-import 'package:cinetalks/widgets/login_widget.dart';
-import 'package:cinetalks/widgets/signup_widget.dart';
+import 'package:cinetalks/api/api_services.dart';
+import 'package:cinetalks/screens/login_screen.dart';
+import 'package:cinetalks/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'screens/home_screen.dart';
@@ -54,7 +55,7 @@ class MainPage extends StatelessWidget {
             } else if (snapshot.hasData) {
               return const HomeScreen();
             } else {
-              return const LoginWidget();
+              return const LoginScreen();
             }
           },
         ),

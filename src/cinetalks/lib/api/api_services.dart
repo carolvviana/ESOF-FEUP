@@ -1,8 +1,67 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:html/dom.dart' as dom;
 import 'search_parameters.dart';
 
 import '../models/movie_model.dart';
+
+// k_mgeyovhl guardar para aula
+
+//
+// k_ehiwsy71
+// k_8v04708r
+// k_1c995682
+Future<List<Map<String, dynamic>>> fetchTopMovies() async {
+  final response = await http.get(
+      Uri.parse('https://www.imdb.com/chart/top/?ref_=nv_mv_250'),
+      headers: {'Accept-Language': 'en'});
+
+  if (response.statusCode == 200) {
+    final htmlString = response.body;
+    final document = dom.Document.html(htmlString);
+
+    List<Map<String, dynamic>> metaList =
+        document.querySelectorAll('.posterColumn').map((element) {
+      final imagePath = element.querySelector('img')!.attributes['src']!;
+      return {
+        'id': element.querySelector('a')!.attributes['href']!.split('/')[2],
+        'title': element.querySelector('img')!.attributes['alt']!,
+        'imagePath':
+            '${imagePath.substring(0, imagePath.lastIndexOf('.', imagePath.lastIndexOf('.') - 1))}${imagePath.substring(imagePath.lastIndexOf('.'))}',
+      };
+    }).toList();
+
+    return metaList;
+  } else {
+    throw Exception('Failed to fetch top movies');
+  }
+}
+
+Future<List<Map<String, dynamic>>> fetchTopTVShows() async {
+  final response = await http.get(
+      Uri.parse('https://www.imdb.com/chart/toptv/?ref_=nv_tvv_250'),
+      headers: {'Accept-Language': 'en'});
+
+  if (response.statusCode == 200) {
+    final htmlString = response.body;
+    final document = dom.Document.html(htmlString);
+
+    List<Map<String, dynamic>> metaList =
+        document.querySelectorAll('.posterColumn').map((element) {
+      final imagePath = element.querySelector('img')!.attributes['src']!;
+      return {
+        'id': element.querySelector('a')!.attributes['href']!.split('/')[2],
+        'title': element.querySelector('img')!.attributes['alt']!,
+        'imagePath':
+            '${imagePath.substring(0, imagePath.lastIndexOf('.', imagePath.lastIndexOf('.') - 1))}${imagePath.substring(imagePath.lastIndexOf('.'))}',
+      };
+    }).toList();
+
+    return metaList;
+  } else {
+    throw Exception('Failed to fetch top movies');
+  }
+}
 
 Future<List<Movie>> fetchInTheaters() async {
   final response = await http.get(
@@ -18,15 +77,15 @@ Future<List<Movie>> fetchInTheaters() async {
 
     List<Movie> movies = moviesJson.map((movieJson) {
       return Movie(
-        id: movieJson['id'],
-        title: movieJson['title'],
-        year: int.parse(movieJson['year']),
-        imagePath: movieJson['image'],
-        category: movieJson['genres'],
-        duration: Duration(minutes: int.parse(movieJson['runtimeMins'])),
-        plot: "",
-        imdbRating: movieJson['imDbRating'],
-      );
+          id: movieJson['id'],
+          title: movieJson['title'],
+          year: int.parse(movieJson['year']),
+          imagePath: movieJson['image'],
+          category: movieJson['genres'],
+          duration: Duration(minutes: int.parse(movieJson['runtimeMins'])),
+          plot: "",
+          imdbRating: movieJson['imDbRating'],
+          ranking: '');
     }).toList();
 
     return movies;
@@ -34,8 +93,8 @@ Future<List<Movie>> fetchInTheaters() async {
     throw Exception('Failed to load In Theaters');
   }
 }
-
-Future<List<Movie>> fetchTop250Movies() async {
+/*
+Future<String> fetchYoutubeTrailer(String id) async {
   final response = await http.get(
     Uri.parse('https://imdb-api.com/en/API/Top250Movies/k_sl0727cr'),
   );
@@ -94,67 +153,76 @@ Future<List<Movie>> fetchTop250TvShows() async {
     throw Exception('Failed to load Top 250 TV Shows');
   }
 }
+*/
 
-Future<List<Movie>> fetchYoutubeTrailer(String id) async {
+Future<String> fetchYoutubeTrailer(String id) async {
   final response = await http.get(
-    Uri.parse('https://imdb-api.com/en/API/YoutubeTrailer/k_q8cbumjq/$id'),
+    Uri.parse('https://imdb-api.com/en/API/YoutubeTrailer/k_ehiwsyz71/$id'),
   );
 
   if (response.statusCode == 200) {
-    return jsonDecode(response.body);
+    return json.decode(response.body)['videoUrl'];
   } else {
     throw Exception('Failed to load Youtube Trailer');
   }
 }
 
-Future<Movie> fetchMovieTvShowDetails(String id) async {
-  final response = await http.get(
-    Uri.parse('https://imdb-api.com/en/API/Title/k_sl0727crc/$id'),
-  );
+
+Future<Movie> fetchDetails(String id) async {
+  final response = await http.get(Uri.parse('https://www.imdb.com/title/$id'),
+      headers: {'Accept-Language': 'en'});
 
   if (response.statusCode == 200) {
-    final data = json.decode(response.body);
+    final htmlString = response.body;
+    final document = dom.Document.html(htmlString);
+    final movieData = document.querySelector('#__NEXT_DATA__')!;
+    final movieJson = json.decode(movieData.innerHtml);
 
-    return Movie(
-      id: data['id'],
-      title: data['title'],
-      year: int.parse(data['year']),
-      imagePath: data['image'],
-      category: data['genres'],
-      duration: data['runtimeMins'] == null
-          ? Duration(minutes: 0)
-          : Duration(minutes: int.parse(data['runtimeMins'])),
-      //duration: data['runtimeMins'],
-      plot: data['plot'],
-      imdbRating: data['imDbRating'],
+    final jsonData = movieJson['props']['pageProps']['aboveTheFoldData'];
+    // print("HERE");
+    // print(jsonData['id'].toString());
+    // print(jsonData['originalTitleText']['text'].toString());
+    // print(jsonData['releaseYear']['year'].toInt());
+    // print(jsonData['primaryImage']['url'].toString());
+    // print(jsonData['genres']['genres']
+    //     .map((json) => json['text'])
+    //     .toList()
+    //     .join(', ')
+    //     .toString());
+    // print(Duration(seconds: jsonData['runtime']['seconds']));
+    // print(jsonData['plot']['plotText']['plainText'].toString());
+    // print(jsonData['ratingsSummary']['aggregateRating'].toString());
+    // print(jsonData['meterRanking']['currentRank'].toString());
+
+    Movie movie = Movie(
+      id: jsonData['id'].toString(),
+      title: jsonData['originalTitleText']['text'].toString(),
+      year: jsonData['releaseYear']['year'].toInt(),
+      imagePath: jsonData['primaryImage']['url'].toString(),
+      category: jsonData['genres']['genres']
+          .map((json) => json['text'])
+          .toList()
+          .join(', ')
+          .toString(),
+      duration: Duration(seconds: jsonData['runtime']['seconds']),
+      plot: jsonData['plot']['plotText']['plainText'].toString(),
+      imdbRating: jsonData['ratingsSummary']['aggregateRating'].toString(),
+      ranking: jsonData['meterRanking']['currentRank'].toString(),
     );
+
+    // print("movie");
+    // print(movie.id);
+    // print(movie.title);
+    // print(movie.year);
+    // print(movie.imagePath);
+    // print(movie.category);
+    // print(movie.duration);
+    // print(movie.plot);
+    // print(movie.imdbRating);
+    // print(movie.ranking);
+
+    return movie;
   } else {
-    throw Exception('Failed to load Movie/TV Show Details');
-  }
-}
-
-Future<List<Movie>> fetchRatings(String id) async {
-  final response = await http.get(
-    Uri.parse('https://imdb-api.com/en/API/UserRatings/k_q8cbumjq/$id'),
-  );
-
-  if (response.statusCode == 200) {
-    return jsonDecode(response.body);
-  } else {
-    throw Exception('Failed to load Rating');
-  }
-}
-
-Future<List<Movie>> fetchSearchResults(
-    SearchParameters searchParameters) async {
-  final response = await http.get(
-    Uri.parse(
-        'https://imdb-api.com/API/AdvancedSearch/k_q8cbumjq?title=${searchParameters.title}&title_type=${searchParameters.titleTypes.join(',')}&user_rating=,${searchParameters.userRating}&release_date=,${searchParameters.releaseDate}-01-01&genres=${searchParameters.genres.join(',')}&groups=${searchParameters.groups}&sort=${searchParameters.sort}'),
-  );
-
-  if (response.statusCode == 200) {
-    return jsonDecode(response.body);
-  } else {
-    throw Exception('Failed to load Search Results');
+    throw Exception('Failed to load Movie Details');
   }
 }
