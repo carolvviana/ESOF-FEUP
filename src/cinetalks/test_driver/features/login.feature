@@ -1,5 +1,5 @@
 #DONE
-Feature: Login 
+Feature: Login
 
   As a user,
   I want to login to my account
@@ -22,7 +22,7 @@ Feature: Login
     And I fill the "passwordRegisterField" field with "<Password>"
     And I tap the "Login" button
     Then I should be on the "LoginPage" page
-      # And A error message appears
+    # And A error message appears
     # password is wrong
     # account doesn't exist
     Examples:
@@ -34,4 +34,4 @@ Feature: Login
     Given I am on the "LoginPage" page
     When I tap the "Login" button
     Then I should be on the "LoginPage" page
-    # And A error message appears
+# And A error message appears

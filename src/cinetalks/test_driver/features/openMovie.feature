@@ -19,6 +19,6 @@ Feature: Open movie/TV show page
     When I tap the "<MovieCode>" button
     Then I should be on the "MoviePage" page
     Examples:
-      | MovieCode    |
-      | tt0111161    |
-      | tt0903747    |
+      | MovieCode |
+      | tt0111161 |
+      | tt0903747 |
