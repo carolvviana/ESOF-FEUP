@@ -6,6 +6,10 @@ Feature: Creating Account
   I want to create an account
   So that I can use the features of the app
 
+  Background: Going to register page
+    Given I am on the "LoginPage" page
+    And I tap the "SignUp" button
+
   Scenario: Changing to register page
     Given I am on the "LoginPage" page
     When I tap the "SignUp" button
