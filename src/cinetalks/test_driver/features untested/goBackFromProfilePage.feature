@@ -11,7 +11,7 @@ Feature: Go back from Movie Page to Home Page
     And I fill the "passwordRegisterField" field with "123456"
     And I tap the "Login" button
     And I pause for 10 seconds
-    And I tap the "profileButton" button 
+    And I tap the "ProfileButton" button 
 
 
 Scenario: Go back from Profile Page to Home Page
