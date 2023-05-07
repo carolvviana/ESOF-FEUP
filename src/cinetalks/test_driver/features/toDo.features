@@ -13,23 +13,6 @@ done (feature, background, cenario e steps):
 - Login 
 - register
 
-Feature: Go back to previous page
-
-    As a user, 
-    I want to go back to previous page
-    so that I continue what I was doing
-
-#DONE
-Scenario: Go back from Movie Page to Home Page
-Given I am on the "MoviePage" page
-When I tap the back button
-Then I should go to "HomePage" page
-
-Scenario: Go back from Profile Page to Home Page
-Given I am on the "ProfilePage" page
-When I tap the back button
-Then I should go to "HomePage" page
-
 ------------------------------------------
 
 Feature: Logout
