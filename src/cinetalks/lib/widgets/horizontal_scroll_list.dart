@@ -40,6 +40,7 @@ class HorizontalScrollList extends StatelessWidget {
                   padding:
                       const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0),
                   child: GestureDetector(
+                    key: Key(items[index]['id']),
                     onTap: () {
                       Navigator.push(
                         context,

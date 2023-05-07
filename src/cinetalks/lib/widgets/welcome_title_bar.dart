@@ -48,7 +48,7 @@ class WelcomeTitleBar extends StatelessWidget {
           ],
         ),
         GestureDetector(
-          key: const Key("profileButton"),
+          key: const Key("ProfileButton"),
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(

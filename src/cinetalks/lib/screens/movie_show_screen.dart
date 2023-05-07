@@ -1,7 +1,7 @@
 import 'package:cinetalks/api/api_services.dart';
 import 'package:cinetalks/widgets/movie_aspect_widgets.dart';
 import 'package:flutter/material.dart';
-import '../models/movie_model.dart';
+import 'package:cinetalks/models/movie_model.dart';
 import '../database_service/app_database.dart';
 import 'package:readmore/readmore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
