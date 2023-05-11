@@ -167,7 +167,6 @@ Future<String> fetchYoutubeTrailer(String id) async {
   }
 }
 
-
 Future<Movie> fetchDetails(String id) async {
   final response = await http.get(Uri.parse('https://www.imdb.com/title/$id'),
       headers: {'Accept-Language': 'en'});
@@ -211,7 +210,6 @@ Future<Movie> fetchDetails(String id) async {
     );
 
     return movie;
-
   } else {
     throw Exception('Failed to load Movie Details');
   }
