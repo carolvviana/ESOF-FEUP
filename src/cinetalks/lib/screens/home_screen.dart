@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       TextButton(
                         onPressed: () async {
-                          List<Movie>? movies = await fetchTop250Movies();
+                          List<Map<String, dynamic>> movies = await fetchTopMovies();
                           if (movies != null) {
                             Navigator.push(
                               context,
