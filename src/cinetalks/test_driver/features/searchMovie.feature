@@ -15,8 +15,8 @@ Feature: Search movie
     Scenario Outline: Search movie
         Given I am on the "SearchPage" page
         When I fill the "SearchBar" field with "<movieTitle>"
-        Then There is a "<M" displayed in the screen
-        Example:
+        Then There is a "<movieId>" displayed in the screen
+        Examples:
             | movieId   | movieTitle        |
             | tt0068646 | The Godfather     |
             | tt5491994 | Planet Earth II   |
