@@ -1,19 +1,24 @@
-import 'dart:ui';
+// import 'dart:ui';
 
+import 'package:cinetalks/screens/all_movies_page.dart';
 import 'package:flutter/material.dart';
 import '../api/api_services.dart';
 
+
 import '../models/movie_model.dart';
+
 import '../widgets/bottom_navbar.dart';
 import '../widgets/carousel_slider.dart';
 import '../widgets/welcome_title_bar.dart';
 
+// import 'movie_show_screen.dart';
 import '../widgets/horizontal_scroll_list.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import '../screens/search_screen.dart';
-import '../widgets/nav_bar_widget.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import '../screens/search_screen.dart';
+// import '../widgets/nav_bar_widget.dart';
 
-import '../database_service/app_database.dart';
+
+// import '../database_service/app_database.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -30,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
-          // ..._buildBackground(),
+          //..._buildBackground(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -70,17 +75,29 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      // TextButton(
-                      //   onPressed: () {},
-                      //   child: const Text(
-                      //     "See All",
-                      //     style: TextStyle(
-                      //       color: Color(0xff2594f7),
-                      //       fontSize: 14,
-                      //       fontWeight: FontWeight.bold,
-                      //     ),
-                      //   ),
-                      // ),
+                      TextButton(
+                        onPressed: () async {
+                          List<Map<String, dynamic>> movies = await fetchTopMovies();
+                          if (movies != null) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AllMoviesPage(movies: movies),
+                              ),
+                            );
+                          } else {
+                            // handle error or show a message to the user
+                          }
+                        },
+                        child: const Text(
+                          "See All",
+                          style: TextStyle(
+                            color: Color(0xff2594f7),
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -94,6 +111,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       boxWidth: MediaQuery.of(context).size.width * 0.28,
                       boxHeight: MediaQuery.of(context).size.height * 0.19,
                       items: snapshot.data!,
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        "An error occurred: ${snapshot.error}",
+                        style: TextStyle(color: Colors.red),
+                      ),
                     );
                   } else {
                     return const Center(child: CircularProgressIndicator());

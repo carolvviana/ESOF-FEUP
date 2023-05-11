@@ -1,3 +1,5 @@
+import 'package:cinetalks/screens/profile_screen.dart';
+import 'package:cinetalks/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../movie_app_icons_icons.dart';
@@ -9,6 +11,7 @@ class bottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: const Key('navbar'),
       height: 55.0,
       decoration: const BoxDecoration(
         border: Border(
@@ -22,16 +25,17 @@ class bottomNavigationBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           IconButton(
+            key: const Key('nav-HomeButton'),
             onPressed: () {
               /* push only if not already in page */
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (_) => const HomeScreen(),
-              //   ),
-              // )
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const HomeScreen(),
+                ),
+              );
 
-              print(ModalRoute.of(context)?.settings.name);
+              // print(ModalRoute.of(context)?.settings.name);
             },
             icon: const Icon(
               MovieAppIcons.home,
@@ -40,7 +44,16 @@ class bottomNavigationBar extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            key: const Key('nav-SearchButton'),
+            onPressed: () {
+              /* push only if not already in page */
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const SearchPage(),
+                ),
+              );
+            },
             icon: const Icon(
               MovieAppIcons.search,
               color: Colors.white,
@@ -48,7 +61,16 @@ class bottomNavigationBar extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            key: const Key('nav-ProfileButton'),
+            onPressed: () {
+              /* push only if not already in page */
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const ProfileScreen(),
+                ),
+              );
+            },
             icon: const Icon(
               MovieAppIcons.user,
               color: Colors.white,

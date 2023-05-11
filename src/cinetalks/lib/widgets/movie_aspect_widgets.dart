@@ -92,7 +92,7 @@ class _BuildMovieImageState extends State<BuildMovieImage> {
               children: [
                 Positioned(
                   child: IconButton(
-                    key: const Key("back_button"),
+                    key: const Key("BackButton"),
                     onPressed: () {
                       Navigator.pop(context);
                     },

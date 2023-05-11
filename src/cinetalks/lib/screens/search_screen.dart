@@ -11,6 +11,8 @@ import '../widgets/vertical_scroll_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../widgets/search_bar_widget.dart';
 import '../widgets/nav_bar_widget.dart';
+import '../widgets/bottom_navbar.dart';
+
 
 import '../database_service/app_database.dart';
 
@@ -37,6 +39,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: const Key('SearchPage'),
         backgroundColor: const Color(0xff2a2a2a),
         extendBodyBehindAppBar: true,
         body: Column(
@@ -121,6 +124,6 @@ class _SearchPageState extends State<SearchPage> {
                   )
           ],
         ),
-        bottomNavigationBar: MyBottomNavigationBar());
+        bottomNavigationBar: bottomNavigationBar());
   }
 }

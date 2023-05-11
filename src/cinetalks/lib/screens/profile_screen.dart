@@ -54,6 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
+                        key: const Key("BackButton"),
                         onPressed: () {
                           Navigator.pop(context);
                         },
@@ -64,8 +65,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       IconButton(
+                        key: const Key("LogoutButton"),
                         onPressed: () {
                           FirebaseAuth.instance.signOut();
+                          Navigator.pop(context);
                         },
                         icon: const Icon(
                           Icons.logout,

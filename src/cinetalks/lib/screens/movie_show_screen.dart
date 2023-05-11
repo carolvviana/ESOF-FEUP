@@ -73,6 +73,7 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          key: const Key("commentField"),
           focusNode: commentFocusNode,
           style: TextStyle(
             color: Colors.white,
@@ -118,6 +119,7 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
           },
           decoration: InputDecoration(
             suffixIcon: IconButton(
+              key: const Key("AddComment"),
               onPressed: () async {
                 if (_commentController.text.isNotEmpty) {
                   if (!isReply) {
@@ -623,6 +625,7 @@ class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
                             SizedBox(
                               height: 20,
                               child: IconButton(
+                                key: const Key("ReplyButton"),
                                 onPressed: () {
                                   //open the keyboard to start typing on the comment box
                                   FocusScope.of(context)
