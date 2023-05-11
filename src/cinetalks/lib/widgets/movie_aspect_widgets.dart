@@ -1,12 +1,9 @@
 import 'dart:ui';
 
 import 'package:cinetalks/api/api_services.dart';
-import 'package:cinetalks/database_service/app_database.dart';
 import 'package:cinetalks/models/movie_model.dart';
 import 'package:cinetalks/widgets/video_player.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class BuildMovieImageBackground extends StatefulWidget {
@@ -75,6 +72,7 @@ class _BuildMovieImageState extends State<BuildMovieImage> {
                   builder: (context) => VideoPlayerScreen(
                     videoUrl: _trailerUrl,
                   ),
+                  settings: RouteSettings(name: "/trailer"),
                 ),
               );
           },

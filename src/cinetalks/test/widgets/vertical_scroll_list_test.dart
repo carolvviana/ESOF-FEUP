@@ -1,4 +1,5 @@
 import 'package:cinetalks/models/movie_model.dart';
+import 'package:cinetalks/screens/movie_show_screen.dart';
 import 'package:cinetalks/widgets/vertical_scroll_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -74,7 +75,23 @@ void main() {
     await tester.tap(find.byKey(Key('1')));
     await tester.pumpAndSettle();
 
-    // verify(mockObserver.didPush(route, previousRoute));
+    Route<dynamic> route = MaterialPageRoute(builder: (context) => MovieShowScreen(id: items[0].id));
+    Route<dynamic>? previousRoute = null;
+    verify(mockObserver.didPush(route, previousRoute)).called(1);
+
+    // await tester.tap(find.byKey(Key('2')));
+    // await tester.pumpAndSettle();
+
+    // route = MaterialPageRoute(builder: (context) => MovieShowScreen(id: items[1].id));
+    // previousRoute = MaterialPageRoute(builder: (context) => MovieShowScreen(id: items[0].id));
+    // verify(mockObserver.didPush(route, previousRoute)).called(1);
+
+    // await tester.tap(find.byKey(Key('3')));
+    // await tester.pumpAndSettle();
+
+    // route = MaterialPageRoute(builder: (context) => MovieShowScreen(id: items[2].id));
+    // previousRoute = MaterialPageRoute(builder: (context) => MovieShowScreen(id: items[1].id));
+    // verify(mockObserver.didPush(route, previousRoute)).called(1);
   }); 
 }
 

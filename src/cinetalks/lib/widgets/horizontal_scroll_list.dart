@@ -47,6 +47,7 @@ class HorizontalScrollList extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (_) =>
                               MovieShowScreen(id: items[index]['id']),
+                              settings: RouteSettings(name: '/movie'),
                         ),
                       );
                     },

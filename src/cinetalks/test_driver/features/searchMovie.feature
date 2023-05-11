@@ -10,12 +10,13 @@ Feature: Search movie
         And I fill the "passwordRegisterField" field with "123456"
         And I tap the "Login" button
         And I pause for 10 seconds
-        And I tap the "navbarsearchbutton" button
+        And I tap the "nav-SearchButton" button
 
-    Scenario: Search movie
+    Scenario Outline: Search movie
         Given I am on the "SearchPage" page
-        When I fill the "searchField" field with "The Godfather"
-        And I tap the "searchButton" button
-        Then There is a "tt0068646" displayed in the screen
-        # Then I expect the text "The Godfather" to be present
-        # Then I expect the text "The Godfather" to be present
+        When I fill the "SearchBar" field with "<movieTitle>"
+        Then There is a "<M" displayed in the screen
+        Example:
+            | movieId   | movieTitle        |
+            | tt0068646 | The Godfather     |
+            | tt5491994 | Planet Earth II   |

@@ -32,6 +32,7 @@ class bottomNavigationBar extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (_) => const HomeScreen(),
+                  settings: const RouteSettings(name: '/home'),
                 ),
               );
 
@@ -51,6 +52,7 @@ class bottomNavigationBar extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (_) => const SearchPage(),
+                  settings: const RouteSettings(name: '/search'),
                 ),
               );
             },
@@ -68,6 +70,7 @@ class bottomNavigationBar extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (_) => const ProfileScreen(),
+                  settings: const RouteSettings(name: '/profile'),
                 ),
               );
             },

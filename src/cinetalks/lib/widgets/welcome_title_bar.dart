@@ -53,6 +53,7 @@ class WelcomeTitleBar extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => const ProfileScreen(),
+              settings: RouteSettings(name: "/profile"),
             ),
           ),
           child: const CircleAvatar(

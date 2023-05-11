@@ -49,6 +49,7 @@ class _SearchPageState extends State<SearchPage> {
                 padding:
                     const EdgeInsets.only(left: 8.0, right: 8.0, top: 16.0),
                 child: TextField(
+                  key: const Key('SearchBar'),
                   style: TextStyle(color: Colors.white),
                   controller: _searchController,
                   // onSubmitted: _submitSearch,

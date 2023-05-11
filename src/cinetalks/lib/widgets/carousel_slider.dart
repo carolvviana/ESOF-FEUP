@@ -36,6 +36,7 @@ class CarouselSliderState extends State<CarouselSliderWidget> {
             MaterialPageRoute(
               builder: (context) =>
                   MovieShowScreen(id: widget.movies[index].id),
+                  settings: RouteSettings(name: '/movie'),
             ),
           );
         },

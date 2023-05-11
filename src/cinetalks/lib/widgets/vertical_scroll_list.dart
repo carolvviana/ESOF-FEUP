@@ -41,6 +41,7 @@ class VerticalScrollList extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (_) => MovieShowScreen(id: items[index].id),
+                    settings: RouteSettings(name: '/movie'),
                   ),
                 );
               },

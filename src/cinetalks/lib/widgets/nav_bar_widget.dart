@@ -57,7 +57,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
           ),
           IconButton(
             onPressed: () {
-                  _searchPage(context);
+              _searchPage(context);
             },
             icon: const Icon(
               MovieAppIcons.search,

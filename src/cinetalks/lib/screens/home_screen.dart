@@ -83,6 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => AllMoviesPage(movies: movies),
+                                settings: RouteSettings(name: '/list'),
                               ),
                             );
                           } else {
