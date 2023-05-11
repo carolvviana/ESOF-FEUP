@@ -65,7 +65,7 @@ Future<List<Map<String, dynamic>>> fetchTopTVShows() async {
 
 Future<List<Movie>> fetchInTheaters() async {
   final response = await http.get(
-    Uri.parse('https://imdb-api.com/en/API/InTheaters/k_ehiwsy71'),
+    Uri.parse('https://imdb-api.com/en/API/InTheaters/k_sl0727cr'),
   );
 
   if (response.statusCode == 200) {
@@ -93,10 +93,71 @@ Future<List<Movie>> fetchInTheaters() async {
     throw Exception('Failed to load In Theaters');
   }
 }
+/*
+Future<String> fetchYoutubeTrailer(String id) async {
+  final response = await http.get(
+    Uri.parse('https://imdb-api.com/en/API/Top250Movies/k_sl0727cr'),
+  );
+
+  if (response.statusCode == 200) {
+    /* map to the List<Movie> */
+
+    final data = json.decode(response.body);
+    // print(data);
+    final List<dynamic> moviesJson = data['items'];
+
+    List<Movie> movies = moviesJson.map((movieJson) {
+      return Movie(
+        id: movieJson['id'],
+        title: movieJson['title'],
+        year: int.parse(movieJson['year']),
+        imagePath: movieJson['image'],
+        category: "",
+        duration: Duration(minutes: 0),
+        plot: "",
+        imdbRating: movieJson['imDbRating'],
+      );
+    }).toList();
+
+    return movies;
+  } else {
+    throw Exception('Failed to load Top 250 Movies');
+  }
+}
+
+Future<List<Movie>> fetchTop250TvShows() async {
+  final response = await http.get(
+    Uri.parse('https://imdb-api.com/en/API/Top250TVs/k_sl0727cr'),
+  );
+
+  if (response.statusCode == 200) {
+    final data = json.decode(response.body);
+    // print(data);
+    final List<dynamic> moviesJson = data['items'];
+
+    List<Movie> movies = moviesJson.map((movieJson) {
+      return Movie(
+        id: movieJson['id'],
+        title: movieJson['title'],
+        year: int.parse(movieJson['year']),
+        imagePath: movieJson['image'],
+        category: "",
+        duration: Duration(minutes: 0),
+        plot: "",
+        imdbRating: movieJson['imDbRating'],
+      );
+    }).toList();
+
+    return movies;
+  } else {
+    throw Exception('Failed to load Top 250 TV Shows');
+  }
+}
+*/
 
 Future<String> fetchYoutubeTrailer(String id) async {
   final response = await http.get(
-    Uri.parse('https://imdb-api.com/en/API/YoutubeTrailer/k_ehiwsy71/$id'),
+    Uri.parse('https://imdb-api.com/en/API/YoutubeTrailer/k_ehiwsyz71/$id'),
   );
 
   if (response.statusCode == 200) {
@@ -105,6 +166,7 @@ Future<String> fetchYoutubeTrailer(String id) async {
     throw Exception('Failed to load Youtube Trailer');
   }
 }
+
 
 Future<Movie> fetchDetails(String id) async {
   final response = await http.get(Uri.parse('https://www.imdb.com/title/$id'),
@@ -148,22 +210,13 @@ Future<Movie> fetchDetails(String id) async {
       ranking: jsonData['meterRanking']['currentRank'].toString(),
     );
 
-    // print("movie");
-    // print(movie.id);
-    // print(movie.title);
-    // print(movie.year);
-    // print(movie.imagePath);
-    // print(movie.category);
-    // print(movie.duration);
-    // print(movie.plot);
-    // print(movie.imdbRating);
-    // print(movie.ranking);
-
     return movie;
+
   } else {
     throw Exception('Failed to load Movie Details');
   }
 }
+
 Future<List<Movie>> searchMedia(String query) async {
   query = Uri.encodeComponent(query);
   final String url = "https://v3.sg.media-imdb.com/suggestion/x/$query.json";
@@ -200,3 +253,4 @@ Future<List<Movie>> searchMedia(String query) async {
     }
   }).toList();
 }
+
