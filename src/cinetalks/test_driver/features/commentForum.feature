@@ -19,6 +19,14 @@ Feature: Add comment to a movie
         And I tap the "AddComment" button
         Then I expect the text "This movie is awesome!" to be present
 
+    Scenario: Add an empty comment
+        Given I am on the "MoviePage" page
+        When I fill the "commentField" field with ""
+        And I tap the "AddComment" button
+        Then I expect the text "Comment cannot be empty" to be present
+
+
+
 
 # Feature: View comments on movie page
 

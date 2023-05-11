@@ -22,7 +22,7 @@ class VerticalScrollList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.only(left:14.0),
+        padding: const EdgeInsets.only(left: 14.0),
         child: GridView.builder(
           itemCount: items.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -35,45 +35,45 @@ class VerticalScrollList extends StatelessWidget {
           itemBuilder: (context, index) {
             // print(items[index].title);
             return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => MovieShowScreen(id: items[index].id),
-                    ),
-                  );
-                },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      child: Image(
-                        image: CachedNetworkImageProvider(items[index].imagePath),
-                        fit: BoxFit.cover,
-                        width: boxWidth,
-                        height: boxHeight,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    SizedBox(
+              key: Key(items[index].id),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => MovieShowScreen(id: items[index].id),
+                  ),
+                );
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    child: Image(
+                      image: CachedNetworkImageProvider(items[index].imagePath),
+                      fit: BoxFit.cover,
                       width: boxWidth,
-                      child: Text(
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        textWidthBasis: TextWidthBasis.parent,
-                        items[index].title,
-                        style: TextStyle(
-                          color: Colors.grey.shade200,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                        ),
+                      height: boxHeight,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: boxWidth,
+                    child: Text(
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textWidthBasis: TextWidthBasis.parent,
+                      items[index].title,
+                      style: TextStyle(
+                        color: Colors.grey.shade200,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                  ],
-                ),
-              );
-            
+                  ),
+                ],
+              ),
+            );
           },
         ),
       ),
