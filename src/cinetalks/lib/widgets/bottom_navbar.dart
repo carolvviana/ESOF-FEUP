@@ -1,3 +1,5 @@
+import 'package:cinetalks/screens/profile_screen.dart';
+import 'package:cinetalks/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../movie_app_icons_icons.dart';
@@ -24,14 +26,14 @@ class bottomNavigationBar extends StatelessWidget {
           IconButton(
             onPressed: () {
               /* push only if not already in page */
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (_) => const HomeScreen(),
-              //   ),
-              // )
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const HomeScreen(),
+                ),
+              );
 
-              print(ModalRoute.of(context)?.settings.name);
+              // print(ModalRoute.of(context)?.settings.name);
             },
             icon: const Icon(
               MovieAppIcons.home,
@@ -40,7 +42,15 @@ class bottomNavigationBar extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              /* push only if not already in page */
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const SearchPage(),
+                ),
+              );
+            },
             icon: const Icon(
               MovieAppIcons.search,
               color: Colors.white,
@@ -48,7 +58,15 @@ class bottomNavigationBar extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              /* push only if not already in page */
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const ProfileScreen(),
+                ),
+              );
+            },
             icon: const Icon(
               MovieAppIcons.user,
               color: Colors.white,
