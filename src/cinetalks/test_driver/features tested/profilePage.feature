@@ -16,4 +16,3 @@ Feature: Open Profile page
     When I tap the "ProfileButton" button
     Then I should be on the "ProfilePage" page
 
-#falta open profile page a partir da navbar

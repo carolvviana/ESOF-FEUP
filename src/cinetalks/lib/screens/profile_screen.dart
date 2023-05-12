@@ -68,7 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         key: const Key("LogoutButton"),
                         onPressed: () {
                           FirebaseAuth.instance.signOut();
-                          Navigator.pop(context);
+                          Navigator.popUntil(context, (route) => route.isFirst);
                         },
                         icon: const Icon(
                           Icons.logout,
