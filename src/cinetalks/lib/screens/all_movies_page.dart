@@ -78,6 +78,7 @@ class AllMoviesPage extends StatelessWidget {
 */
 
 import 'package:cinetalks/screens/movie_show_screen.dart';
+import 'package:cinetalks/widgets/bottom_navbar.dart';
 import 'package:cinetalks/widgets/vertical_scroll_list.dart';
 import 'package:flutter/material.dart';
 
@@ -111,7 +112,9 @@ class AllMoviesPage extends StatelessWidget {
                   ranking: "",
                   )).toList(),
                   ),],
-      ),);
+      ),
+      bottomNavigationBar: bottomNavigationBar(),
+      );
 
   }
 }
