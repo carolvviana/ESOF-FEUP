@@ -6,9 +6,17 @@ import 'package:flutter/material.dart';
 import '../api/api_services.dart';
 
 import '../models/movie_model.dart';
+
 import '../widgets/bottom_navbar.dart';
 import '../widgets/carousel_slider.dart';
 import '../widgets/welcome_title_bar.dart';
+
+import 'movie_show_screen.dart';
+import '../widgets/horizontal_scroll_list.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../screens/search_screen.dart';
+import '../widgets/nav_bar_widget.dart';
+
 
 import '../widgets/horizontal_scroll_list.dart';
 
@@ -178,6 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+
       bottomNavigationBar: bottomNavigationBar(),
     );
   }

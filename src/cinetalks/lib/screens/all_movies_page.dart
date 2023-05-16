@@ -86,7 +86,7 @@ import '../models/movie_model.dart';
 
 class AllMoviesPage extends StatelessWidget {
   final List<Map<String, dynamic>> movies;
-  
+
   const AllMoviesPage({Key? key, required this.movies}) : super(key: key);
 
   @override
@@ -98,24 +98,27 @@ class AllMoviesPage extends StatelessWidget {
       ),
       backgroundColor: const Color(0xFF2A2A2A),
       body: Column(
-        children: [VerticalScrollList(
-                  boxWidth: MediaQuery.of(context).size.width * 0.45,
-                  boxHeight: MediaQuery.of(context).size.height * 0.26,
-                  items: movies.map((movie) => Movie(id: movie['id'], 
-                  title: movie['title'],
-                  imagePath: movie['imagePath'],
-                  category: "",
-                  year: 0,
-                  duration: Duration(minutes: 0),
-                  plot: "",
-                  imdbRating: "",
-                  ranking: "",
-                  )).toList(),
-                  ),],
+        children: [
+          VerticalScrollList(
+            boxWidth: MediaQuery.of(context).size.width * 0.45,
+            boxHeight: MediaQuery.of(context).size.height * 0.26,
+            items: movies
+                .map((movie) => Movie(
+                      id: movie['id'],
+                      title: movie['title'],
+                      imagePath: movie['imagePath'],
+                      category: "",
+                      year: 0,
+                      duration: Duration(minutes: 0),
+                      plot: "",
+                      imdbRating: "",
+                      ranking: "",
+                    ))
+                .toList(),
+          ),
+        ],
       ),
-      bottomNavigationBar: bottomNavigationBar(),
-      );
+    );
 
   }
 }
-

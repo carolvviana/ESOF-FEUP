@@ -1,13 +1,35 @@
-import 'package:cinetalks/screens/profile_screen.dart';
-import 'package:cinetalks/screens/search_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cinetalks/api/api_services.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
+import '../models/movie_model.dart';
+import '../screens/movie_show_screen.dart';
 import '../movie_app_icons_icons.dart';
+import '../screens/search_screen.dart';
 import '../screens/home_screen.dart';
 
-class bottomNavigationBar extends StatelessWidget {
-  const bottomNavigationBar({super.key});
+    void _searchPage(context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SearchPage()),
+    );
+  }
+    void _homePage(context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomeScreen()),
+    );
+  }
 
+class MyBottomNavigationBar extends StatefulWidget {
+  const MyBottomNavigationBar({Key? key}) : super(key: key);
+
+  @override
+  _MyBottomNavigationBarState createState() => _MyBottomNavigationBarState();
+}
+
+class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,15 +47,7 @@ class bottomNavigationBar extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () {
-              /* push only if not already in page */
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const HomeScreen(),
-                ),
-              );
-
-              // print(ModalRoute.of(context)?.settings.name);
+              _homePage(context );
             },
             icon: const Icon(
               MovieAppIcons.home,
@@ -43,13 +57,7 @@ class bottomNavigationBar extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              /* push only if not already in page */
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const SearchPage(),
-                ),
-              );
+                  _searchPage(context);
             },
             icon: const Icon(
               MovieAppIcons.search,
@@ -58,15 +66,7 @@ class bottomNavigationBar extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {
-              /* push only if not already in page */
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const ProfileScreen(),
-                ),
-              );
-            },
+            onPressed: () {},
             icon: const Icon(
               MovieAppIcons.user,
               color: Colors.white,
