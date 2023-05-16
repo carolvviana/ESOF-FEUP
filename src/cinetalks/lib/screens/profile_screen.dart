@@ -1,4 +1,5 @@
 import 'package:cinetalks/database_service/app_database.dart';
+import 'package:cinetalks/screens/all_favourites_page.dart';
 
 import 'package:flutter/material.dart';
 
@@ -123,7 +124,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AllFavoritesPage(favorites: favorites),
+                            ),
+                          );
+                        },
                         child: const Text(
                           "See All",
                           style: TextStyle(

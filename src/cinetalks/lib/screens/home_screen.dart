@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:cinetalks/screens/all_movies_page.dart';
+import 'package:cinetalks/screens/all_tv_shows.dart';
 import 'package:flutter/material.dart';
 import '../api/api_services.dart';
 
@@ -132,7 +133,19 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       // TextButton(
-                      //   onPressed: () {},
+                      //   onPressed: () async {
+                      //     List<Map<String, dynamic>> movies = await fetchTopTVShows();
+                      //     if (movies != null) {
+                      //       Navigator.push(
+                      //         context,
+                      //         MaterialPageRoute(
+                      //           builder: (context) => AlltvshowsPage(tvshows: tvshow),
+                      //         ),
+                      //       );
+                      //     } else {
+                      //       // handle error or show a message to the user
+                      //     }
+                      //   },
                       //   child: const Text(
                       //     "See All",
                       //     style: TextStyle(
