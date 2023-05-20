@@ -168,7 +168,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SeeAllPage(items: watchlist, pageTitle: 'Your Watch List'),
+                            ),
+                          );
+                        },
                         child: const Text(
                           "See All",
                           style: TextStyle(
