@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cinetalks/screens/SeeAllPage.dart';
 import 'package:cinetalks/screens/all_movies_page.dart';
 import 'package:cinetalks/screens/all_tv_shows.dart';
 import 'package:flutter/material.dart';
@@ -82,11 +83,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AllMoviesPage(movies: movies),
+                                builder: (context) => SeeAllPage(items: movies, pageTitle: 'All Movies'),
                               ),
                             );
                           } else {
-                            // handle error or show a message to the user
+                            // error message
                           }
                         },
                         child: const Text(
@@ -140,29 +141,29 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      // TextButton(
-                      //   onPressed: () async {
-                      //     List<Map<String, dynamic>> movies = await fetchTopTVShows();
-                      //     if (movies != null) {
-                      //       Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //           builder: (context) => AlltvshowsPage(tvshows: tvshow),
-                      //         ),
-                      //       );
-                      //     } else {
-                      //       // handle error or show a message to the user
-                      //     }
-                      //   },
-                      //   child: const Text(
-                      //     "See All",
-                      //     style: TextStyle(
-                      //       color: Color(0xff2594f7),
-                      //       fontSize: 14,
-                      //       fontWeight: FontWeight.bold,
-                      //     ),
-                      //   ),
-                      // ),
+                      TextButton(
+                        onPressed: () async {
+                          List<Map<String, dynamic>> tvShows = await fetchTopTVShows();
+                          if (tvShows != null) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SeeAllPage(items: tvShows, pageTitle: 'All TV Shows'),
+                              ),
+                            );
+                          } else {
+                            // error message
+                          }
+                        },
+                        child: const Text(
+                          "See All",
+                          style: TextStyle(
+                            color: Color(0xff2594f7),
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

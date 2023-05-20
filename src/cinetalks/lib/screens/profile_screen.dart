@@ -1,4 +1,5 @@
 import 'package:cinetalks/database_service/app_database.dart';
+import 'package:cinetalks/screens/SeeAllPage.dart';
 import 'package:cinetalks/screens/all_favourites_page.dart';
 
 import 'package:flutter/material.dart';
@@ -128,7 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AllFavoritesPage(favorites: favorites),
+                              builder: (context) => SeeAllPage(items: favorites, pageTitle: 'Your Favorites'),
                             ),
                           );
                         },
