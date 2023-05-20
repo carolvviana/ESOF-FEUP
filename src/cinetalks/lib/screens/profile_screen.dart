@@ -1,6 +1,6 @@
 import 'package:cinetalks/database_service/app_database.dart';
 import 'package:cinetalks/screens/SeeAllPage.dart';
-import 'package:cinetalks/screens/all_favourites_page.dart';
+
 
 import 'package:flutter/material.dart';
 

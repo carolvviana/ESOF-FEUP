@@ -1,8 +1,6 @@
 import 'dart:ui';
 
 import 'package:cinetalks/screens/SeeAllPage.dart';
-import 'package:cinetalks/screens/all_movies_page.dart';
-import 'package:cinetalks/screens/all_tv_shows.dart';
 import 'package:flutter/material.dart';
 import '../api/api_services.dart';
 
