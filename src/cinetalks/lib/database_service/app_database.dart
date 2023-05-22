@@ -216,4 +216,31 @@ class AppDatabase extends DatabaseService {
 
     return watchlist;
   }
+
+  Future<void> addRating(String uid, String movieId, int rating) async {
+    await pushData('users/$uid/ratings', {
+      movieId: rating,
+    });
+  }
+
+  Future<void> updateRating(String uid, String movieId, int rating) async {
+    await setData('users/$uid/ratings/$movieId', {
+      'rating': rating,
+    });
+  }
+
+  Future<int> getRating(String uid, String movieId) async {
+    DataSnapshot snapshot = await getData('users/$uid/ratings/$movieId');
+    // if (snapshot.value == null) return 0;
+    // else return snapshot!.value['rating'];
+
+    if (snapshot.value != null) {
+      Map ratingData = snapshot.value as Map;
+      return ratingData['rating'];
+      // Map<String, dynamic> ratingData = snapshot.value as Map<String, dynamic>;
+      // return ratingData['rating'];
+    } else {
+      return 0;
+    }
+  }
 }

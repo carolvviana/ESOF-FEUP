@@ -42,15 +42,18 @@ class HorizontalScrollList extends StatelessWidget {
                   child: GestureDetector(
                     key: Key(items[index]['id']),
                     onTap: () {
-                      if (ModalRoute.of(context)!.settings.name != '/movie')
+                      if (ModalRoute.of(context)!.settings.name !=
+                          '/movie_show_screen') {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (_) =>
                                 MovieShowScreen(id: items[index]['id']),
-                            settings: RouteSettings(name: '/movie'),
+                            settings:
+                                const RouteSettings(name: '/movie_show_screen'),
                           ),
                         );
+                      }
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

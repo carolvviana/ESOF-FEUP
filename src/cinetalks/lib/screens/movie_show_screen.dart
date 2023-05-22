@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:cinetalks/api/api_services.dart';
 import 'package:cinetalks/widgets/movie_aspect_widgets.dart';
+import 'package:cinetalks/widgets/rating_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:cinetalks/models/movie_model.dart';
 import '../database_service/app_database.dart';
@@ -23,6 +26,11 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
   final AppDatabase _databaseService = AppDatabase();
   TextEditingController _commentController = TextEditingController();
   String? _commentError = null;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -312,34 +320,30 @@ class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
                             child: Row(
                               children: [
                                 GestureDetector(
-                                  onTap: () {
-                                    _isFavorite
-                                        ? _databaseService.removeFromFavorites(
-                                            FirebaseAuth
-                                                .instance.currentUser!.uid,
-                                            widget.movie.id)
-                                        : _databaseService.addToFavorites(
-                                            FirebaseAuth
-                                                .instance.currentUser!.uid,
-                                            widget.movie.id,
-                                            widget.movie.title,
-                                            widget.movie.imagePath);
-                                    setState(() {
-                                      _isFavorite = !_isFavorite;
-                                    });
-                                  },
-                                  child: _isFavorite
-                                      ? const Icon(
-                                          Icons.favorite,
-                                          color: Colors.red,
-                                          size: 28,
-                                        )
-                                      : const Icon(
-                                          Icons.favorite_border,
-                                          color: Colors.white,
-                                          size: 28,
-                                        ),
-                                ),
+                                    onTap: () {
+                                      _isFavorite
+                                          ? _databaseService
+                                              .removeFromFavorites(
+                                                  FirebaseAuth.instance
+                                                      .currentUser!.uid,
+                                                  widget.movie.id)
+                                          : _databaseService.addToFavorites(
+                                              FirebaseAuth
+                                                  .instance.currentUser!.uid,
+                                              widget.movie.id,
+                                              widget.movie.title,
+                                              widget.movie.imagePath);
+                                      setState(() {
+                                        _isFavorite = !_isFavorite;
+                                      });
+                                    },
+                                    child: Icon(
+                                      Icons.check_rounded,
+                                      color: _isFavorite
+                                          ? Colors.green
+                                          : Colors.white,
+                                      size: 32,
+                                    )),
                                 GestureDetector(
                                   onTap: () {
                                     _isInWatchList
@@ -359,14 +363,14 @@ class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
                                   },
                                   child: _isInWatchList
                                       ? const Icon(
-                                          Icons.bookmark,
-                                          color: Colors.white,
-                                          size: 30,
+                                          Icons.favorite,
+                                          color: Colors.red,
+                                          size: 28,
                                         )
                                       : const Icon(
-                                          Icons.bookmark_border,
+                                          Icons.favorite_border_rounded,
                                           color: Colors.white,
-                                          size: 30,
+                                          size: 28,
                                         ),
                                 ),
                               ],
@@ -492,44 +496,60 @@ class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
                             ],
                           ),
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.all(8.0),
-                        //   child: Column(
-                        //     mainAxisAlignment: MainAxisAlignment.center,
-                        //     children: [
-                        //       const Text(
-                        //         "My rating",
-                        //         style: TextStyle(
-                        //             color: Colors.white,
-                        //             fontSize: 18,
-                        //             fontWeight: FontWeight.w500),
-                        //       ),
-                        //       const SizedBox(
-                        //         height: 4,
-                        //       ),
-                        //       Row(
-                        //         children: [
-                        //           const Text(
-                        //             "4.5",
-                        //             style: TextStyle(
-                        //               color: Colors.white,
-                        //               fontSize: 16,
-                        //               fontWeight: FontWeight.w500,
-                        //             ),
-                        //           ),
-                        //           Text(
-                        //             "/5",
-                        //             style: TextStyle(
-                        //               color: Colors.grey.shade400,
-                        //               fontSize: 14,
-                        //               fontWeight: FontWeight.w500,
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ],
-                        //   ),
-                        // )
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "My rating",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              Row(
+                                children: [
+                                  RatingWidget(
+                                      id: widget.movie.id,
+                                      uid: FirebaseAuth
+                                          .instance.currentUser!.uid),
+
+                                  // rating == 0 ?
+                                  //   const Text(
+                                  //     "?",
+                                  //     style: TextStyle(
+                                  //     color: Colors.white,
+                                  //     fontSize: 16,
+                                  //     fontWeight: FontWeight.w500,
+                                  //   ),
+                                  // ):
+
+                                  //   Text(
+                                  //     rating.toString(),
+                                  //     style: TextStyle(
+                                  //     color: Colors.white,
+                                  //     fontSize: 16,
+                                  //     fontWeight: FontWeight.w500,
+                                  //   ),
+                                  // ),
+
+                                  //   Text(
+                                  //     "/5",
+                                  //     style: TextStyle(
+                                  //     color: Colors.grey.shade400,
+                                  //     fontSize: 14,
+                                  //     fontWeight: FontWeight.w500,
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ),
