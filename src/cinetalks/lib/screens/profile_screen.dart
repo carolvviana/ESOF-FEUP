@@ -1,6 +1,5 @@
 import 'package:cinetalks/database_service/app_database.dart';
-import 'package:cinetalks/screens/SeeAllPage.dart';
-
+import 'package:cinetalks/screens/see_all_pages.dart';
 
 import 'package:flutter/material.dart';
 
@@ -126,12 +125,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SeeAllPage(items: favorites, pageTitle: 'Your Favorites'),
-                            ),
-                          );
+                          if (ModalRoute.of(context)!.settings.name !=
+                              '/see_all_page') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SeeAllPage(
+                                    items: favorites,
+                                    pageTitle: 'Your Favorites'),
+                                settings:
+                                    const RouteSettings(name: '/see_all_page'),
+                              ),
+                            );
+                          }
                         },
                         child: const Text(
                           "See All",
@@ -169,12 +175,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SeeAllPage(items: watchlist, pageTitle: 'Your Watch List'),
-                            ),
-                          );
+                          if (ModalRoute.of(context)!.settings.name !=
+                              '/see_all_page') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SeeAllPage(
+                                    items: watchlist,
+                                    pageTitle: 'Your Watch List'),
+                                settings:
+                                    const RouteSettings(name: '/see_all_page'),
+                              ),
+                            );
+                          }
                         },
                         child: const Text(
                           "See All",

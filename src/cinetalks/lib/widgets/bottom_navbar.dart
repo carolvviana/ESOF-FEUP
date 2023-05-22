@@ -26,12 +26,15 @@ class bottomNavigationBar extends StatelessWidget {
           IconButton(
             onPressed: () {
               /* push only if not already in page */
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const HomeScreen(),
-                ),
-              );
+              if (ModalRoute.of(context)?.settings.name != '/') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const HomeScreen(),
+                    settings: const RouteSettings(name: '/'),
+                  ),
+                );
+              }
 
               // print(ModalRoute.of(context)?.settings.name);
             },
@@ -44,12 +47,15 @@ class bottomNavigationBar extends StatelessWidget {
           IconButton(
             onPressed: () {
               /* push only if not already in page */
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const SearchPage(),
-                ),
-              );
+              if (ModalRoute.of(context)?.settings.name != '/search') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const SearchPage(),
+                    settings: const RouteSettings(name: '/search'),
+                  ),
+                );
+              }
             },
             icon: const Icon(
               MovieAppIcons.search,
@@ -60,12 +66,15 @@ class bottomNavigationBar extends StatelessWidget {
           IconButton(
             onPressed: () {
               /* push only if not already in page */
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const ProfileScreen(),
-                ),
-              );
+              if (ModalRoute.of(context)?.settings.name != '/profile') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const ProfileScreen(),
+                    settings: const RouteSettings(name: '/profile'),
+                  ),
+                );
+              }
             },
             icon: const Icon(
               MovieAppIcons.user,

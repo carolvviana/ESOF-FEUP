@@ -48,12 +48,18 @@ class WelcomeTitleBar extends StatelessWidget {
           ],
         ),
         GestureDetector(
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const ProfileScreen(),
-            ),
-          ),
+          onTap: () => {
+            if (ModalRoute.of(context)!.settings.name != '/profile_screen')
+              {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ProfileScreen(),
+                    settings: const RouteSettings(name: '/profile_screen'),
+                  ),
+                ),
+              }
+          },
           child: const CircleAvatar(
             radius: 18.0,
             backgroundColor: Colors.white,

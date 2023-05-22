@@ -1,7 +1,8 @@
+import 'dart:ui';
+
 import 'package:cinetalks/api/api_services.dart';
 import 'package:cinetalks/widgets/movie_aspect_widgets.dart';
 import 'package:cinetalks/widgets/rating_widget.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import '../models/movie_model.dart';
 import '../database_service/app_database.dart';
@@ -21,19 +22,14 @@ class MovieShowScreen extends StatefulWidget {
   State<MovieShowScreen> createState() => _MovieShowScreenState();
 }
 
-int rating = 0;
-
 class _MovieShowScreenState extends State<MovieShowScreen> {
   final AppDatabase _databaseService = AppDatabase();
   TextEditingController _commentController = TextEditingController();
   String? _commentError = null;
 
-
   @override
   void initState() {
     super.initState();
-
-
   }
 
   @override
@@ -519,9 +515,10 @@ class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
                               ),
                               Row(
                                 children: [
-                                  RatingWidget( id: widget.movie.id, uid: FirebaseAuth.instance.currentUser!.uid),
-
-
+                                  RatingWidget(
+                                      id: widget.movie.id,
+                                      uid: FirebaseAuth
+                                          .instance.currentUser!.uid),
 
                                   // rating == 0 ?
                                   //   const Text(
@@ -532,7 +529,7 @@ class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
                                   //     fontWeight: FontWeight.w500,
                                   //   ),
                                   // ):
-                                
+
                                   //   Text(
                                   //     rating.toString(),
                                   //     style: TextStyle(
@@ -541,7 +538,7 @@ class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
                                   //     fontWeight: FontWeight.w500,
                                   //   ),
                                   // ),
-                                  
+
                                   //   Text(
                                   //     "/5",
                                   //     style: TextStyle(

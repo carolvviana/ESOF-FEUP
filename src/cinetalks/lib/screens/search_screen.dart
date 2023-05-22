@@ -2,15 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import '../api/api_services.dart';
-import '../movie_app_icons_icons.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
 import '../models/movie_model.dart';
-import 'movie_show_screen.dart';
+import '../widgets/bottom_navbar.dart';
 import '../widgets/vertical_scroll_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../widgets/search_bar_widget.dart';
-import '../widgets/nav_bar_widget.dart';
 
 import '../database_service/app_database.dart';
 
@@ -121,6 +117,6 @@ class _SearchPageState extends State<SearchPage> {
                   )
           ],
         ),
-        bottomNavigationBar: MyBottomNavigationBar());
+        bottomNavigationBar: bottomNavigationBar());
   }
 }
