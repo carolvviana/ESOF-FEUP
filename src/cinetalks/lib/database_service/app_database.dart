@@ -145,7 +145,7 @@ class AppDatabase extends DatabaseService {
 
       for (var entry in values.entries) {
         Map<String, dynamic> movie = {
-          'movieId': entry.value['movieId'],
+          'id': entry.value['movieId'],
           'title': entry.value['title'],
           'imagePath': entry.value['imagePath'],
         };
@@ -202,7 +202,7 @@ class AppDatabase extends DatabaseService {
 
       for (var entry in values.entries) {
         Map<String, dynamic> movie = {
-          'movieId': entry.value['movieId'],
+          'id': entry.value['movieId'],
           'title': entry.value['title'],
           'imagePath': entry.value['imagePath'],
         };
@@ -234,9 +234,9 @@ class AppDatabase extends DatabaseService {
     // if (snapshot.value == null) return 0;
     // else return snapshot!.value['rating'];
 
-    if (snapshot.value != null){
-        Map ratingData = snapshot.value as Map;
-        return ratingData['rating'];
+    if (snapshot.value != null) {
+      Map ratingData = snapshot.value as Map;
+      return ratingData['rating'];
       // Map<String, dynamic> ratingData = snapshot.value as Map<String, dynamic>;
       // return ratingData['rating'];
     } else {

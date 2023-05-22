@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:cinetalks/screens/SeeAllPage.dart';
+import 'package:cinetalks/screens/see_all_pages.dart';
 import 'package:flutter/material.dart';
 import '../api/api_services.dart';
 
@@ -9,13 +9,6 @@ import '../models/movie_model.dart';
 import '../widgets/bottom_navbar.dart';
 import '../widgets/carousel_slider.dart';
 import '../widgets/welcome_title_bar.dart';
-
-import 'movie_show_screen.dart';
-import '../widgets/horizontal_scroll_list.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import '../screens/search_screen.dart';
-import '../widgets/nav_bar_widget.dart';
-
 
 import '../widgets/horizontal_scroll_list.dart';
 
@@ -48,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
                 child: FutureBuilder(
-                  future: fetchInTheatersScrape(),
+                  future: fetchInTheaters(),
                   builder: (context, AsyncSnapshot<List<Movie>> snapshot) {
                     if (snapshot.hasData) {
                       return CarouselSliderWidget(movies: snapshot.data!);
@@ -76,16 +69,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       TextButton(
                         onPressed: () async {
-                          List<Map<String, dynamic>> movies = await fetchTopMovies();
-                          if (movies != null) {
+                          List<Map<String, dynamic>> movies =
+                              await fetchTopMovies();
+
+                          if (ModalRoute.of(context)!.settings.name !=
+                              '/see_all_page') {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => SeeAllPage(items: movies, pageTitle: 'All Movies'),
+                                builder: (context) => SeeAllPage(
+                                    items: movies, pageTitle: 'All Movies'),
+                                settings:
+                                    const RouteSettings(name: '/see_all_page'),
                               ),
                             );
-                          } else {
-                            // error message
                           }
                         },
                         child: const Text(
@@ -141,16 +138,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       TextButton(
                         onPressed: () async {
-                          List<Map<String, dynamic>> tvShows = await fetchTopTVShows();
-                          if (tvShows != null) {
+                          List<Map<String, dynamic>> tvShows =
+                              await fetchTopTVShows();
+
+                          if (ModalRoute.of(context)!.settings.name !=
+                              '/see_all_page') {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => SeeAllPage(items: tvShows, pageTitle: 'All TV Shows'),
+                                builder: (context) => SeeAllPage(
+                                    items: tvShows, pageTitle: 'All TV Shows'),
+                                settings:
+                                    const RouteSettings(name: '/see_all_page'),
                               ),
                             );
-                          } else {
-                            // error message
                           }
                         },
                         child: const Text(
@@ -185,7 +186,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-
       bottomNavigationBar: bottomNavigationBar(),
     );
   }

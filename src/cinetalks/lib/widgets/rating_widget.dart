@@ -46,10 +46,27 @@ class _RatingInputState extends State<RatingWidget> {
   Widget _buildText() {
     return currentRating == 0
         ? _buildTextField()
-        : Text('${currentRating}/10',
-            style: TextStyle(
-              color: Colors.white,
-            ));
+        : Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                currentRating.toString(),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Text(
+                "/10",
+                style: TextStyle(
+                  color: Colors.grey.shade400,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          );
   }
 
   Widget _buildTextField() {

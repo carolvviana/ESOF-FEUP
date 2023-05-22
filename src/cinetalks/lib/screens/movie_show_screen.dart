@@ -1,7 +1,8 @@
+import 'dart:ui';
+
 import 'package:cinetalks/api/api_services.dart';
 import 'package:cinetalks/widgets/movie_aspect_widgets.dart';
 import 'package:cinetalks/widgets/rating_widget.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import '../models/movie_model.dart';
 import '../database_service/app_database.dart';
@@ -21,19 +22,14 @@ class MovieShowScreen extends StatefulWidget {
   State<MovieShowScreen> createState() => _MovieShowScreenState();
 }
 
-int rating = 0;
-
 class _MovieShowScreenState extends State<MovieShowScreen> {
   final AppDatabase _databaseService = AppDatabase();
   TextEditingController _commentController = TextEditingController();
   String? _commentError = null;
 
-
   @override
   void initState() {
     super.initState();
-
-
   }
 
   @override
@@ -322,34 +318,30 @@ class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
                             child: Row(
                               children: [
                                 GestureDetector(
-                                  onTap: () {
-                                    _isFavorite
-                                        ? _databaseService.removeFromFavorites(
-                                            FirebaseAuth
-                                                .instance.currentUser!.uid,
-                                            widget.movie.id)
-                                        : _databaseService.addToFavorites(
-                                            FirebaseAuth
-                                                .instance.currentUser!.uid,
-                                            widget.movie.id,
-                                            widget.movie.title,
-                                            widget.movie.imagePath);
-                                    setState(() {
-                                      _isFavorite = !_isFavorite;
-                                    });
-                                  },
-                                  child: _isFavorite
-                                      ? const Icon(
-                                          Icons.favorite,
-                                          color: Colors.red,
-                                          size: 28,
-                                        )
-                                      : const Icon(
-                                          Icons.favorite_border,
-                                          color: Colors.white,
-                                          size: 28,
-                                        ),
-                                ),
+                                    onTap: () {
+                                      _isFavorite
+                                          ? _databaseService
+                                              .removeFromFavorites(
+                                                  FirebaseAuth.instance
+                                                      .currentUser!.uid,
+                                                  widget.movie.id)
+                                          : _databaseService.addToFavorites(
+                                              FirebaseAuth
+                                                  .instance.currentUser!.uid,
+                                              widget.movie.id,
+                                              widget.movie.title,
+                                              widget.movie.imagePath);
+                                      setState(() {
+                                        _isFavorite = !_isFavorite;
+                                      });
+                                    },
+                                    child: Icon(
+                                      Icons.check_rounded,
+                                      color: _isFavorite
+                                          ? Colors.green
+                                          : Colors.white,
+                                      size: 32,
+                                    )),
                                 GestureDetector(
                                   onTap: () {
                                     _isInWatchList
@@ -369,14 +361,14 @@ class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
                                   },
                                   child: _isInWatchList
                                       ? const Icon(
-                                          Icons.bookmark,
-                                          color: Colors.white,
-                                          size: 30,
+                                          Icons.favorite,
+                                          color: Colors.red,
+                                          size: 28,
                                         )
                                       : const Icon(
-                                          Icons.bookmark_border,
+                                          Icons.favorite_border_rounded,
                                           color: Colors.white,
-                                          size: 30,
+                                          size: 28,
                                         ),
                                 ),
                               ],
@@ -519,9 +511,10 @@ class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
                               ),
                               Row(
                                 children: [
-                                  RatingWidget( id: widget.movie.id, uid: FirebaseAuth.instance.currentUser!.uid),
-
-
+                                  RatingWidget(
+                                      id: widget.movie.id,
+                                      uid: FirebaseAuth
+                                          .instance.currentUser!.uid),
 
                                   // rating == 0 ?
                                   //   const Text(
@@ -532,7 +525,7 @@ class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
                                   //     fontWeight: FontWeight.w500,
                                   //   ),
                                   // ):
-                                
+
                                   //   Text(
                                   //     rating.toString(),
                                   //     style: TextStyle(
@@ -541,7 +534,7 @@ class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
                                   //     fontWeight: FontWeight.w500,
                                   //   ),
                                   // ),
-                                  
+
                                   //   Text(
                                   //     "/5",
                                   //     style: TextStyle(
