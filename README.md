@@ -18,14 +18,17 @@ Sérgio André Correia Peixoto	- 202108681
 CineTalks
 
 ## Vision Stament
-Talk movies with the world - Search, discuss and keep track. Movie details at the distance of a click.
+CineTalks immerses you into the art of motion pictures. You can search, comment, track and discuss your favorite movies and TV shows. Join our community and you'll never watch alone!
 
 ## Main Features
-- Forum to discuss opinions between users of the App about different movies and TV shows;
-- Add films to wish-list and watched-list;
-- Ability to check IMDB and Rotten Tomatoes ratings as well as giving a personal rating;
-- Search for TV shows and movies with personalized filters;
+- Forum to discuss opinions between users of the app about different movies and TV shows;
+  - Users can comment and reply to comments about different movies;
+- Add films to Watched List and To-Watch List;
+- Ability to check IMDb ratings as well as giving a personal rating to each movie;
+- Search for TV shows and Movies by their title;
+- See which movies are at exhibition at the moment
+- See Top 250 Movies and TV Shows of all time.
 
 ## Required API's
-- IMDB
-- Firebase
+- IMDb
+- Realtime Firebase Database
