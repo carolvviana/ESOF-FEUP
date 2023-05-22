@@ -1,4 +1,6 @@
 import 'package:cinetalks/database_service/app_database.dart';
+import 'package:cinetalks/screens/SeeAllPage.dart';
+
 
 import 'package:flutter/material.dart';
 
@@ -123,7 +125,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SeeAllPage(items: favorites, pageTitle: 'Your Favorites'),
+                            ),
+                          );
+                        },
                         child: const Text(
                           "See All",
                           style: TextStyle(
@@ -159,7 +168,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SeeAllPage(items: watchlist, pageTitle: 'Your Watch List'),
+                            ),
+                          );
+                        },
                         child: const Text(
                           "See All",
                           style: TextStyle(
