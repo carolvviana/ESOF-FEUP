@@ -1,5 +1,7 @@
 import 'package:cinetalks/api/api_services.dart';
 import 'package:cinetalks/widgets/movie_aspect_widgets.dart';
+import 'package:cinetalks/widgets/rating_widget.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import '../models/movie_model.dart';
 import '../database_service/app_database.dart';
@@ -19,10 +21,20 @@ class MovieShowScreen extends StatefulWidget {
   State<MovieShowScreen> createState() => _MovieShowScreenState();
 }
 
+int rating = 0;
+
 class _MovieShowScreenState extends State<MovieShowScreen> {
   final AppDatabase _databaseService = AppDatabase();
   TextEditingController _commentController = TextEditingController();
   String? _commentError = null;
+
+
+  @override
+  void initState() {
+    super.initState();
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -490,44 +502,59 @@ class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
                             ],
                           ),
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.all(8.0),
-                        //   child: Column(
-                        //     mainAxisAlignment: MainAxisAlignment.center,
-                        //     children: [
-                        //       const Text(
-                        //         "My rating",
-                        //         style: TextStyle(
-                        //             color: Colors.white,
-                        //             fontSize: 18,
-                        //             fontWeight: FontWeight.w500),
-                        //       ),
-                        //       const SizedBox(
-                        //         height: 4,
-                        //       ),
-                        //       Row(
-                        //         children: [
-                        //           const Text(
-                        //             "4.5",
-                        //             style: TextStyle(
-                        //               color: Colors.white,
-                        //               fontSize: 16,
-                        //               fontWeight: FontWeight.w500,
-                        //             ),
-                        //           ),
-                        //           Text(
-                        //             "/5",
-                        //             style: TextStyle(
-                        //               color: Colors.grey.shade400,
-                        //               fontSize: 14,
-                        //               fontWeight: FontWeight.w500,
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ],
-                        //   ),
-                        // )
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "My rating",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              Row(
+                                children: [
+                                  RatingWidget( id: widget.movie.id, uid: FirebaseAuth.instance.currentUser!.uid),
+
+
+
+                                  // rating == 0 ?
+                                  //   const Text(
+                                  //     "?",
+                                  //     style: TextStyle(
+                                  //     color: Colors.white,
+                                  //     fontSize: 16,
+                                  //     fontWeight: FontWeight.w500,
+                                  //   ),
+                                  // ):
+                                
+                                  //   Text(
+                                  //     rating.toString(),
+                                  //     style: TextStyle(
+                                  //     color: Colors.white,
+                                  //     fontSize: 16,
+                                  //     fontWeight: FontWeight.w500,
+                                  //   ),
+                                  // ),
+                                  
+                                  //   Text(
+                                  //     "/5",
+                                  //     style: TextStyle(
+                                  //     color: Colors.grey.shade400,
+                                  //     fontSize: 14,
+                                  //     fontWeight: FontWeight.w500,
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ),
