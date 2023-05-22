@@ -15,10 +15,10 @@ Feature: Open movie/TV show page
 
   Scenario Outline: Open movie/TV show page from home
     Given I am on the "HomePage" page
-    And There is a "<MovieCode>" displayed in the screen
-    When I tap the "<MovieCode>" button
+    And There is a "<movieId>" displayed in the screen
+    When I tap the "<movieId>" button
     Then I should be on the "MoviePage" page
     Examples:
-      | MovieCode |
+      | movieId   |
       | tt0111161 |
       | tt0903747 |

@@ -66,6 +66,7 @@ Future<List<Map<String, dynamic>>> fetchTopTVShows() async {
 Future<List<Movie>> fetchInTheaters() async {
   final response = await http.get(
     Uri.parse('https://imdb-api.com/en/API/InTheaters/k_sl0727cr'),
+    headers: {'content-type': 'json'}
   );
 
   if (response.statusCode == 200) {
@@ -91,6 +92,40 @@ Future<List<Movie>> fetchInTheaters() async {
     return movies;
   } else {
     throw Exception('Failed to load In Theaters');
+  }
+}
+
+Future<List<Movie>> fetchInTheatersScrape() async {
+  final response = await http.get(
+      Uri.parse('https://www.imdb.com/chart/boxoffice?pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=470df400-70d9-4f35-bb05-8646a1195842&pf_rd_r=ENXH2SSKG9YFCW55WK1H&pf_rd_s=right-4&pf_rd_t=15506&pf_rd_i=top&ref_=chttp_ql_1'),
+      headers: {'Accept-Language': 'en'});
+
+  if (response.statusCode == 200) {
+    final htmlString = response.body;
+    final document = dom.Document.html(htmlString);
+
+    List<Movie> metaList =
+        document.querySelectorAll('.posterColumn').map((element) {
+      final imagePath = element.querySelector('img')!.attributes['src']!;
+      return Movie(
+        id : element.querySelector('a')!.attributes['href']!.split('/')[2],
+        title: element.querySelector('img')!.attributes['alt']!,
+        imagePath:
+            '${imagePath.substring(0, imagePath.lastIndexOf('.', imagePath.lastIndexOf('.') - 1))}${imagePath.substring(imagePath.lastIndexOf('.'))}',
+        year: 2023,
+        category: '',
+        duration: Duration(minutes: 127),
+        plot: "",
+        imdbRating: '7',
+        ranking: ''
+      );
+    }).toList();
+
+
+
+    return metaList;
+  } else {
+    throw Exception('Failed to fetch top movies');
   }
 }
 /*
