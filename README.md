@@ -32,3 +32,28 @@ CineTalks immerses you into the art of motion pictures. You can search, comment,
 ## Required API's
 - IMDb
 - Realtime Firebase Database
+
+## Instructions for running app
+```
+cd src
+cd cinetalks
+flutter run
+```
+
+## Instructions for running Acceptance Tests
+```
+cd src
+cd cinetalks
+dart test_driver/app_test.dart
+```
+
+## Instructions for running Unit Tests
+```
+cd src
+cd cinetalks
+flutter test
+```
+
+## Login Credentials
+- email: sergiopeixoto3@gmail.com
+- password: 123456
