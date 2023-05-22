@@ -20,17 +20,18 @@ class RatingWidget extends StatefulWidget {
 }
 
 class _RatingInputState extends State<RatingWidget> {
+  int? selectedRating = null;
+
   final AppDatabase _databaseService = AppDatabase();
   bool _isEditing = false;
-  TextEditingController _ratingController = TextEditingController();
-  int rating = 0;
+  String? _ratingError = null;
 
   @override
   initState() {
     super.initState();
       _databaseService.getRating(widget.uid, widget.id).then((value) {
       setState(() {
-        rating = value;
+        selectedRating = value;
       });
     });
   }
@@ -48,44 +49,38 @@ class _RatingInputState extends State<RatingWidget> {
   }
 
   Widget _buildText(){
-      return rating == 0 ? _buildTextField() :  
+      return selectedRating == 0 ? _buildTextField() :  
       Text(
-        '${rating}/10',
+        '${selectedRating}/10',
         style: TextStyle(color: Colors.white,));
   }
 
   Widget _buildTextField(){
     return SizedBox(
-      width: 100,
+      width: 120,
       height: 30,
-      child: TextField(
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white),
-        controller: _ratingController,
-        keyboardType: TextInputType.number,
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        decoration: InputDecoration(
-          hintText: 'Enter rating...',
-          hintStyle: TextStyle(color: Colors.white),
-        ),
-        onSubmitted: (value) {
-          if (int.parse(_ratingController.text) > 10) {
-            _ratingController.text = '10';
-          }
-          if (int.parse(_ratingController.text) < 1) {
-            _ratingController.text = '1';
-          }
-          rating = _ratingController.text == '' ? 0 : int.parse(_ratingController.text);
-          _databaseService.updateRating(widget.uid, widget.id, int.parse(_ratingController.text));
-          setState(() {
-            _isEditing = false;
-          });
-        },
-      ),
+      child: DropdownButton<int>(
+        // style: TextStyle(color: Colors.white),
+      value: selectedRating,
+      hint: Text('Select Rating', style: TextStyle(color: Colors.white,)),
+      onChanged: (value) {
+        setState(() {
+          selectedRating = value!;
+          _isEditing = false;
+        });
+        _databaseService.updateRating(widget.uid, widget.id, value!);
+      },
+      items: List.generate(10, (index) {
+        final rating = index + 1;
+        return DropdownMenuItem<int>(
+          value: rating,
+          child: Text(rating.toString()),
+        );
+      }),
+    )
 
     );
   }
 
 
 }
-
