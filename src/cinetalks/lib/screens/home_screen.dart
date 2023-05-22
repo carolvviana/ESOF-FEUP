@@ -4,7 +4,6 @@ import 'package:cinetalks/screens/all_movies_page.dart';
 import 'package:flutter/material.dart';
 import '../api/api_services.dart';
 
-
 import '../models/movie_model.dart';
 
 import '../widgets/bottom_navbar.dart';
@@ -16,7 +15,6 @@ import '../widgets/horizontal_scroll_list.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 // import '../screens/search_screen.dart';
 // import '../widgets/nav_bar_widget.dart';
-
 
 // import '../database_service/app_database.dart';
 
@@ -77,15 +75,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       TextButton(
                         onPressed: () async {
-                          List<Map<String, dynamic>> movies = await fetchTopMovies();
+                          List<Map<String, dynamic>> movies =
+                              await fetchTopMovies();
                           if (movies != null) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AllMoviesPage(movies: movies),
-                                settings: RouteSettings(name: '/list'),
-                              ),
-                            );
+                            if (ModalRoute.of(context)?.settings.name !=
+                                '/list')
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      AllMoviesPage(movies: movies),
+                                  settings: RouteSettings(name: '/list'),
+                                ),
+                              );
                           } else {
                             // handle error or show a message to the user
                           }
@@ -175,7 +177,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-
       bottomNavigationBar: bottomNavigationBar(),
     );
   }

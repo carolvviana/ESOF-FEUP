@@ -65,16 +65,19 @@ class _BuildMovieImageState extends State<BuildMovieImage> {
       children: [
         GestureDetector(
           onTap: () {
-            if (_trailerUrl != "")
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => VideoPlayerScreen(
-                    videoUrl: _trailerUrl,
+            if (_trailerUrl != "") {
+              if (ModalRoute.of(context)?.settings.name != "/trailer") {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => VideoPlayerScreen(
+                      videoUrl: _trailerUrl,
+                    ),
+                    settings: RouteSettings(name: "/trailer"),
                   ),
-                  settings: RouteSettings(name: "/trailer"),
-                ),
-              );
+                );
+              }
+            }
           },
           child: Container(
             width: MediaQuery.of(context).size.width * 0.9,

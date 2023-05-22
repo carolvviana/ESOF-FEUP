@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
-import 'search_parameters.dart';
 
 import '../models/movie_model.dart';
 
@@ -11,10 +10,13 @@ import '../models/movie_model.dart';
 // k_ehiwsy71
 // k_8v04708r
 // k_1c995682
+
+String api_key = "k_ehiwsy71";
+
 Future<List<Map<String, dynamic>>> fetchTopMovies() async {
   final response = await http.get(
       Uri.parse('https://www.imdb.com/chart/top/?ref_=nv_mv_250'),
-      headers: {'Accept-Language': 'en'});
+      headers: {'content-type': 'application/json'});
 
   if (response.statusCode == 200) {
     final htmlString = response.body;
@@ -65,26 +67,27 @@ Future<List<Map<String, dynamic>>> fetchTopTVShows() async {
 
 Future<List<Movie>> fetchInTheaters() async {
   final response = await http.get(
-    Uri.parse('https://imdb-api.com/en/API/InTheaters/k_sl0727cr'),
-  );
+      Uri.parse('https://imdb-api.com/en/API/InTheaters/$api_key'),
+      headers: {'content-type': 'application/json', 'Accept-Language': 'en'});
 
   if (response.statusCode == 200) {
     /* map to the List<Movie> */
 
     final data = json.decode(response.body);
-    // print(data);
+
     final List<dynamic> moviesJson = data['items'];
 
     List<Movie> movies = moviesJson.map((movieJson) {
       return Movie(
           id: movieJson['id'],
           title: movieJson['title'],
-          year: int.parse(movieJson['year']),
+          year: movieJson['year'] == "" ? 0 : int.parse(movieJson['year']),
           imagePath: movieJson['image'],
           category: movieJson['genres'],
           duration: Duration(minutes: int.parse(movieJson['runtimeMins'])),
           plot: "",
-          imdbRating: movieJson['imDbRating'],
+          imdbRating:
+              movieJson['imDbRating'] == "" ? "0.0" : movieJson['imDbRating'],
           ranking: '');
     }).toList();
 
@@ -93,10 +96,11 @@ Future<List<Movie>> fetchInTheaters() async {
     throw Exception('Failed to load In Theaters');
   }
 }
+
 /*
 Future<String> fetchYoutubeTrailer(String id) async {
   final response = await http.get(
-    Uri.parse('https://imdb-api.com/en/API/Top250Movies/k_sl0727cr'),
+    Uri.parse('https://imdb-api.com/en/API/Top250Movies/$api_key'),
   );
 
   if (response.statusCode == 200) {
@@ -127,7 +131,7 @@ Future<String> fetchYoutubeTrailer(String id) async {
 
 Future<List<Movie>> fetchTop250TvShows() async {
   final response = await http.get(
-    Uri.parse('https://imdb-api.com/en/API/Top250TVs/k_sl0727cr'),
+    Uri.parse('https://imdb-api.com/en/API/Top250TVs/$api_key'),
   );
 
   if (response.statusCode == 200) {
@@ -157,7 +161,7 @@ Future<List<Movie>> fetchTop250TvShows() async {
 
 Future<String> fetchYoutubeTrailer(String id) async {
   final response = await http.get(
-    Uri.parse('https://imdb-api.com/en/API/YoutubeTrailer/k_ehiwsyz71/$id'),
+    Uri.parse('https://imdb-api.com/en/API/YoutubeTrailer/$api_key/$id'),
   );
 
   if (response.statusCode == 200) {
@@ -178,20 +182,6 @@ Future<Movie> fetchDetails(String id) async {
     final movieJson = json.decode(movieData.innerHtml);
 
     final jsonData = movieJson['props']['pageProps']['aboveTheFoldData'];
-    // print("HERE");
-    // print(jsonData['id'].toString());
-    // print(jsonData['originalTitleText']['text'].toString());
-    // print(jsonData['releaseYear']['year'].toInt());
-    // print(jsonData['primaryImage']['url'].toString());
-    // print(jsonData['genres']['genres']
-    //     .map((json) => json['text'])
-    //     .toList()
-    //     .join(', ')
-    //     .toString());
-    // print(Duration(seconds: jsonData['runtime']['seconds']));
-    // print(jsonData['plot']['plotText']['plainText'].toString());
-    // print(jsonData['ratingsSummary']['aggregateRating'].toString());
-    // print(jsonData['meterRanking']['currentRank'].toString());
 
     Movie movie = Movie(
       id: jsonData['id'].toString(),
@@ -251,4 +241,3 @@ Future<List<Movie>> searchMedia(String query) async {
     }
   }).toList();
 }
-
