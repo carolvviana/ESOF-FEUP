@@ -1,4 +1,4 @@
-    name: test-my-app
+    name: tests-cinetalk
     on: [push, workflow_dispatch]
     jobs:
       drive:
