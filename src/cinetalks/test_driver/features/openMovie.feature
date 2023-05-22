@@ -10,7 +10,7 @@ Feature: Open movie/TV show page
     When I fill the "emailField" field with "sergiopeixoto3@gmail.com"
     And I fill the "passwordRegisterField" field with "123456"
     And I tap the "Login" button
-    And I pause for 10 seconds
+    And I pause for 5 seconds
 
 
   Scenario Outline: Open movie/TV show page from home

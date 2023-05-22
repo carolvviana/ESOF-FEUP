@@ -235,27 +235,27 @@ class _LoginScreenState extends State<LoginScreen> {
       if (e.code == 'user-not-found') {
         //Display error message under email field
         setState(() {
-          _emailError = "No user found for this email";
+          _emailError = "No user found for this email.";
         });
       } else if (e.code == 'wrong-password') {
         //Display error message under password field
         setState(() {
-          _passwordError = "Wrong password provided for this user";
+          _passwordError = "Wrong password provided for this user.";
         });
       } else if (e.code == 'invalid-email') {
         //Display error message under email field
         setState(() {
-          _emailError = "Invalid email";
+          _emailError = "Invalid email.";
         });
       } else if (e.code == 'user-disabled') {
         //Display error message under email field
         setState(() {
-          _emailError = "This user is disabled";
+          _emailError = "This user is disabled.";
         });
       } else {
         //Display error message under email field
         setState(() {
-          _emailError = "Please check your inputs";
+          _emailError = "Please check your inputs.";
         });
       }
     }

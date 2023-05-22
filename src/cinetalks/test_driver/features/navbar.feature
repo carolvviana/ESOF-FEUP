@@ -1,7 +1,7 @@
 Feature: Navbar
 
 
-  Background: Loging in
+  Background: Logging in
     Given I am on the "LoginPage" page
     When I fill the "emailField" field with "sergiopeixoto3@gmail.com"
     And I fill the "passwordRegisterField" field with "123456"

@@ -33,9 +33,8 @@ class VerticalScrollList extends StatelessWidget {
             // childAspectRatio: 0.8,
           ),
           itemBuilder: (context, index) {
-            // print(items[index].title);
             return GestureDetector(
-              key: Key(items[index].id),
+              key: Key((items[index].id).toString()),
               onTap: () {
                 Navigator.push(
                   context,

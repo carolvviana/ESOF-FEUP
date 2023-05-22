@@ -4,7 +4,6 @@ import 'package:glob/glob.dart';
 import 'steps/then_tap_button.dart';
 import 'steps/on_page_step.dart';
 import 'steps/is_displayed_step.dart';
-import 'steps/scroll_step.dart';
 
 Future<void> main() {
   final config = FlutterTestConfiguration()
@@ -14,7 +13,7 @@ Future<void> main() {
       TestRunSummaryReporter(),
       JsonReporter(path: './test_report.json')
     ]
-    ..stepDefinitions = [GivenPage(),ThenPage(), thenTapButton(), displayed(), whenScroll()]
+    ..stepDefinitions = [GivenPage(),ThenPage(), thenTapButton(), displayed()]
     ..customStepParameterDefinitions = []
     ..restartAppBetweenScenarios = true
     ..targetAppPath = 'test_driver/app.dart';

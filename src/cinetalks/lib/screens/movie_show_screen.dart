@@ -312,6 +312,7 @@ class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
                             child: Row(
                               children: [
                                 GestureDetector(
+                                  key: const Key("ToWatchButton"),
                                   onTap: () {
                                     _isFavorite
                                         ? _databaseService.removeFromFavorites(
@@ -341,6 +342,7 @@ class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
                                         ),
                                 ),
                                 GestureDetector(
+                                  key: const Key("WatchedButton"),
                                   onTap: () {
                                     _isInWatchList
                                         ? _databaseService.removeFromWatchlist(

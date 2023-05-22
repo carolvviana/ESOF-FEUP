@@ -4,7 +4,7 @@ Feature: Sign out
   I want to sign out
   so that my account is not connected anymore.
 
-  Background: Loging in, entering the profile page
+  Background: Logging in, entering the profile page
     Given I am on the "LoginPage" page
     When I fill the "emailField" field with "sergiopeixoto3@gmail.com"
     And I fill the "passwordRegisterField" field with "123456"
