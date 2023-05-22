@@ -1,4 +1,4 @@
-<a href="https://github.com/[USER_NAME]/[REPO_NAME]/actions"><img src="https://github.com/[USER_NAME]/[REPO_NAME]/workflows/tests-cinetalk/badge.svg" alt="Build Status"></a>
+<a href="https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/actions"><img src="https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/actions/workflows/tests.yaml/badge.svg" alt="Build Status"></a>
 
 # 2LEIC13T4
 
