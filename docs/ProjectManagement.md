@@ -66,14 +66,17 @@ Unit tests. Could not figure that out.
 
 
 ## Iteration 4 Sprint Planning
-![image](https://user-images.githubusercontent.com/92639425/236264398-2be89824-f4a9-4a2b-b4e4-dba6c0a86c39.png)
+![image](images/Iteration4_Backlog.png)
 
 ## Iteration 4 Retrospective
 ### What went well?
+We managed to implement most of the features, leaving only two Could Have's left
 
 ### What didn't go so well?
+The IMDb api was down for a few days and we had to find alternatives in a rush but, thankfully, the api is back and now we have a fallback in case it goes down again
 
 ### What have we learned?
+We learned how to do better integration tests and we are more confortable with them now. We also learn how to do a fallback in case the api fails
 
 ### What still puzzles us?
-
+Why some integration tests still dont work
