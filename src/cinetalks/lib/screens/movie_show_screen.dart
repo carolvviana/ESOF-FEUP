@@ -318,34 +318,30 @@ class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
                             child: Row(
                               children: [
                                 GestureDetector(
-                                  onTap: () {
-                                    _isFavorite
-                                        ? _databaseService.removeFromFavorites(
-                                            FirebaseAuth
-                                                .instance.currentUser!.uid,
-                                            widget.movie.id)
-                                        : _databaseService.addToFavorites(
-                                            FirebaseAuth
-                                                .instance.currentUser!.uid,
-                                            widget.movie.id,
-                                            widget.movie.title,
-                                            widget.movie.imagePath);
-                                    setState(() {
-                                      _isFavorite = !_isFavorite;
-                                    });
-                                  },
-                                  child: _isFavorite
-                                      ? const Icon(
-                                          Icons.favorite,
-                                          color: Colors.red,
-                                          size: 28,
-                                        )
-                                      : const Icon(
-                                          Icons.favorite_border,
-                                          color: Colors.white,
-                                          size: 28,
-                                        ),
-                                ),
+                                    onTap: () {
+                                      _isFavorite
+                                          ? _databaseService
+                                              .removeFromFavorites(
+                                                  FirebaseAuth.instance
+                                                      .currentUser!.uid,
+                                                  widget.movie.id)
+                                          : _databaseService.addToFavorites(
+                                              FirebaseAuth
+                                                  .instance.currentUser!.uid,
+                                              widget.movie.id,
+                                              widget.movie.title,
+                                              widget.movie.imagePath);
+                                      setState(() {
+                                        _isFavorite = !_isFavorite;
+                                      });
+                                    },
+                                    child: Icon(
+                                      Icons.check_rounded,
+                                      color: _isFavorite
+                                          ? Colors.green
+                                          : Colors.white,
+                                      size: 32,
+                                    )),
                                 GestureDetector(
                                   onTap: () {
                                     _isInWatchList
@@ -365,14 +361,14 @@ class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
                                   },
                                   child: _isInWatchList
                                       ? const Icon(
-                                          Icons.bookmark,
-                                          color: Colors.white,
-                                          size: 30,
+                                          Icons.favorite,
+                                          color: Colors.red,
+                                          size: 28,
                                         )
                                       : const Icon(
-                                          Icons.bookmark_border,
+                                          Icons.favorite_border_rounded,
                                           color: Colors.white,
-                                          size: 30,
+                                          size: 28,
                                         ),
                                 ),
                               ],
