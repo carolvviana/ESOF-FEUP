@@ -109,17 +109,22 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          body: SizedBox(
-            width: 500,
-            height: 250,
-            child: Flex(
-              direction: Axis.horizontal,
-              children: [
-                Expanded(
-                  child: CarouselSliderWidget(movies: movies),
-                ),
-              ],
-            ),
+          extendBodyBehindAppBar: true,
+          body: Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
+                    child: CarouselSliderWidget(
+                      movies: movies,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
@@ -129,6 +134,11 @@ void main() {
     expect(find.text('Movie 1'), findsOneWidget);
     expect(find.text('2022 • 2h 0m • Action'), findsOneWidget);
     expect(find.text('8.5'), findsOneWidget);
+
+    //scroll to the next movie
+    await tester.drag(find.byType(CarouselSliderWidget), Offset(-600.0, 0.0),
+        warnIfMissed: true);
+
     expect(find.text('Movie 2'), findsOneWidget);
     expect(find.text('2021 • 1h 30m • Comedy'), findsOneWidget);
     expect(find.text('7.8'), findsOneWidget);
