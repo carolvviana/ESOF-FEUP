@@ -1,9 +1,8 @@
 // import 'dart:ui';
 
-import 'package:cinetalks/screens/all_movies_page.dart';
+import 'package:cinetalks/screens/see_all_pages.dart';
 import 'package:flutter/material.dart';
 import '../api/api_services.dart';
-
 
 import '../models/movie_model.dart';
 
@@ -11,14 +10,7 @@ import '../widgets/bottom_navbar.dart';
 import '../widgets/carousel_slider.dart';
 import '../widgets/welcome_title_bar.dart';
 
-// import 'movie_show_screen.dart';
 import '../widgets/horizontal_scroll_list.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import '../screens/search_screen.dart';
-// import '../widgets/nav_bar_widget.dart';
-
-
-// import '../database_service/app_database.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -77,17 +69,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       TextButton(
                         onPressed: () async {
-                          List<Map<String, dynamic>> movies = await fetchTopMovies();
-                          if (movies != null) {
+                          List<Map<String, dynamic>> movies =
+                              await fetchTopMovies();
+
+                          if (ModalRoute.of(context)!.settings.name !=
+                              '/see_all_page') {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AllMoviesPage(movies: movies),
-                                settings: RouteSettings(name: '/list'),
+                                builder: (context) => SeeAllPage(
+                                    items: movies, pageTitle: 'All Movies'),
+                                settings:
+                                    const RouteSettings(name: '/see_all_page'),
                               ),
                             );
-                          } else {
-                            // handle error or show a message to the user
                           }
                         },
                         child: const Text(
@@ -141,17 +136,33 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      // TextButton(
-                      //   onPressed: () {},
-                      //   child: const Text(
-                      //     "See All",
-                      //     style: TextStyle(
-                      //       color: Color(0xff2594f7),
-                      //       fontSize: 14,
-                      //       fontWeight: FontWeight.bold,
-                      //     ),
-                      //   ),
-                      // ),
+                      TextButton(
+                        onPressed: () async {
+                          List<Map<String, dynamic>> tvShows =
+                              await fetchTopTVShows();
+
+                          if (ModalRoute.of(context)!.settings.name !=
+                              '/see_all_page') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SeeAllPage(
+                                    items: tvShows, pageTitle: 'All TV Shows'),
+                                settings:
+                                    const RouteSettings(name: '/see_all_page'),
+                              ),
+                            );
+                          }
+                        },
+                        child: const Text(
+                          "See All",
+                          style: TextStyle(
+                            color: Color(0xff2594f7),
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -175,7 +186,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-
       bottomNavigationBar: bottomNavigationBar(),
     );
   }

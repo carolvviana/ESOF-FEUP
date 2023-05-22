@@ -35,14 +35,18 @@ class VerticalScrollList extends StatelessWidget {
           itemBuilder: (context, index) {
             return GestureDetector(
               key: Key((items[index].id).toString()),
+
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => MovieShowScreen(id: items[index].id),
-                    settings: RouteSettings(name: '/movie'),
-                  ),
-                );
+                if (ModalRoute.of(context)!.settings.name !=
+                    '/movie_show_screen') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => MovieShowScreen(id: items[index].id),
+                      settings: const RouteSettings(name: '/movie_show_screen'),
+                    ),
+                  );
+                }
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

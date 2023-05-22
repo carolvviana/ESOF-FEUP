@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:cinetalks/database_service/authentication_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../main.dart';
@@ -183,13 +182,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     ElevatedButton(
                       key: const Key("SignUp"),
-                      onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SignUpScreen(),
-                          settings: RouteSettings(name: "/signup")
-                        ),
-                      ),
+                      onPressed: () {
+                        if (ModalRoute.of(context)!.settings.name !=
+                            "/SignUp") {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SignUpScreen(),
+                              settings: const RouteSettings(name: "/SignUp"),
+                            ),
+                          );
+                        }
+                      },
                       child: Text(
                         "Sign up",
                         style: TextStyle(

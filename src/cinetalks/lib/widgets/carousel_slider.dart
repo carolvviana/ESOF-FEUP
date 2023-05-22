@@ -31,14 +31,16 @@ class CarouselSliderState extends State<CarouselSliderWidget> {
       itemCount: widget.movies.length,
       itemBuilder: (context, index, realIndex) => GestureDetector(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  MovieShowScreen(id: widget.movies[index].id),
-                  settings: RouteSettings(name: '/movie'),
-            ),
-          );
+          if (ModalRoute.of(context)!.settings.name != '/movie_show_screen') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    MovieShowScreen(id: widget.movies[index].id),
+                settings: const RouteSettings(name: '/movie_show_screen'),
+              ),
+            );
+          }
         },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(16.0),

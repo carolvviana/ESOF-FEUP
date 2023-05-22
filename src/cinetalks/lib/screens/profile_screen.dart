@@ -1,4 +1,5 @@
 import 'package:cinetalks/database_service/app_database.dart';
+import 'package:cinetalks/screens/see_all_pages.dart';
 
 import 'package:flutter/material.dart';
 
@@ -118,16 +119,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text(
-                        "Your Favorites",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        children: [
+                          const Icon(Icons.check_rounded,
+                              color: Colors.green, size: 28.0),
+                          const SizedBox(
+                            width: 8.0,
+                          ),
+                          const Text(
+                            "Your Watched List",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (ModalRoute.of(context)!.settings.name !=
+                              '/see_all_page') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SeeAllPage(
+                                    items: favorites,
+                                    pageTitle: 'Your Favorites'),
+                                settings:
+                                    const RouteSettings(name: '/see_all_page'),
+                              ),
+                            );
+                          }
+                        },
                         child: const Text(
                           "See All",
                           style: TextStyle(
@@ -154,16 +178,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text(
-                        "Your Watch List",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                            size: 26,
+                          ),
+                          const SizedBox(
+                            width: 8.0,
+                          ),
+                          const Text(
+                            "Your To-Watch List",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (ModalRoute.of(context)!.settings.name !=
+                              '/see_all_page') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SeeAllPage(
+                                    items: watchlist,
+                                    pageTitle: 'Your Watch List'),
+                                settings:
+                                    const RouteSettings(name: '/see_all_page'),
+                              ),
+                            );
+                          }
+                        },
                         child: const Text(
                           "See All",
                           style: TextStyle(
