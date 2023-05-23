@@ -4,7 +4,7 @@ import 'package:cinetalks/api/api_services.dart';
 import 'package:cinetalks/widgets/movie_aspect_widgets.dart';
 import 'package:cinetalks/widgets/rating_widget.dart';
 import 'package:flutter/material.dart';
-import '../models/movie_model.dart';
+import 'package:cinetalks/models/movie_model.dart';
 import '../database_service/app_database.dart';
 import 'package:readmore/readmore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -81,6 +81,7 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          key: const Key("commentField"),
           focusNode: commentFocusNode,
           style: TextStyle(
             color: Colors.white,
@@ -126,6 +127,7 @@ class _MovieShowScreenState extends State<MovieShowScreen> {
           },
           decoration: InputDecoration(
             suffixIcon: IconButton(
+              key: const Key("AddComment"),
               onPressed: () async {
                 if (_commentController.text.isNotEmpty) {
                   if (!isReply) {
@@ -318,6 +320,7 @@ class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
                             child: Row(
                               children: [
                                 GestureDetector(
+                                    key: const Key("ToWatchButton"),
                                     onTap: () {
                                       _isFavorite
                                           ? _databaseService
@@ -343,6 +346,7 @@ class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
                                       size: 32,
                                     )),
                                 GestureDetector(
+                                  key: const Key("WatchedButton"),
                                   onTap: () {
                                     _isInWatchList
                                         ? _databaseService.removeFromWatchlist(
@@ -643,6 +647,7 @@ class __DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
                             SizedBox(
                               height: 20,
                               child: IconButton(
+                                key: const Key("ReplyButton"),
                                 onPressed: () {
                                   //open the keyboard to start typing on the comment box
                                   FocusScope.of(context)

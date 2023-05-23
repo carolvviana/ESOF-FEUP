@@ -33,8 +33,9 @@ class VerticalScrollList extends StatelessWidget {
             // childAspectRatio: 0.8,
           ),
           itemBuilder: (context, index) {
-            // print(items[index].title);
             return GestureDetector(
+              key: Key((items[index].id).toString()),
+
               onTap: () {
                 if (ModalRoute.of(context)!.settings.name !=
                     '/movie_show_screen') {

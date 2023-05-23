@@ -11,6 +11,7 @@ class bottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: const Key('navbar'),
       height: 55.0,
       decoration: const BoxDecoration(
         border: Border(
@@ -24,6 +25,7 @@ class bottomNavigationBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           IconButton(
+            key: const Key('nav-HomeButton'),
             onPressed: () {
               /* push only if not already in page */
               if (ModalRoute.of(context)?.settings.name != '/') {
@@ -45,6 +47,7 @@ class bottomNavigationBar extends StatelessWidget {
             ),
           ),
           IconButton(
+            key: const Key('nav-SearchButton'),
             onPressed: () {
               /* push only if not already in page */
               if (ModalRoute.of(context)?.settings.name != '/search') {
@@ -64,6 +67,7 @@ class bottomNavigationBar extends StatelessWidget {
             ),
           ),
           IconButton(
+            key: const Key('nav-ProfileButton'),
             onPressed: () {
               /* push only if not already in page */
               if (ModalRoute.of(context)?.settings.name != '/profile') {

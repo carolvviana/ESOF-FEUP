@@ -6,9 +6,9 @@ import '../api/api_services.dart';
 import '../models/movie_model.dart';
 import '../widgets/bottom_navbar.dart';
 import '../widgets/vertical_scroll_list.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 
-import '../database_service/app_database.dart';
+// import '../database_service/app_database.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -24,8 +24,8 @@ class _SearchPageState extends State<SearchPage> {
   int _currentIndex = 0;
   // List<Movie> movies = Movie.movies;
   late PageController _pageController;
-  final user = FirebaseAuth.instance.currentUser!;
-  final AppDatabase _databaseService = AppDatabase();
+  // final user = FirebaseAuth.instance.currentUser!;
+  // final AppDatabase _databaseService = AppDatabase();
 
   // final databaseReference = FirebaseDatabase.instance.ref();
   String _name = '';
@@ -33,6 +33,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: const Key('SearchPage'),
         backgroundColor: const Color(0xff2a2a2a),
         extendBodyBehindAppBar: true,
         body: Column(
@@ -42,6 +43,7 @@ class _SearchPageState extends State<SearchPage> {
                 padding:
                     const EdgeInsets.only(left: 8.0, right: 8.0, top: 16.0),
                 child: TextField(
+                  key: const Key('SearchBar'),
                   style: TextStyle(color: Colors.white),
                   controller: _searchController,
                   // onSubmitted: _submitSearch,

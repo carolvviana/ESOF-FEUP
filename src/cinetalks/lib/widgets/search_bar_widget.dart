@@ -25,9 +25,10 @@ class _MySearchBarState extends State<MySearchBar> {
       child: TextField(
         controller: _searchController,
         onSubmitted: _submitSearch,
-        onChanged: (value) {
+        onChanged: (value) async {
               if (value.length > 2) {
-                setState(()async {results = await searchMedia(value);});
+                List<Movie> queryResults = await searchMedia(value);
+                setState(() {results = queryResults;});
                 }
             },
         decoration: InputDecoration(
