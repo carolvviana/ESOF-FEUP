@@ -48,6 +48,7 @@ class WelcomeTitleBar extends StatelessWidget {
           ],
         ),
         GestureDetector(
+          key: const Key('ProfileButton'),
           onTap: () => {
             if (ModalRoute.of(context)!.settings.name != '/profile_screen')
               {
