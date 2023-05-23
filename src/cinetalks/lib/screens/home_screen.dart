@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
                 child: FutureBuilder(
-                  future: fetchInTheatersScrape(), // fetchInTheaters(),
+                  future: fetchInTheaters(), // fetchInTheaters(),
                   builder: (context, AsyncSnapshot<List<Movie>> snapshot) {
                     if (snapshot.hasData) {
                       return CarouselSliderWidget(movies: snapshot.data!);
