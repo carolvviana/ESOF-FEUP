@@ -19,12 +19,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     _youtubePlayerController = YoutubePlayerController(
       initialVideoId: YoutubePlayer.convertUrlToId(widget.videoUrl)!,
       flags: const YoutubePlayerFlags(
-        autoPlay: true,
-        mute: false,
-        loop: false,
-        isLive: false,
-        forceHD: true,
-      ),
+          autoPlay: true,
+          mute: false,
+          loop: false,
+          isLive: false,
+          forceHD: true,
+          showLiveFullscreenButton: true),
     );
   }
 

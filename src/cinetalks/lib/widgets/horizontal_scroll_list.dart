@@ -20,58 +20,77 @@ class HorizontalScrollList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: items.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          // print(items[index].title);
-          return Padding(
-            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => MovieShowScreen(id: items[index]['id']),
+    return items.length == 0
+        ? SizedBox(
+            height: boxHeight + 16,
+            child: Center(
+                child: Text(
+              "Looks like there's nothing here",
+              style:
+                  TextStyle(fontSize: 20, color: Colors.white.withOpacity(0.5)),
+            )),
+          )
+        : Expanded(
+            child: ListView.builder(
+              itemCount: items.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                // print(items[index].title);
+                return Padding(
+                  padding:
+                      const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0),
+                  child: GestureDetector(
+                    key: Key(items[index]['id']),
+                    onTap: () {
+                      if (ModalRoute.of(context)!.settings.name !=
+                          '/movie_show_screen') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                MovieShowScreen(id: items[index]['id']),
+                            settings:
+                                const RouteSettings(name: '/movie_show_screen'),
+                          ),
+                        );
+                      }
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        ClipRRect(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                          child: Image(
+                            image: CachedNetworkImageProvider(
+                                items[index]['imagePath']),
+                            fit: BoxFit.cover,
+                            width: boxWidth,
+                            height: boxHeight,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        SizedBox(
+                          width: boxWidth,
+                          child: Text(
+                            items[index]['title'],
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            textWidthBasis: TextWidthBasis.parent,
+                            style: TextStyle(
+                              color: Colors.grey.shade200,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    child: Image(
-                      image:
-                          CachedNetworkImageProvider(items[index]['imagePath']),
-                      fit: BoxFit.cover,
-                      width: boxWidth,
-                      height: boxHeight,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    width: boxWidth,
-                    child: Text(
-                      items[index]['title'],
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      textWidthBasis: TextWidthBasis.parent,
-                      style: TextStyle(
-                        color: Colors.grey.shade200,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
             ),
           );
-        },
-      ),
-    );
   }
 }
 

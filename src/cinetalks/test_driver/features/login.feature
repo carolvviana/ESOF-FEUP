@@ -21,16 +21,15 @@ Feature: Login
     And I fill the "passwordRegisterField" field with "<Password>"
     And I tap the "Login" button
     Then I should be on the "LoginPage" page
-      # And A error message appears
-    # password is wrong
-    # account doesn't exist
+    And I expect the text "<error>" to be present
     Examples:
-      | Email                | Password |
-      | user_teste@gmail.com | password |
-      | email@gmail.com      | 123456   |
+      | Email                | Password | error                                   |
+      | user_@gmail.com      | password | No user found for this email.           |
+      | gui@gmail.com        | 098765   | Wrong password provided for this user.  |
+      | gui                  | 098765   | Invalid email.                          |
 
   Scenario: Empty text fields
     Given I am on the "LoginPage" page
     When I tap the "Login" button
     Then I should be on the "LoginPage" page
-    # And A error message appears
+    And I expect the text "Email cannot be empty" to be present
