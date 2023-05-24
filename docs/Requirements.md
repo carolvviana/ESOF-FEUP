@@ -16,7 +16,9 @@ When I click on home page button
 Then I go to the home page
 
 ![image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/92639425/bf510788-d2f4-4a86-84c8-ed3c3683319c)
+<br>
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/34020f90-8537-4611-95a5-62b4bdca03b2)
+<br>
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/8c318066-6d14-4b15-8a2c-b90844442c65)
 
 ## To Watch List
@@ -27,6 +29,7 @@ When I scroll through the To Watch List carroussel
 Then I can see all the movies I want to see.
 
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/0fe1023f-aafe-4614-8e55-bf190f6b934b)
+<br>
 ![image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/92639425/45957937-08eb-402e-82a8-73f46c411eda)
 
 
@@ -38,7 +41,9 @@ Then the movie will be added to my 'To Watch' list
 
 
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/bbd61d72-1a6f-4431-a4ad-64b96da54ebd)
+<br>
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/3f45ae83-bb67-435b-858e-524f542a5491)
+<br>
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/0c83e87a-5aa5-4ec9-ab65-7a83eb68e4eb)
 
 ## Watched List
@@ -58,7 +63,9 @@ Then the movie will be added to my watchlist
 
 
 ![image](https://user-images.githubusercontent.com/92639425/224558979-4fbfe94a-619e-43e2-b811-567a9448eb15.png)
+<br>
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/0a25e7bf-6d41-4418-b8cb-d8960b135b9a)
+<br>
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/d6de03cb-314c-4ea0-837a-a678aa6eaa69)
 
 ## Trailer - Movie Page
@@ -98,11 +105,12 @@ And goes to that movie page
 Then he sees the comment I wrote
 
 
-Successful coment:
+### Successful coment:
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/9b2106df-614b-482c-a616-abf24cc9b593)
+<br>
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/9cfa22ca-875a-40b4-a5ae-ae387a7e971f)
 
-Comment with error:
+### Comment with error:
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/ed30c4b4-c5a0-41be-b4c0-0f5dc3964bdf)
 
 ## Reply to a comment
@@ -128,6 +136,7 @@ Then he sees the reply I wrote
 
 ### Successful reply:
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/d9409c89-ac7d-4f5a-b82c-65f93ebe1ea2)
+<br>
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/46dd8aab-7772-4b50-bdf5-d6a09c55bf85)
 
 ### Error in reply:
@@ -159,6 +168,7 @@ And give a new one
 
 ### Giving a rating:
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/a741cc48-7d72-419d-9ccf-a27ec78c861b)
+<br>
 ![image](https://user-images.githubusercontent.com/92639425/224559023-e4d16402-dbbc-43a6-b2f8-0d8c97f9f2f6.png)
 
 ## Top 250 TV Shows
@@ -198,6 +208,7 @@ Then a page with the whole list appears
 
 
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/90401390-8ccb-4852-ae07-47bb95398833)
+<br>
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/31eead1d-639a-448c-8891-5277d9f1a3a7)
 
 ## Search Bar
@@ -219,6 +230,7 @@ Then a message saying that no search was made appears.
 
 
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/3cbe0dc5-fe2e-400b-ab1a-f1c82adc14d8)
+<br>
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/d845ef47-1cf8-4778-986f-701122d31050)
 
 ## Login
@@ -242,8 +254,11 @@ Then the login should fail
 
 
 ![image](https://user-images.githubusercontent.com/92639425/224558503-4abc579d-4826-4b5d-af97-f6b8e9f7f0d2.png)
+<br>
 ![image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/92639425/59616b36-c9f1-41bd-aeb5-7bb464c75669)
+<br>
 ![image](https://user-images.githubusercontent.com/92639425/236310612-f1b170a8-5d6c-4eaf-95ea-d6157ed291ab.png)
+<br>
 ![image](https://user-images.githubusercontent.com/92639425/236310746-893fcc66-8730-4520-90b9-ecb55b4597ef.png)
 
 ## Register
@@ -270,9 +285,13 @@ When user types login details
 Then the home page shows up
 
 ![image](https://user-images.githubusercontent.com/92639425/232332594-8f0976ec-5e06-45df-a870-d18c9d16f6d2.png)
+<br>
 ![image](https://user-images.githubusercontent.com/92639425/232332615-82dc714a-57fa-4160-8811-cfdd27174eec.png)
+<br>
 ![image](https://user-images.githubusercontent.com/92639425/232332626-9fb602b1-4110-4b4e-b218-92537dc077c0.png)
+<br>
 ![image](https://user-images.githubusercontent.com/92639425/232332638-8ff0af50-192c-4aba-878a-04f2cde33926.png)
+<br>
 ![image](https://user-images.githubusercontent.com/92639425/232332652-3a82b97a-5b1d-4528-8d08-97373c5f4275.png)
 
 
@@ -295,8 +314,11 @@ When i click on an avatar
 Then my profile picture will be changed to the respective avatar
 
 ![image](https://user-images.githubusercontent.com/92639425/232334589-8c6129d8-1901-484c-94f2-aa609c268b8f.png)
+<br>
 ![image](https://user-images.githubusercontent.com/92639425/232334595-13b647fc-fb7e-43f7-8030-8246f1cb118e.png)
+<br>
 ![image](https://user-images.githubusercontent.com/92639425/232334601-c359d211-fc39-4303-8121-fb76efc184b3.png)
+<br>
 ![image](https://user-images.githubusercontent.com/92639425/234937773-e3eb38ee-976a-4fbc-a9a9-89923e43374a.png)
 
 ### Filter
