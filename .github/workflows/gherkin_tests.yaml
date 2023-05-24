@@ -16,4 +16,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
       - name: Run Gherkin tests
-        run: flutter drive --target=test_driver/app.dart --driver=test_driver/app_test.dart
+        run: |
+          cd src/cinetalks
+          flutter drive --target=test_driver/app.dart --driver=test_driver/app_test.dart
