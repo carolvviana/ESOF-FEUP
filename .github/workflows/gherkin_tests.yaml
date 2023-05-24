@@ -14,7 +14,9 @@ jobs:
         with:
           flutter-version: '3.7.12' # Replace with the Flutter version you are using
       - name: Install dependencies
-        run: flutter pub get
+        run: |
+          cd src/cinetalks
+          flutter pub get
       - name: Run Gherkin tests
         run: |
           cd src/cinetalks
