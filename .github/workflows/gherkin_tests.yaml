@@ -18,6 +18,9 @@ jobs:
           cd src/cinetalks
           flutter pub get
       - name: Run Gherkin tests
-        run: |
-          cd src/cinetalks
-          flutter drive --target=test_driver/app.dart --driver=test_driver/app_test.dart
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          arch: x86_64
+          profile: Pixel 5
+          script: flutter drive --target=test_driver/app.dart --driver=test_driver/app_test.dart
