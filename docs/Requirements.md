@@ -3,17 +3,17 @@
 ## Navbar
 As a user, I want to have a navbar, so that I can navigate through home page, search page and profile page.
 
-Given that I have the navbar in display 
-When I click on search button 
-Then I go to the search page
+Given that I have the navbar in display <br>
+When I click on search button <br>
+Then I go to the search page <br>
 
-Given that I have the navbar in display 
-When I click on profile button 
-Then I go to the profile page
+Given that I have the navbar in display <br>
+When I click on profile button <br>
+Then I go to the profile page<br>
 
-Given that I have the navbar in display
-When I click on home page button 
-Then I go to the home page
+Given that I have the navbar in display<br>
+When I click on home page button <br>
+Then I go to the home page<br>
 
 ![image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/92639425/bf510788-d2f4-4a86-84c8-ed3c3683319c)
 <br>
@@ -24,9 +24,9 @@ Then I go to the home page
 ## To Watch List
 As a user, I want to have a To Watch List so that I can keep track of which movies I want to watch.
 
-Given that I am at my personal page
-When I scroll through the To Watch List carroussel
-Then I can see all the movies I want to see.
+Given that I am at my personal page<br>
+When I scroll through the To Watch List carroussel<br>
+Then I can see all the movies I want to see.<br>
 
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/0fe1023f-aafe-4614-8e55-bf190f6b934b)
 <br>
@@ -35,9 +35,9 @@ Then I can see all the movies I want to see.
 
 As a user, I want to check movie as wanted so that they are added to my 'to watch' list.
 
-Given that I'm at a movie/tv show page
-When I click on the heart icon
-Then the movie will be added to my 'To Watch' list
+Given that I'm at a movie/tv show page<br>
+When I click on the heart icon<br>
+Then the movie will be added to my 'To Watch' list<br>
 
 
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/bbd61d72-1a6f-4431-a4ad-64b96da54ebd)
@@ -49,17 +49,17 @@ Then the movie will be added to my 'To Watch' list
 ## Watched List
 As a user, I want to have a Watched List so that I can keep track of which movies I watched.
 
-Given that I'm at my personal page
-When I scroll through the Watched List carroussel
-Then i will be able to see my watched movies
+Given that I'm at my personal page<br>
+When I scroll through the Watched List carroussel<br>
+Then i will be able to see my watched movies<br>
 
 ![image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/92639425/3579a64f-5ace-42ec-b483-93decd9cde66)
 
 As a user, I want to check movies as watched so that they are added to my 'watched' list
 
-Given that I'm at a movie/tv show page 
-When I click on the Watched icon
-Then the movie will be added to my watchlist 
+Given that I'm at a movie/tv show page <br>
+When I click on the Watched icon<br>
+Then the movie will be added to my watchlist <br>
 
 
 ![image](https://user-images.githubusercontent.com/92639425/224558979-4fbfe94a-619e-43e2-b811-567a9448eb15.png)
@@ -71,38 +71,38 @@ Then the movie will be added to my watchlist
 ## Trailer - Movie Page
 As a user, I want to see the trailer of a movie so that I know what the movie is about
 
-Given that I'm at a movie/tv show page
-When I click on the play button
-Then I will see the trailer of the movie/tv show
+Given that I'm at a movie/tv show page<br>
+When I click on the play button<br>
+Then I will see the trailer of the movie/tv show<br>
 
 ![image](https://user-images.githubusercontent.com/92639425/234939784-70ac9353-8adb-4d1b-9940-f405c1557b2b.png)
 
 ## Comment Forum
 As a user, I want to check comments on the forums so that I can see other users comments
 
-Given that I'm in a movie page
-When I scroll down
-Then all the comments show up
+Given that I'm in a movie page<br>
+When I scroll down<br>
+Then all the comments show up<br>
 
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/56ee9f28-74ff-4a35-99f2-275e1e924a37)
 
 ## Comment on movie
 As a user, I want to write comments on the forums so that I can comment on a movie and share my opinion.
 
-Given that I'm on a movie page
-When I type in the Add Comment Box
-And click the "Send" icon
-Then a new comment is added to that movie
+Given that I'm on a movie page<br>
+When I type in the Add Comment Box<br>
+And click the "Send" icon<br>
+Then a new comment is added to that movie<br>
 
-Given that I'm on a movie page
-When I do not type anything in the Add Comment Box
-And click the "Send" icon
-Then an error message shows up
+Given that I'm on a movie page<br>
+When I do not type anything in the Add Comment Box<br>
+And click the "Send" icon<br>
+Then an error message shows up<br>
 
-Given I wrote a comment on a movie page
-When another users logs in 
-And goes to that movie page
-Then he sees the comment I wrote
+Given I wrote a comment on a movie page<br>
+When another users logs in <br>
+And goes to that movie page<br>
+Then he sees the comment I wrote<br>
 
 
 ### Successful coment:
@@ -116,22 +116,22 @@ Then he sees the comment I wrote
 ## Reply to a comment
 As a user, I want to reply to a comment so that I can express my thoughts about one's opinion.
 
-Given that I'm on a movie page
-And I click on the reply button in a comment
-When I type in the Add Comment Box
-And click the "reply" button
-Then a new reply to that comment is added
+Given that I'm on a movie page<br>
+And I click on the reply button in a comment<br>
+When I type in the Add Comment Box<br>
+And click the "reply" button<br>
+Then a new reply to that comment is added<br>
 
-Given that I'm on a movie page
-And I click on reply button in a comment
-When I do not type anything in the Add Comment Box
-And click the "reply" button
-Then an error message shows up
+Given that I'm on a movie page<br>
+And I click on reply button in a comment<br>
+When I do not type anything in the Add Comment Box<br>
+And click the "reply" button<br>
+Then an error message shows up<br>
 
-Given that I replied to someone's comment in a movie page
-When another user logs in
-And goes to that movie page
-Then he sees the reply I wrote
+Given that I replied to someone's comment in a movie page<br>
+When another user logs in<br>
+And goes to that movie page<br>
+Then he sees the reply I wrote<br>
 
 
 ### Successful reply:
@@ -145,19 +145,19 @@ Then he sees the reply I wrote
 ## Personal Rating
 As a user, I want to give my personal rating to movies so that I know what I thought about a movie on a scale of 1-10.
 
-Given that I'm on a movie/TV show page
-And I have never given any rating to that movie
-Then a message saying "Enter your rating" appears"
+Given that I'm on a movie/TV show page<br>
+And I have never given any rating to that movie<br>
+Then a message saying "Enter your rating" appears"<br>
 
-Given that I'm on a movie/TV show page
-When I click on my rating
-Then a toggle shows up
-And I will be able to give my personal rating.
+Given that I'm on a movie/TV show page<br>
+When I click on my rating<br>
+Then a toggle shows up<br>
+And I will be able to give my personal rating.<br>
 
-Given that I'm on a movie/TV show page
-And I have given my rating before 
-Then I can change that rating
-And give a new one
+Given that I'm on a movie/TV show page<br>
+And I have given my rating before <br>
+Then I can change that rating<br>
+And give a new one<br>
 
 
 ### Rating given:
@@ -174,23 +174,23 @@ And give a new one
 ## Top 250 TV Shows
 As a user, I want to see top 250 tv shows in my home screen so that I can immediately see which TV Shows are on that list - best acclaimed.
 
-Given I am at the home page
-When I click the "See more" button at the top of the Top 250 TV shows carroussel
-Then a new page shows up
-And I can see the Top 250 TV shows.
+Given I am at the home page<br>
+When I click the "See more" button at the top of the Top 250 TV shows carroussel<br>
+Then a new page shows up<br>
+And I can see the Top 250 TV shows.<br>
 
-Given that I'm at the home page
-When i scroll through the Top 250 tv shows list
-Then i can see the top 250 tv shows in display
+Given that I'm at the home page<br>
+When i scroll through the Top 250 tv shows list<br>
+Then i can see the top 250 tv shows in display<br>
 
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/df6d45cd-30e1-48a1-863e-e4301a5c7fdf)
 
 ## In Theaters 
 As a user, I want to see what movies/tv shows are in theatres so that I know which movies/tv shows I can watch at the cinema.
 
-Given that I'm at the home page
-When i scroll through the In Theaters Carousel 
-Then i can see the in theaters movies in display
+Given that I'm at the home page<br>
+When i scroll through the In Theaters Carousel <br>
+Then i can see the in theaters movies in display<br>
 
 
 ![image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/92639425/db26e982-944a-4762-a690-a8bfbda0039c)
@@ -198,13 +198,13 @@ Then i can see the in theaters movies in display
 ## Top 250 Movies
 As a user, I want to see top 250 movies in my home screen so that I can immediately see which movies are on that list - best acclaimed.
 
-Given that I'm at the home page 
-When I scroll through the Top 250 movies list 
-Then I can see the top movies in display
+Given that I'm at the home page <br>
+When I scroll through the Top 250 movies list <br>
+Then I can see the top movies in display<br>
 
-Given that I'm at the home page
-When i click the "See more" button at the top of the Top 250 movie list
-Then a page with the whole list appears
+Given that I'm at the home page<br>
+When i click the "See more" button at the top of the Top 250 movie list<br>
+Then a page with the whole list appears<br>
 
 
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/90401390-8ccb-4852-ae07-47bb95398833)
@@ -214,19 +214,19 @@ Then a page with the whole list appears
 ## Search Bar
 As a user, I want to search for movies and tv shows based on title so that they appear.
 
-Given that I'm on the home page
-When i click on the search bar icon in the navbar
-Then the search page shows up
-and i can type the title of the movie/tv show that i want to search for.
+Given that I'm on the home page<br>
+When i click on the search bar icon in the navbar<br>
+Then the search page shows up<br>
+and i can type the title of the movie/tv show that i want to search for.<br>
 
-Given that I’m at the search page 
-and I click on the search bar
-When I type something
-Then a list of movies and TV shows with that title show up.
+Given that I’m at the search page <br>
+and I click on the search bar<br>
+When I type something<br>
+Then a list of movies and TV shows with that title show up.<br>
 
-Given that I'm at the search page
-When I haven't typed anything yet 
-Then a message saying that no search was made appears.
+Given that I'm at the search page<br>
+When I haven't typed anything yet <br>
+Then a message saying that no search was made appears.<br>
 
 
 ![Image](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/assets/93731538/3cbe0dc5-fe2e-400b-ab1a-f1c82adc14d8)
@@ -236,21 +236,21 @@ Then a message saying that no search was made appears.
 ## Login
 As a user, I want to login to my account so that I can store useful data.
 
-Given that I’m in the login page 
-And I already have an account 
-When I insert my credentials in username and password 
-And click on login button 
-Then the login will be successful
+Given that I’m in the login page <br>
+And I already have an account <br>
+When I insert my credentials in username and password <br>
+And click on login button <br>
+Then the login will be successful<br>
 
-Given that I’m in the login page 
-When I insert my credentials wrong 
-Then the login will fail 
-And error message appears
+Given that I’m in the login page <br>
+When I insert my credentials wrong <br>
+Then the login will fail <br>
+And error message appears<br>
 
-Given that the user is in the login page
-And dont have an account created
-When clicks log in
-Then the login should fail
+Given that the user is in the login page<br>
+And dont have an account created<br>
+When clicks log in<br>
+Then the login should fail<br>
 
 
 ![image](https://user-images.githubusercontent.com/92639425/224558503-4abc579d-4826-4b5d-af97-f6b8e9f7f0d2.png)
@@ -264,25 +264,25 @@ Then the login should fail
 ## Register
 As a user, I want to create an account so that I can use the features of the app.
 
-Given that you open the app
-And dont have an account created
-When the user opens the app 
-Then the login page shows up
+Given that you open the app<br>
+And dont have an account created<br>
+When the user opens the app <br>
+Then the login page shows up<br>
 
-Given that I open the app 
-And want to create an account 
-When I click in sign up 
-Then a page shows up with login and password place to fill
+Given that I open the app <br>
+And want to create an account <br>
+When I click in sign up <br>
+Then a page shows up with login and password place to fill<br>
 
-Given that the user is in the create account page
-And writes the details
-When user confirms
-Then the home page shows up
+Given that the user is in the create account page<br>
+And writes the details<br>
+When user confirms<br>
+Then the home page shows up<br>
 
-Given that you open the app
-And is logged out
-When user types login details
-Then the home page shows up
+Given that you open the app<br>
+And is logged out<br>
+When user types login details<br>
+Then the home page shows up<br>
 
 ![image](https://user-images.githubusercontent.com/92639425/232332594-8f0976ec-5e06-45df-a870-d18c9d16f6d2.png)
 <br>
@@ -301,17 +301,17 @@ Then the home page shows up
 ### Edit personal page
 As a user, I want to edit my profile so that I can personalize my profile picture or profile name
 
-Given that im at my personal page
-When i click on the pencil icon
-Then i will be able to do changes in my profile
+Given that im at my personal page<br>
+When i click on the pencil icon<br>
+Then i will be able to do changes in my profile<br>
 
-Given that i clicked on the pencil icon
-When I click on username
-Then i will be able to change my username
+Given that i clicked on the pencil icon<br>
+When I click on username<br>
+Then i will be able to change my username<br>
 
-Given that i click on the pencil icon 
-When i click on an avatar 
-Then my profile picture will be changed to the respective avatar
+Given that i click on the pencil icon <br>
+When i click on an avatar <br>
+Then my profile picture will be changed to the respective avatar<br>
 
 ![image](https://user-images.githubusercontent.com/92639425/232334589-8c6129d8-1901-484c-94f2-aa609c268b8f.png)
 <br>
@@ -324,14 +324,14 @@ Then my profile picture will be changed to the respective avatar
 ### Filter
 As a user, I want to use filters so that I can improve my search
 
-Given that I’m at the search page
-and I want to search by filters
-when I click on the filters button
-then I can choose the filters I want
+Given that I’m at the search page<br>
+and I want to search by filters<br>
+when I click on the filters button<br>
+then I can choose the filters I want<br>
 
-Given that i choose the filters i want
-When i click on search
-Then the search will be filtered 
+Given that i choose the filters i want<br>
+When i click on search<br>
+Then the search will be filtered <br>
 
 ![image](https://user-images.githubusercontent.com/92639425/232334386-ebb38057-83bf-49c3-af42-8ef57902c6ce.png)
 
