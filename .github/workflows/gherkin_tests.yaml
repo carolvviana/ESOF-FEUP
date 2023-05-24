@@ -13,6 +13,8 @@ jobs:
         uses: subosito/flutter-action@v1
         with:
           flutter-version: '3.7.12' # Replace with the Flutter version you are using
+      - name: List available devices
+        run: flutter devices
       - name: Install dependencies
         run: |
           cd src/cinetalks
