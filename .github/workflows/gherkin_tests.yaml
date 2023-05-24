@@ -17,8 +17,7 @@ jobs:
         run: |
           cd src/cinetalks
           flutter pub get
-      - name: List available devices
-        run: flutter devices
+      
       - name: Run Gherkin tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -26,3 +25,5 @@ jobs:
           arch: x86_64
           profile: Pixel 5
           script: flutter drive --target=test_driver/app.dart --driver=test_driver/app_test.dart
+      - name: List available devices
+        run: flutter devices
