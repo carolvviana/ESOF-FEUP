@@ -23,7 +23,7 @@ jobs:
         with:
           api-level: 30
           arch: x86_64
-          profile: Pixel_5
+          profile: Pixel_5_API_30
           script: flutter drive --target=test_driver/app.dart --driver=test_driver/app_test.dart
       - name: List available devices
         run: flutter devices
