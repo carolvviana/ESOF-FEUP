@@ -1,0 +1,29 @@
+name: Gherkin Tests
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '3.7.12' # Replace with the Flutter version you are using
+      - name: Install dependencies
+        run: |
+          cd src/cinetalks
+          flutter pub get
+      
+      - name: Run Gherkin tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          arch: x86_64
+          profile: Nexus 5X
+          script: flutter drive --target=test_driver/app.dart --driver=test_driver/app_test.dart
+      - name: List available devices
+        run: flutter devices
