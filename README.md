@@ -1,17 +1,18 @@
 <a href="https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/actions"><img src="https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T4/actions/workflows/tests.yaml/badge.svg" alt="Build Status"></a>
 
-# 2LEIC13T4
+# Projeto de Avaliação
+## Engenharia de Software
+### 2º ano, 2º semestre, 2022/2023
 
-## Members
-João Pedro Carvalho Correia	- 202005015
+- Membros:
+  - João Pedro Carvalho Correia	- 202005015
+  - Guilherme Brandão Monteiro - 202108668
+  - Carolina Teixeira Lopes Couto Viana -	202108802
+  - Sofia Resende Ferreira de Sá	- 202108676
+  - Sérgio André Correia Peixoto	- 202108681
 
-Guilherme Brandão Monteiro - 202108668
-
-Carolina Teixeira Lopes Couto Viana -	202108802
-
-Sofia Resende Ferreira de Sá	- 202108676
-
-Sérgio André Correia Peixoto	- 202108681
+- Classificação:
+  18.9
 
 
 # Product Name
